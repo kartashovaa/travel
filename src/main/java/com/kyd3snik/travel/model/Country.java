@@ -12,11 +12,6 @@ public class Country {
     private String title;
     private String description;
 
-    public Country(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -32,6 +27,4 @@ public class Country {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
 }
