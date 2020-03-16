@@ -1,8 +1,6 @@
 package com.kyd3snik.travel.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -11,6 +9,8 @@ public class HotelRoom {
     @GeneratedValue
     private int id;
     private byte numberOfSleepingPlaces;
+    @Enumerated
+    @ElementCollection
     private List<Facility> facilities;
     private float cost;
 

@@ -1,8 +1,6 @@
 package com.kyd3snik.travel.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -11,14 +9,11 @@ public class City {
     @GeneratedValue
     private long id;
     private String title;
+    @ManyToOne
     private Country country;
+    @Enumerated
+    @ElementCollection
     private List<Entertainment> entertainments;
-
-    public City(String title, Country country, List<Entertainment> entertainments) {
-        this.title = title;
-        this.country = country;
-        this.entertainments = entertainments;
-    }
 
     public String getTitle() {
         return title;
