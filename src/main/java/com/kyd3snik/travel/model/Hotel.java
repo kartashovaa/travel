@@ -1,8 +1,6 @@
 package com.kyd3snik.travel.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -11,9 +9,11 @@ public class Hotel {
     @GeneratedValue
     private long id;
     private String title;
+    @ManyToOne
     private City city;
     private String address;
     private byte stars;
+    @ManyToMany
     private List<HotelRoom> rooms;
 
     public String getTitle() {

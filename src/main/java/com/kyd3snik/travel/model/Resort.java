@@ -17,7 +17,7 @@ public class Resort {
     private List<Tag> tags;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Hostel hostel;
+    private Hotel hotel;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<City> path;
     private int durationInDays;
@@ -59,12 +59,12 @@ public class Resort {
         this.tags = tags;
     }
 
-    public Hostel getHostel() {
-        return hostel;
+    public Hotel getHotel() {
+        return hotel;
     }
 
-    public void setHostel(Hostel hostel) {
-        this.hostel = hostel;
+    public void setHotel(Hotel hotel) {
+        this.hotel = hotel;
     }
 
     public List<City> getPath() {
