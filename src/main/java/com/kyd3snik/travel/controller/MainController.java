@@ -1,22 +1,41 @@
 package com.kyd3snik.travel.controller;
 
+import com.kyd3snik.travel.model.Country;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
 
 @Controller
 public class MainController {
 
-    private MainRepository repository;
 
     @GetMapping("/")
-    public String getModel(@RequestParam(name = "name", required = false, defaultValue = "Nope") String name, Model model) {
+    public String root(Model model) {
 
-        model.addAttribute("name", name);
-        model.addAttribute("items", Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"));
+
+        Country voronezh = new Country(0, "Voronezh", "The best country!");
+        Country moscow = Country.builder()
+                .title("Moscow")
+                .description("Tralala")
+                .build();
+
+        model.addAttribute("name", "Alex");
+        model.addAttribute("voronezh", voronezh);
+        model.addAttribute("moscow", moscow);
+        model.addAttribute("items", Arrays.asList("1", "2"));
+
         return "main";
+    }
+
+    @GetMapping("/user")
+    public String user() {
+        return "user";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
     }
 }

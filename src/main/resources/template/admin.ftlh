@@ -5,12 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1> ${name} </h1>
-<h1> ${voronezh}</h1>
-<ul>
-    <#list items as item>
-        <li>${ item }</li>
-    </#list>
-</ul>
+<h1>Hello admin!</h1>
 </body>
 </html>
