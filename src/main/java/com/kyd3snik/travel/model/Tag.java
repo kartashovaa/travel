@@ -11,6 +11,9 @@ public class Tag {
     private long id;
     private String title;
 
+    public Tag() {
+    }
+
     public Tag(long id, String title) {
         this.id = id;
         this.title = title;
