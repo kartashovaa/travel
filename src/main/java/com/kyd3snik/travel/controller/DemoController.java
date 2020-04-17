@@ -1,4 +1,4 @@
-package com.kyd3snik.travel.Controller;
+package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.repository.*;
