@@ -1,4 +1,4 @@
-package com.kyd3snik.travel;
+package com.kyd3snik.travel.Controller;
 
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.repository.*;
@@ -16,6 +16,18 @@ public class DemoController {
     private ResortRepository resortRepository;
     private TagRepository tagRepository;
     private UserRepository userRepository;
+
+    DemoController(HotelRepository hotelRepository, CityRepository cityRepository, CountryRepository countryRepository,
+                   HotelRoomRepository hotelRoomRepository, UserRepository userRepository,
+                   ResortRepository resortRepository, TagRepository tagRepository) {
+        this.hotelRepository = hotelRepository;
+        this.cityRepository = cityRepository;
+        this.countryRepository = countryRepository;
+        this.hotelRoomRepository = hotelRoomRepository;
+        this.userRepository = userRepository;
+        this.resortRepository = resortRepository;
+        this.tagRepository = tagRepository;
+    }
 
     @GetMapping("/hotels")
     public List<Hotel> getHotels() {
@@ -50,17 +62,5 @@ public class DemoController {
     @GetMapping("/users")
     public List<User> getUsers() {
         return userRepository.findAll();
-    }
-
-    DemoController(HotelRepository hotelRepository, CityRepository cityRepository, CountryRepository countryRepository,
-                   HotelRoomRepository hotelRoomRepository, UserRepository userRepository,
-                   ResortRepository resortRepository, TagRepository tagRepository) {
-        this.hotelRepository = hotelRepository;
-        this.cityRepository = cityRepository;
-        this.countryRepository = countryRepository;
-        this.hotelRoomRepository = hotelRoomRepository;
-        this.userRepository = userRepository;
-        this.resortRepository = resortRepository;
-        this.tagRepository = tagRepository;
     }
 }
