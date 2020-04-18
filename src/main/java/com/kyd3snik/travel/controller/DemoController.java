@@ -2,11 +2,14 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.repository.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(description = "Контроллер для демонстрации работы репозиториев")
 @RestController
 public class DemoController {
     private HotelRepository hotelRepository;
@@ -29,36 +32,44 @@ public class DemoController {
         this.tagRepository = tagRepository;
     }
 
+    @ApiOperation("Получение всех отелей")
     @GetMapping("/hotels")
     public List<Hotel> getHotels() {
         return hotelRepository.findAll();
     }
 
+    @ApiOperation("Получение всех городов")
     @GetMapping("/cities")
     public List<City> getCities() {
         return cityRepository.findAll();
     }
 
+    @ApiOperation("Получение всех стран")
     @GetMapping("/countries")
     public List<Country> getCountries() {
         return countryRepository.findAll();
     }
 
+    @ApiOperation("Получение всех комнат отелей")
     @GetMapping("/hotelRooms")
     public List<HotelRoom> getHotelRooms() {
         return hotelRoomRepository.findAll();
     }
 
+
+    @ApiOperation("Получение всех курортов")
     @GetMapping("/")
     public List<Resort> getResorts() {
         return resortRepository.findAll();
     }
 
+    @ApiOperation("Получение всех тегов")
     @GetMapping("/tags")
     public List<Tag> getTags() {
         return tagRepository.findAll();
     }
 
+    @ApiOperation("Получение всех пользователей")
     @GetMapping("/users")
     public List<User> getUsers() {
         return userRepository.findAll();
