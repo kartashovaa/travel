@@ -23,12 +23,12 @@ public class AuthController {
 
     @GetMapping("/signin")
     String signin(Authentication auth) {
-        return auth == null ? "signin" : "main";
+        return auth == null ? "signin" : "redirect:/";
     }
 
     @GetMapping("/signup")
     String signup(Authentication auth) {
-        return auth == null ? "signup" : "main";
+        return auth == null ? "signup" : "redirect:/";
     }
 
     @PostMapping("/signup")
