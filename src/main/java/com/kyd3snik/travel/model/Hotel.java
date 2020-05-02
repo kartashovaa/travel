@@ -16,6 +16,17 @@ public class Hotel {
     @ManyToMany
     private List<HotelRoom> rooms;
 
+    public Hotel(String title, City city, String address, byte stars, List<HotelRoom> rooms) {
+        this.title = title;
+        this.city = city;
+        this.address = address;
+        this.stars = stars;
+        this.rooms = rooms;
+    }
+
+    public Hotel() {
+    }
+
     public String getTitle() {
         return title;
     }
