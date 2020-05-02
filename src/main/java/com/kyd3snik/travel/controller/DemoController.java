@@ -58,7 +58,7 @@ public class DemoController {
 
 
     @ApiOperation("Получение всех курортов")
-    @GetMapping("/")
+    @GetMapping("/resorts")
     public List<Resort> getResorts() {
         return resortRepository.findAll();
     }
