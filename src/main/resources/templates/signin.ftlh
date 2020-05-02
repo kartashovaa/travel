@@ -6,17 +6,17 @@
 </head>
 <body>
 <h2>Please sign in!</h2>
-<form method="post" action="/login">
+<form method="post" action="/signin">
     <p>
-        <label>Username</label>
-        <input type="text" name="username" placeholder="Username" required autofocus/>
+        <label>Email</label>
+        <input type="text" name="username" placeholder="Email" required autofocus/>
     </p>
     <p>
         <label>Password</label>
         <input type="password" name="password" placeholder="Password" required/>
     </p>
     <button type="submit">Sing-in</button>
-    <a href="/register">I don't have account</a>
+    <a href="/signup">I don't have a account</a>
 </form>
 </body>
 </html>

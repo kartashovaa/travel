@@ -1,9 +1,14 @@
 package com.kyd3snik.travel.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class City {
     @Id
     @GeneratedValue

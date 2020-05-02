@@ -1,48 +1,46 @@
 package com.kyd3snik.travel.controller;
 
-import com.kyd3snik.travel.model.User;
+import com.kyd3snik.travel.model.request.SignUpRequest;
+import com.kyd3snik.travel.service.AuthService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AuthController {
-    @GetMapping("/login")
-    String login() {
-        return "login";
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
-    @GetMapping("/register")
-    String register() {
-        return "register";
+    @GetMapping("/signin")
+    String signin(Authentication auth) {
+        return auth == null ? "signin" : "main";
     }
 
-    @PostMapping("/register")
-    String register(@ModelAttribute("user") User user) {
-        //Save user here
-        return "register";
+    @GetMapping("/signup")
+    String signup(Authentication auth) {
+        return auth == null ? "signup" : "main";
     }
 
-    public static class Loggin {
-        public String username;
-        public String password;
-
-        public String getUsername() {
-            return username;
+    @PostMapping("/signup")
+    ModelAndView signup(HttpServletRequest request, SignUpRequest user) {
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("user"));
+        try {
+            authService.signUpUser(user, new WebAuthenticationDetails(request));
+        } catch (Exception ex) {
+            modelAndView.setViewName("signup");
+            modelAndView.addObject("errorMessage", ex.getMessage());
         }
 
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
+        return modelAndView;
     }
-
 }

@@ -1,17 +1,27 @@
 package com.kyd3snik.travel.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 
-/**
- * TODO: добавить историю заказов, наличие скидки
- */
+//TODO: добавить историю заказов, наличие скидки
+
 @Entity
-public class User {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements UserDetails {
     @Id
     @GeneratedValue
     private long id;
@@ -22,70 +32,42 @@ public class User {
     private boolean isMale;
     private boolean hasInternationalPassport;
     private String email;
+    private String password;
     @ManyToOne
     private City city;
 
-    public String getFirstName() {
-        return firstName;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    @Override
+    public String getPassword() {
+        return password;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    public Date getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
-    }
-
-    public boolean isMale() {
-        return isMale;
-    }
-
-    public void setMale(boolean male) {
-        isMale = male;
-    }
-
-    public boolean isHasInternationalPassport() {
-        return hasInternationalPassport;
-    }
-
-    public void setHasInternationalPassport(boolean hasInternationalPassport) {
-        this.hasInternationalPassport = hasInternationalPassport;
-    }
-
-    public String getEmail() {
+    @Override
+    public String getUsername() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public City getCity() {
-        return city;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
