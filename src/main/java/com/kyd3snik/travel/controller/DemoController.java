@@ -14,7 +14,7 @@ import java.util.List;
 public class DemoController {
     private HotelRepository hotelRepository;
     private CountryRepository countryRepository;
-    private CityRepository cityRepository;
+    // private CityRepository cityRepository;
     private HotelRoomRepository hotelRoomRepository;
     private ResortRepository resortRepository;
     private TagRepository tagRepository;
@@ -24,7 +24,7 @@ public class DemoController {
                    HotelRoomRepository hotelRoomRepository, UserRepository userRepository,
                    ResortRepository resortRepository, TagRepository tagRepository) {
         this.hotelRepository = hotelRepository;
-        this.cityRepository = cityRepository;
+        //this.cityRepository = cityRepository;
         this.countryRepository = countryRepository;
         this.hotelRoomRepository = hotelRoomRepository;
         this.userRepository = userRepository;
@@ -38,11 +38,11 @@ public class DemoController {
         return hotelRepository.findAll();
     }
 
-    @ApiOperation("Получение всех городов")
-    @GetMapping("/cities")
-    public List<City> getCities() {
-        return cityRepository.findAll();
-    }
+    // @ApiOperation("Получение всех городов")
+    // @GetMapping("/cities")
+    //  public List<City> getCities() {
+    //      return cityRepository.findAll();
+    //   }
 
     @ApiOperation("Получение всех стран")
     @GetMapping("/countries")

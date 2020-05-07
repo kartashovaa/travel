@@ -2,18 +2,20 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.services.CityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@Api(value = "Работа с городами")
+//@Api(description  = "Работа с городами")
 @RestController
 public class CityController {
 
-    @Autowired
     private CityService cityService;
+
+    public CityController(CityService cityService) {
+        this.cityService = cityService;
+    }
 
     //@ApiOperation("Добавление нового города")
     @PostMapping("/cities")
