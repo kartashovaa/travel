@@ -31,5 +31,4 @@ public class Resort {
     private Date startDate;
     private Date endDate;
     private long cost;
-
 }
