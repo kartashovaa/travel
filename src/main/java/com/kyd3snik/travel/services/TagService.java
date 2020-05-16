@@ -12,6 +12,10 @@ public class TagService {
 
     private TagRepository tagRepository;
 
+    public TagService(TagRepository tagRepository) {
+        this.tagRepository = tagRepository;
+    }
+
     public void addTag(Tag tag) {
         tagRepository.save(tag);
     }

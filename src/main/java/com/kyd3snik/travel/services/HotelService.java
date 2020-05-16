@@ -12,6 +12,10 @@ public class HotelService {
 
     private HotelRepository hotelRepository;
 
+    public HotelService(HotelRepository hotelRepository) {
+        this.hotelRepository = hotelRepository;
+    }
+
     public void addHotel(Hotel hotel) {
         hotelRepository.save(hotel);
     }

@@ -2,6 +2,8 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.Tag;
 import com.kyd3snik.travel.services.TagService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

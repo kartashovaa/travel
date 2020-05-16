@@ -11,6 +11,10 @@ import java.util.List;
 public class HotelRoomService {
     private HotelRoomRepository hotelRoomRepository;
 
+    public HotelRoomService(HotelRoomRepository hotelRoomRepository) {
+        this.hotelRoomRepository = hotelRoomRepository;
+    }
+
     public void addHotelRoom(HotelRoom hotelRoom) {
         hotelRoomRepository.save(hotelRoom);
     }

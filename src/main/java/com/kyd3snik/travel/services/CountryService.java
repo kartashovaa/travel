@@ -12,6 +12,10 @@ public class CountryService {
 
     private CountryRepository countryRepository;
 
+    public CountryService(CountryRepository countryRepository) {
+        this.countryRepository = countryRepository;
+    }
+
     public void addCountry(Country country) {
         countryRepository.save(country);
     }

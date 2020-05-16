@@ -2,6 +2,8 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.Hotel;
 import com.kyd3snik.travel.services.HotelService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
