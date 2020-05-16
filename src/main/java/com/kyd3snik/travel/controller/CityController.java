@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@Api(description  = "Работа с городами")
+@Api(description = "Работа с городами")
 @RestController
 public class CityController {
 
@@ -17,20 +17,20 @@ public class CityController {
         this.cityService = cityService;
     }
 
-    //@ApiOperation("Добавление нового города")
+    @ApiOperation("Добавление нового города")
     @PostMapping("/cities")
     public ResponseEntity<Object> addCity(@RequestBody City city) {
         cityService.addCity(city);
         return ResponseEntity.ok(city);
     }
 
-    //@ApiOperation("Получение списка городов")
+    @ApiOperation("Получение списка городов")
     @GetMapping("/cities")
     public ResponseEntity<List<City>> getListCities() {
         return ResponseEntity.ok(cityService.getAll());
     }
 
-    //@ApiOperation("Редактирование города")
+    @ApiOperation("Редактирование города")
     @PutMapping("/cities")
     public ResponseEntity updateCity(@RequestBody City city) {
         try {
@@ -41,7 +41,7 @@ public class CityController {
         }
     }
 
-    //@ApiOperation("Удаление города")
+    @ApiOperation("Удаление города")
     @DeleteMapping("/cities/{id}")
     public ResponseEntity deleteCity(@PathVariable long id) {
         cityService.delete(id);

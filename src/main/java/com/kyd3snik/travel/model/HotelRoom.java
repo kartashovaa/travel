@@ -14,7 +14,7 @@ import java.util.List;
 public class HotelRoom {
     @Id
     @GeneratedValue
-    private int id;
+    private long id;
     private byte numberOfSleepingPlaces;
     @Enumerated
     @ElementCollection

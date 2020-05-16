@@ -1,8 +1,6 @@
 package com.kyd3snik.travel.services;
 
-import com.kyd3snik.travel.model.Country;
-import com.kyd3snik.travel.model.Resort;
-import com.kyd3snik.travel.model.SortType;
+import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.repository.ResortRepository;
 import org.springframework.stereotype.Service;
 
@@ -53,22 +51,94 @@ public class ResortService {
             default:
                 res = new TreeSet<>((o1, o2) -> Integer.compare(o2.getDurationInDays(), o1.getDurationInDays()));
         }
-        res.stream()
+        return res.stream()
                 .filter((resort) -> resort.getCost() >= minCost && resort.getCost() <= maxCost)
                 .filter((resort) -> resort.getDurationInDays() >= minDuration &&
                         resort.getDurationInDays() <= maxDuration)
                 .filter((resort) -> startDate.after(resort.getStartDate()))
                 .collect(Collectors.toList());
-        return res;
     }
 
+    //Список необходимых тегов
+    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                     SortType sort, List<Tag> necessaryTags) {
+        TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate, sort));
+        return res.stream()
+                .filter((resort) -> resort.getTags().containsAll(necessaryTags))
+                .collect(Collectors.toList());
+    }
+
+    //Список допустимых стран
     public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
                                      SortType sort, List<Country> acceptableCountries) {
         TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate, sort));
-        res.stream()
+        return res.stream()
                 .filter((resort) -> acceptableCountries.contains(resort.getHotel().getCity().getCountry()))
                 .collect(Collectors.toList());
-        return res;
     }
 
+    //Список необходимых развлечений
+    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                     SortType sort, List<Entertainment> necessaryEntertainments) {
+        TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate, sort));
+        return res.stream()
+                .filter((resort) -> resort.getHotel().getCity().getEntertainments().containsAll(necessaryEntertainments))
+                .collect(Collectors.toList());
+    }
+
+    //Минимальное количество звезд
+    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                     SortType sort, byte minStar) {
+        TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate, sort));
+        return res.stream()
+                .filter((resort) -> resort.getHotel().getStars() >= minStar)
+                .collect(Collectors.toList());
+    }
+
+    //
+    //Список необходимых удобств
+    //
+
+    //Список необходимых тегов + стран
+    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                     SortType sort, List<Tag> necessaryTags, List<Country> acceptableCountries) {
+        TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate,
+                sort, necessaryTags));
+        return res.stream()
+                .filter((resort) -> acceptableCountries.contains(resort.getHotel().getCity().getCountry()))
+                .collect(Collectors.toList());
+    }
+
+    //Список необходимых тегов + развлечений
+    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                     SortType sort, List<Tag> necessaryTags, List<Entertainment> necessaryEntertainments) {
+        TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate,
+                sort, necessaryTags));
+        return res.stream()
+                .filter((resort) -> resort.getHotel().getCity().getEntertainments().containsAll(necessaryEntertainments))
+                .collect(Collectors.toList());
+    }
+
+    //Список необходимых тегов + Минимальное количество звезд
+    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                     SortType sort, List<Tag> necessaryTags, byte minStar) {
+        TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate,
+                sort, necessaryTags));
+        return res.stream()
+                .filter((resort) -> resort.getHotel().getStars() >= minStar)
+                .collect(Collectors.toList());
+    }
+
+    //
+    //Список необходимых тегов + Список необходимых удобств
+    //
+
+    //Список стран + городов
+    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                     SortType sort, List<Country> acceptableCountries, List<City> acceptableCities) {
+        TreeSet<Resort> res = new TreeSet<>(search(minCost, maxCost, minDuration, maxDuration, startDate, sort, acceptableCountries));
+        return res.stream()
+                .filter((resort) -> acceptableCities.contains(resort.getHotel().getCity()))
+                .collect(Collectors.toList());
+    }
 }
