@@ -9,6 +9,7 @@ import java.util.List;
 
 //@Api(description  = "Работа с курортами")
 @RestController
+@RequestMapping("/api")
 public class ResortController {
 
     private ResortService resortService;
