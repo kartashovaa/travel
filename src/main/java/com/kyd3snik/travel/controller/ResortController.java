@@ -2,12 +2,14 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.Resort;
 import com.kyd3snik.travel.services.ResortService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@Api(description  = "Работа с курортами")
+@Api(description = "Работа с курортами")
 @RestController
 @RequestMapping("/api")
 public class ResortController {
@@ -18,20 +20,20 @@ public class ResortController {
         this.resortService = resortService;
     }
 
-    //@ApiOperation("Добавление нового курорта")
+    @ApiOperation("Добавление нового курорта")
     @PostMapping("/resorts")
     public ResponseEntity<Object> addResort(@RequestBody Resort resort) {
         resortService.addResort(resort);
         return ResponseEntity.ok(resort);
     }
 
-    //@ApiOperation("Получение списка курортов")
+    @ApiOperation("Получение списка курортов")
     @GetMapping("/resorts")
     public ResponseEntity<List<Resort>> getListResorts() {
         return ResponseEntity.ok(resortService.getAll());
     }
 
-    //@ApiOperation("Редактирование курорта")
+    @ApiOperation("Редактирование курорта")
     @PutMapping("/resorts")
     public ResponseEntity updateResort(@RequestBody Resort resort) {
         try {
@@ -42,7 +44,7 @@ public class ResortController {
         }
     }
 
-    //@ApiOperation("Удаление курорта")
+    @ApiOperation("Удаление курорта")
     @DeleteMapping("/resorts/{id}")
     public ResponseEntity deleteResort(@PathVariable long id) {
         resortService.delete(id);

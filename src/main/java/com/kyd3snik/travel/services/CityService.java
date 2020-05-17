@@ -12,6 +12,10 @@ public class CityService {
 
     private CityRepository cityRepository;
 
+    public CityService(CityRepository cityRepository) {
+        this.cityRepository = cityRepository;
+    }
+
     public void addCity(City city) {
         cityRepository.save(city);
     }
