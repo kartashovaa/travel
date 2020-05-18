@@ -1,21 +1,20 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
-    <title>!Название страны!</title>
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
+    <title>${country.title}</title>
 </HEAD>
 <BODY>
 
-<p>!Название страны!</p>
+<p>${country.title}</p>
 
-<p>Описание страны</p>
+<p>${country.description}</p>
 
 <a>Города:</a>
 <ul>
     <li><a>!Название города!</a></li>
 </ul>
 
-<!--здесь должно быть поле с диапазоном дат -->
 <p>дата начала курорта</p>
 <p><input type="date" min="2020-05-16" max="2025-12-31" value="2020-05-16"></p>
 <!--в min и value надо указать сегодняшнюю дату-->

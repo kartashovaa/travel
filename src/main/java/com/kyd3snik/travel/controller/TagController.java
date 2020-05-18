@@ -11,6 +11,7 @@ import java.util.List;
 
 @Api(description = "Работа с тегами")
 @RestController
+@RequestMapping("/api")
 public class TagController {
 
     private TagService tagService;

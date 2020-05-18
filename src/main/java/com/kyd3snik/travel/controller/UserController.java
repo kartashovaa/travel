@@ -11,6 +11,7 @@ import java.util.List;
 
 @Api(description = "Работа с пользователями")
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     private UserService userService;

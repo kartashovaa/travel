@@ -11,6 +11,7 @@ import java.util.List;
 
 @Api(description = "Работа с городами")
 @RestController
+@RequestMapping("/api")
 public class CityController {
 
     private CityService cityService;

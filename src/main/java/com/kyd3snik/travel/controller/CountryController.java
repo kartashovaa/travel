@@ -11,6 +11,7 @@ import java.util.List;
 
 @Api(description = "Работа со странами")
 @RestController
+@RequestMapping("/api")
 public class CountryController {
 
     private CountryService countryService;

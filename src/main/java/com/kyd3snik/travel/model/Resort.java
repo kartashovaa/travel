@@ -25,8 +25,6 @@ public class Resort {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<City> path;
     private int durationInDays;
     private Date startDate;
     private Date endDate;

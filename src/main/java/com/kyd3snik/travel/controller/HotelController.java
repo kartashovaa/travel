@@ -11,6 +11,7 @@ import java.util.List;
 
 @Api(description = "Работа с отелями")
 @RestController
+@RequestMapping("/api")
 public class HotelController {
 
     private HotelService hotelService;

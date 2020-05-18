@@ -1,7 +1,7 @@
 <HTML lang="en_EN">
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
     <title>${hotel.title}</title>
 </HEAD>
 <BODY>

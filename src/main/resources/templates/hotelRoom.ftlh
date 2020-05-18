@@ -1,23 +1,22 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
     <title>!Название гостиницы!</title>
 </HEAD>
 <BODY>
 
-<!--Как вариант, вместо этого можно подставлять одну из картинок со звездами в зависимости от их количества-->
-
 <p>!Название гостиницы!</p>
 <ul>
-    <li>Количество спальных мест: !Количество спальных мест!</li>
-    <li>!Описание курорта!</li>
+    <li>Количество спальных мест: ${hotelRoom.numberOfSleepingPlaces}</li>
     <li>Удобства:
         <ul>
-            <li>!Удобства!</li>
+            <#list hotelRoom.facilities as facilities>
+                <li>${facilities}</li>
+            </#list>
         </ul>
     </li>
-    <li>Стоимость: !Стоимость!</li>
+    <li>Стоимость: ${hotelRoom.cost}</li>
 </ul>
 
 <!--Как вариант, здесь можно сделать галерею с фотографиями номеров-->

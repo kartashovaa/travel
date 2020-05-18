@@ -1,27 +1,29 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
-    <title>!Название курорта!</title>
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
+    <title>${resort.title}</title>
 </HEAD>
 <BODY>
 
-<p>!Название курорта!</p>
+<p>${resort.title}</p>
 
-<p><a>Гостиница !Название гостиницы! !количество звезд! звезд</a></p>
+<p><a>Гостиница ${resort.hotel.title} ${resort.hotel.stars} звезд</a></p>
 
-<p><a>Страна</a></p>
-<p><a>Город</a></p>
-<p>Описание</p>
-<p>Длительность курорта</p>
-<p>Стоимость: !Стоимость!</p>
+<p><a>${resort.hotel.city.country.title}</a></p>
+<p><a>${resort.hotel.city.title}</a></p>
+<p>${resort.description}</p>
+<p>${resort.durationInDays}</p>
+<p>Стоимость: ${resort.cost}</p>
 <a>Теги:</a>
 <ul>
-    <li><a>!Тег!</a></li>
+    <#list resort.tags as tag>
+        <li><a>${tag}</a></li>
+    </#list >
 </ul>
 
-<p>Дата отправления: !Дата отправления!</p>
-<p>Дата прибытия: !Дата прибытия!</p>
+<p>Дата отправления: ${resort.startDate?date}</p>
+<p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
 <button class="BuyingBtn">Купить билеты</button>
 </BODY>
