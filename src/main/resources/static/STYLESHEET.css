@@ -5,8 +5,17 @@ body {
     margin-top: 40px;
     margin-bottom: 30px;
     font-family: "Times New Roman", serif;
-    background-image: url(back.jpg);
+    background-image: url(back_desert.jpg);
     background-size: 100%;
+}
+
+.searchPanelList li {
+    display: inline;
+    margin-right: 15px;
+}
+
+.searchPanelList li p span {
+    font-weight: bold;
 }
 
 p {

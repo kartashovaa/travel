@@ -4,6 +4,7 @@ import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.services.CityService;
 import com.kyd3snik.travel.services.CountryService;
 import com.kyd3snik.travel.services.ResortService;
+import com.kyd3snik.travel.services.TagService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,15 +23,18 @@ public class FrontController {
     private CityService cityService;
     private CountryService countryService;
     private ResortService resortService;
+    private TagService tagService;
 
-    public FrontController(CityService cityService, CountryService countryService, ResortService resortService) {
+    public FrontController(CityService cityService, CountryService countryService, ResortService resortService,
+                           TagService tagService) {
         this.cityService = cityService;
         this.countryService = countryService;
         this.resortService = resortService;
+        this.tagService = tagService;
     }
 
     @GetMapping("/hotels/{id}")
-    public String main(Model model, @PathVariable("id") long id) {
+    public String getHotel(Model model, @PathVariable("id") long id) {
         Hotel hotel = new Hotel(id,
                 "Hotel " + id,
                 new City(0,
@@ -105,8 +109,14 @@ public class FrontController {
     }
 
     @GetMapping("/main")
-    public String mainn() {
-        return "mainPage";
+    public ModelAndView main() {
+        ModelAndView modelAndView = new ModelAndView("mainPage");
+        modelAndView.addObject("entertainments", List.of(Entertainment.values()));
+        modelAndView.addObject("facilities", List.of((Facility.values())));
+        modelAndView.addObject("cities", cityService.getAll());
+        modelAndView.addObject("countries", countryService.getAll());
+        modelAndView.addObject("tags", tagService.getAll());
+        return modelAndView;
     }
 
     @PostMapping("/main")
