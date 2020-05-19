@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class minSearchRequest {
+public class MinSearchRequest {
     private int personCount;
     private int minCost;
     private int maxCost;

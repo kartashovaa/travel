@@ -7,18 +7,15 @@ import com.kyd3snik.travel.services.ResortService;
 import com.kyd3snik.travel.services.TagService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class FrontController {
@@ -37,7 +34,8 @@ public class FrontController {
     }
 
     @GetMapping("/hotels/{id}")
-    public String getHotel(Model model, @PathVariable("id") long id) {
+    public ModelAndView getHotel(Model model, @PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("hotel");
         Hotel hotel = new Hotel(id,
                 "Hotel " + id,
                 new City(0,
@@ -54,20 +52,9 @@ public class FrontController {
                 )
         );
 
-        model.addAttribute("hotel", hotel);
-
-        return "hotel";
+        modelAndView.addObject("hotel", hotel);
+        return modelAndView;
     }
-
-   /* @GetMapping("/cities/{id}")
-    public String getCity(Model model, @PathVariable("id") long id) {
-        City city = new City(id, "City", new Country(0, "Russia", "Description"),
-                Collections.emptyList());
-
-        model.addAttribute("city", city);
-
-        return "city";
-    }*/
 
     @GetMapping("/cities/{id}")
     public ModelAndView getCity(@PathVariable("id") long id) {
@@ -123,28 +110,12 @@ public class FrontController {
     }
 
     @PostMapping("/main")
-    public ModelAndView search(@RequestParam MultiValueMap<String, String> paramMap) {
-        int minCost = Integer.parseInt(paramMap.get("minCost").get(0));
-        int maxCost = Integer.parseInt(paramMap.get("maxCost").get(0));
-        int minDuration = Integer.parseInt(paramMap.get("minDuration").get(0));
-        int maxDuration = Integer.parseInt(paramMap.get("maxDuration").get(0));
-        Date startDate = new Date(12312313); //TODO: Parse date
-        SortType sortType = SortType.valueOf(paramMap.get("sortType").get(0));
-
-        List<Tag> tags = paramMap.keySet().stream()
-                .filter(key -> key.startsWith("tag"))
-                .map(tagKey -> tagKey.substring(3))
-                .map(Integer::valueOf)
-                .map(tagService::getById)
-                .collect(Collectors.toList());
-        //TODO: Найти также города, развлечения, удобства...
-
+    public ModelAndView search(MinSearchRequest searchRequest) {
         ModelAndView modelAndView = new ModelAndView("searchResult");
-        List<Resort> resorts = new ArrayList<Resort>(resortService.search(minCost, maxCost,
-                minDuration, maxDuration, startDate,
-                sortType));
-
-        resorts.forEach(modelAndView::addObject);
+        List<Resort> resorts = new ArrayList<Resort>(resortService.search(searchRequest.getMinCost(), searchRequest.getMaxCost(),
+                searchRequest.getMinDuration(), searchRequest.getMaxDuration(), searchRequest.getStartDate(),
+                searchRequest.getSortType()));
+        modelAndView.addObject("resorts", resorts);
         return modelAndView;
     }
 }

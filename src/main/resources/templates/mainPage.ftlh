@@ -18,7 +18,7 @@
 </div>
 
 <div>
-    <form method="post" action="/main">
+    <form method="post" action="/searchResult">
         <ul class="searchPanelList">
             <li>
                 <p><span>Количество человек</span>
@@ -72,7 +72,6 @@
                 </p>
             </li>
         </ul>
-    </form>
     <ul class="searchPanelList">
         <li>
             <p><span>Допустимые страны</span>
@@ -96,10 +95,10 @@
         </li>
         <li>
             <!--Кнопка есть, функционала нет... И это навсегда-->
-            <p><span>еобходимые развлечения</span>
+            <p><span>Необходимые развлечения</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми развлечениями-->
                 <#list entertainments as entertainment>
-                    <input type="checkbox">${entertainment}</input>
+                    <input type="checkbox">${entertainment.title}</input>
                 </#list>
             </p>
         </li>
@@ -111,7 +110,7 @@
             <p><span>Необходимые удобства</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми удобствами-->
                 <#list facilities as facility>
-                    <input type="checkbox">${facility}</input>
+                    <input type="checkbox">${facility.title}</input>
                 </#list>
             </p>
         </li>
@@ -122,6 +121,7 @@
             </p>
         </li>
     </ul>
+    </form>
 </div>
 
 </BODY>

@@ -6,6 +6,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Configuration
 class MainConfiguration {
 
@@ -26,11 +28,12 @@ class MainConfiguration {
                     "в Восточной Европе");
             Country country3 = new Country(3, "Марокко", "страна в Северной Африке, омываемая " +
                     "водами Атлантического океана и Средиземного моря");
-            countryRepository.save(country1);
+            country1 = countryRepository.save(country1);
             countryRepository.save(country3);
-            //   City city1 = new City(1, "Москва", countryRepository.findById((long)1).get(), List.of(Entertainment.CINEMA));
+            countryRepository.flush();
+            City city1 = new City(1, "Москва", country1, List.of(Entertainment.CINEMA));
             //   City city5 = new City(5, "Рабат", country3, List.of(Entertainment.SEA, Entertainment.CINEMA));
-            //   cityRepository.save(city1);
+            cityRepository.save(city1);
             //   cityRepository.save(city5);
             hotelRoomRepository.save(new HotelRoom());
             resortRepository.save(new Resort());

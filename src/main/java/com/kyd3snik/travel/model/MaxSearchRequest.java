@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class maxSearchRequest extends minSearchRequest {
+public class MaxSearchRequest extends MinSearchRequest {
     private List<Tag> necessaryTags;
     private List<Country> acceptableCountries;
     private List<City> acceptableCities;

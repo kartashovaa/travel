@@ -5,9 +5,13 @@ public enum Entertainment {
     SEA("море"),
     MOUNTAINS("горы");
 
-    private String title;
+    private final String title;
 
     Entertainment(String title) {
         this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
