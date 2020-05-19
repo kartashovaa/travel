@@ -47,11 +47,24 @@
             <li>
                 <p><span>Сортировать по:</span>
                     <select name="sortType">
+                        <#-- TODO: value как названия enum-ов -->
                         <option value="costUp">Возрастанию цены</option>
                         <option value="costDown">Уменьшению цены</option>
                         <option value="durationUp">Возрастанию длительности</option>
                         <option value="durationDown">Уменьшению длительности</option>
                     </select></p>
+            </li>
+            <li>
+                <!--в min и value надо указать сегодняшнюю дату-->
+                <p><input type="button" value="расширенный подбор"></p>
+            </li>
+            <li>
+                <p><span>Необходимые теги</span>
+                    <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми тегами-->
+                    <#list tags as tag>
+                        <input type="checkbox" name="tag${tag.id}">${tag.title}</input>
+                    </#list>
+                </p>
             </li>
             <li>
                 <p>
@@ -61,18 +74,6 @@
         </ul>
     </form>
     <ul class="searchPanelList">
-        <li>
-            <!--в min и value надо указать сегодняшнюю дату-->
-            <p><input type="button" value="расширенный подбор"></p>
-        </li>
-        <li>
-            <p><span>Необходимые теги</span>
-                <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми тегами-->
-                <#list tags as tag>
-                    <input type="checkbox">${tag.title}</input>
-                </#list>
-            </p>
-        </li>
         <li>
             <p><span>Допустимые страны</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми странами-->

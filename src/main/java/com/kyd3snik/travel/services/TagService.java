@@ -33,6 +33,10 @@ public class TagService {
         }
     }
 
+    public Tag getById(long id) {
+        return tagRepository.findById(id).get();
+    }
+
     public void delete(long id) {
         tagRepository.deleteById(id);
     }

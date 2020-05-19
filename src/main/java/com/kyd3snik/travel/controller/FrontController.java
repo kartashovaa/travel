@@ -7,15 +7,18 @@ import com.kyd3snik.travel.services.ResortService;
 import com.kyd3snik.travel.services.TagService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class FrontController {
@@ -120,11 +123,27 @@ public class FrontController {
     }
 
     @PostMapping("/main")
-    public ModelAndView search(minSearchRequest searchRequest) {
+    public ModelAndView search(@RequestParam MultiValueMap<String, String> paramMap) {
+        int minCost = Integer.parseInt(paramMap.get("minCost").get(0));
+        int maxCost = Integer.parseInt(paramMap.get("maxCost").get(0));
+        int minDuration = Integer.parseInt(paramMap.get("minDuration").get(0));
+        int maxDuration = Integer.parseInt(paramMap.get("maxDuration").get(0));
+        Date startDate = new Date(12312313); //TODO: Parse date
+        SortType sortType = SortType.valueOf(paramMap.get("sortType").get(0));
+
+        List<Tag> tags = paramMap.keySet().stream()
+                .filter(key -> key.startsWith("tag"))
+                .map(tagKey -> tagKey.substring(3))
+                .map(Integer::valueOf)
+                .map(tagService::getById)
+                .collect(Collectors.toList());
+        //TODO: Найти также города, развлечения, удобства...
+
         ModelAndView modelAndView = new ModelAndView("searchResult");
-        List<Resort> resorts = new ArrayList<Resort>(resortService.search(searchRequest.getMinCost(), searchRequest.getMaxCost(),
-                searchRequest.getMinDuration(), searchRequest.getMaxDuration(), searchRequest.getStartDate(),
-                searchRequest.getSortType()));
+        List<Resort> resorts = new ArrayList<Resort>(resortService.search(minCost, maxCost,
+                minDuration, maxDuration, startDate,
+                sortType));
+
         resorts.forEach(modelAndView::addObject);
         return modelAndView;
     }
