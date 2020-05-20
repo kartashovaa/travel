@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-
 // Курорт
 @Entity
 @Data
@@ -20,13 +19,20 @@ public class Resort {
     private long id;
     private String title;
     private String description;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private City departureCity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private City arrivalCity;
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Tag> tags;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private HotelRoom hotelRoom;
     private int durationInDays;
     private Date startDate;
     private Date endDate;
     private long cost;
+    private byte personCount;
+    private boolean NeedForForeignPassport;
 }

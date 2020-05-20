@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -87,14 +86,14 @@ public class FrontController {
     @GetMapping("/resorts/{id}")
     public ModelAndView getResort(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("resort");
-        Resort resort = new Resort(id, "title", "description", Collections.emptyList(),
+        /*Resort resort = new Resort(id, "title", "description", Collections.emptyList(),
                 new Hotel(2, "hotel title",
                         new City(5, "title", new Country(7, "Country title",
                                 "Country description"), Collections.emptyList()), "address",
                         (byte) 5, Collections.emptyList()), 5, new Date(4364363),
                 new Date(4374363), 5463);
 
-        modelAndView.addObject("resort", resort);
+        modelAndView.addObject("resort", resort);*/
         return modelAndView;
     }
 

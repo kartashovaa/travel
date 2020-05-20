@@ -2,8 +2,13 @@ package com.kyd3snik.travel.model;
 
 public enum Entertainment {
     CINEMA("кино"),
+    RESTAURANTS("рестораны"),
+    FISHING("рыбалка"),
     SEA("море"),
-    MOUNTAINS("горы");
+    HUNTING("охота"),
+    EXCURSIONS("экскурсии"),
+    AQUAPARK("аквапарк"),
+    MUSEUMS("музеи");
 
     private final String title;
 

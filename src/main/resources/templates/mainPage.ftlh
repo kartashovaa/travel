@@ -79,22 +79,20 @@
                 <#list countries as country>
                     <input type="checkbox" checked>${country.title}</input>
                 </#list>
-                <input type="button" value="снять выбор со всех стран">
-            </p><!--Кнопка есть, функционала нет... Но это пока-->
+                <!--<input type="button" value="снять выбор со всех стран">-->
+            </p>
         </li>
         <li>
             <p><span>Допустимые города</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми городами-->
                 <!--Города должны быть сгруппированы по странам и перед ними должно быть название страны-->
-                <!--<input type="checkbox" checked>Москва</input>
-                <input type="checkbox" checked>Санкт-Петербург</input>-->
                 <#list cities as city>
                     <input type="checkbox" checked>${city.title}</input>
                 </#list>
-                <input type="button" value="снять выбор со всех городов"></p>
+                <!-- <input type="button" value="снять выбор со всех городов">-->
+            </p>
         </li>
         <li>
-            <!--Кнопка есть, функционала нет... И это навсегда-->
             <p><span>Необходимые развлечения</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми развлечениями-->
                 <#list entertainments as entertainment>
