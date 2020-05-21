@@ -47,11 +47,10 @@
             <li>
                 <p><span>Сортировать по:</span>
                     <select name="sortType">
-                        <#-- TODO: value как названия enum-ов -->
-                        <option value="costUp">Возрастанию цены</option>
-                        <option value="costDown">Уменьшению цены</option>
-                        <option value="durationUp">Возрастанию длительности</option>
-                        <option value="durationDown">Уменьшению длительности</option>
+                        <option value="costUp" name="COST_UP">Возрастанию цены</option>
+                        <option value="costDown" name="COST_DOWN">Уменьшению цены</option>
+                        <option value="durationUp" name="DURATION_UP">Возрастанию длительности</option>
+                        <option value="durationDown" name="DURATION_DOWN">Уменьшению длительности</option>
                     </select></p>
             </li>
             <li>
@@ -77,7 +76,7 @@
             <p><span>Допустимые страны</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми странами-->
                 <#list countries as country>
-                    <input type="checkbox" checked>${country.title}</input>
+                    <input type="checkbox" name="country${country.id}" checked>${country.title}</input>
                 </#list>
                 <!--<input type="button" value="снять выбор со всех стран">-->
             </p>
@@ -87,7 +86,7 @@
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми городами-->
                 <!--Города должны быть сгруппированы по странам и перед ними должно быть название страны-->
                 <#list cities as city>
-                    <input type="checkbox" checked>${city.title}</input>
+                    <input type="checkbox" name="city${city.id}" checked>${city.title}</input>
                 </#list>
                 <!-- <input type="button" value="снять выбор со всех городов">-->
             </p>
@@ -96,7 +95,7 @@
             <p><span>Необходимые развлечения</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми развлечениями-->
                 <#list entertainments as entertainment>
-                    <input type="checkbox">${entertainment.title}</input>
+                    <input type="checkbox" name="entertainment${entertainment.name()}">${entertainment.title}</input>
                 </#list>
             </p>
         </li>
@@ -108,7 +107,7 @@
             <p><span>Необходимые удобства</span>
                 <!--Я пока хз как это правильно сделать, но в идеале это должен быть выпадающий список со всеми удобствами-->
                 <#list facilities as facility>
-                    <input type="checkbox">${facility.title}</input>
+                    <input type="checkbox" name="facility${facility.name()}">${facility.title}</input>
                 </#list>
             </p>
         </li>

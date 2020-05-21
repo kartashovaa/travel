@@ -20,6 +20,10 @@ public class TagService {
         tagRepository.save(tag);
     }
 
+    public Tag getById(long id) {
+        return tagRepository.findById(id).get();
+    }
+
     public List<Tag> getAll() {
         return tagRepository.findAll();
     }
@@ -31,10 +35,6 @@ public class TagService {
         } else {
             throw new EntityNotFoundException("Tag not found!");
         }
-    }
-
-    public Tag getById(long id) {
-        return tagRepository.findById(id).get();
     }
 
     public void delete(long id) {

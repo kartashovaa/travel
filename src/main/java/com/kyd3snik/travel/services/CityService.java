@@ -20,6 +20,10 @@ public class CityService {
         cityRepository.save(city);
     }
 
+    public City getById(long id) {
+        return cityRepository.findById(id).get();
+    }
+
     public List<City> getAll() {
         return cityRepository.findAll();
     }

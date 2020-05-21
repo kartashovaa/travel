@@ -26,7 +26,7 @@ class MainConfiguration {
             Tag tag6 = tagRepository.save(new Tag(0, "Столица"));
             Tag tag7 = tagRepository.save(new Tag(0, "Экскурсии"));
             Country country1 = countryRepository.save(new Country(0, "Россия", "крупнейшая страна " +
-                    "мира, расположенная в Восточной Европе"));
+                    "мира, расположенная в Восточной Европе и Северной Азии"));
             Country country2 = countryRepository.save(new Country(0, "Германия", "государство " +
                     "в Западной Европе с лесами, реками, горными хребтами и пляжными курортами Северного моря"));
             Country country3 = countryRepository.save(new Country(0, "Марокко", "страна в Северной " +
@@ -34,8 +34,8 @@ class MainConfiguration {
             Country country4 = countryRepository.save(new Country(0, "Турция", "государство на " +
                     "юго-востоке Европы и юго-западе Азии, культура которого сочетает древнегреческие, персидские, " +
                     "римские, византийские и османские традиции"));
-            City city1 = cityRepository.save(new City(0, "Москва", country1, List.of(Entertainment.CINEMA, Entertainment.RESTAURANTS,
-                    Entertainment.EXCURSIONS, Entertainment.MUSEUMS)));
+            City city1 = cityRepository.save(new City(0, "Москва", country1, List.of(Entertainment.CINEMA,
+                    Entertainment.RESTAURANTS, Entertainment.EXCURSIONS, Entertainment.MUSEUMS)));
             City city2 = cityRepository.save(new City(0, "Сочи", country1, List.of(Entertainment.SEA,
                     Entertainment.EXCURSIONS, Entertainment.AQUAPARK)));
             City city3 = cityRepository.save(new City(0, "Берлин", country2, List.of(Entertainment.CINEMA,

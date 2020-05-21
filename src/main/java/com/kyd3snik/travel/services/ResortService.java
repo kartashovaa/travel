@@ -21,6 +21,10 @@ public class ResortService {
         resortRepository.save(resort);
     }
 
+    public Resort getById(long id) {
+        return resortRepository.findById(id).get();
+    }
+
     public List<Resort> getAll() {
         return resortRepository.findAll();
     }
@@ -43,13 +47,13 @@ public class ResortService {
         TreeSet<Resort> res;
         switch (sort) {
             case COST_DOWN:
-                res = new TreeSet<>((o1, o2) -> Long.compare(o2.getCost(), o1.getCost()));
+                res = new TreeSet<>((o1, o2) -> Float.compare(o2.getCost(), o1.getCost()));
                 break;
             case DURATION_UP:
                 res = new TreeSet<>(Comparator.comparingInt(Resort::getDurationInDays));
                 break;
             case DURATION_DOWN:
-                res = new TreeSet<>(Comparator.comparingLong(Resort::getCost));
+                res = new TreeSet<>(Comparator.comparingDouble(Resort::getCost));
                 break;
             case COST_UP:
             default:

@@ -1,20 +1,19 @@
 package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.*;
-import com.kyd3snik.travel.services.CityService;
-import com.kyd3snik.travel.services.CountryService;
-import com.kyd3snik.travel.services.ResortService;
-import com.kyd3snik.travel.services.TagService;
+import com.kyd3snik.travel.services.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class FrontController {
@@ -23,77 +22,51 @@ public class FrontController {
     private CountryService countryService;
     private ResortService resortService;
     private TagService tagService;
+    private HotelService hotelService;
+    private HotelRoomService hotelRoomService;
 
     public FrontController(CityService cityService, CountryService countryService, ResortService resortService,
-                           TagService tagService) {
+                           TagService tagService, HotelService hotelService, HotelRoomService hotelRoomService) {
         this.cityService = cityService;
         this.countryService = countryService;
         this.resortService = resortService;
         this.tagService = tagService;
-    }
-
-    @GetMapping("/hotels/{id}")
-    public ModelAndView getHotel(Model model, @PathVariable("id") long id) {
-        ModelAndView modelAndView = new ModelAndView("hotel");
-        Hotel hotel = new Hotel(id,
-                "Hotel " + id,
-                new City(0,
-                        "Voronezh",
-                        new Country(0, "Russia", "Description"),
-                        Collections.emptyList()
-                ),
-                "Address",
-                (byte) 5,
-                List.of(
-                        new HotelRoom(0, (byte) 3, List.of(Facility.values()), 1f),
-                        new HotelRoom(0, (byte) 1, List.of(Facility.values()), 12f),
-                        new HotelRoom(0, (byte) 2, List.of(Facility.values()), 13f)
-                )
-        );
-
-        modelAndView.addObject("hotel", hotel);
-        return modelAndView;
+        this.hotelService = hotelService;
+        this.hotelRoomService = hotelRoomService;
     }
 
     @GetMapping("/cities/{id}")
     public ModelAndView getCity(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("city");
-        City city = new City(id, "City", new Country(0, "Russia", "Description"),
-                Collections.emptyList());
-
-        modelAndView.addObject("city", city);
+        modelAndView.addObject("city", cityService.getById(id));
         return modelAndView;
     }
 
     @GetMapping("/countries/{id}")
     public ModelAndView getCountry(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("country");
-        //Country country = countryService.getById(id);
-        Country country = new Country(id, "title_1", "description_1");
-        modelAndView.addObject("country", country);
+        modelAndView.addObject("country", countryService.getById(id));
+        return modelAndView;
+    }
+
+    @GetMapping("/hotels/{id}")
+    public ModelAndView getHotel(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("hotel");
+        modelAndView.addObject("hotel", hotelService.getById(id));
         return modelAndView;
     }
 
     @GetMapping("/hotelRooms/{id}")
     public ModelAndView getHotelRoom(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("hotelRoom");
-        HotelRoom hotelRoom = new HotelRoom(id, (byte) 2, Collections.emptyList(), 123f);
-
-        modelAndView.addObject("hotelRoom", hotelRoom);
+        modelAndView.addObject("hotelRoom", hotelRoomService.getById(id));
         return modelAndView;
     }
 
     @GetMapping("/resorts/{id}")
     public ModelAndView getResort(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("resort");
-        /*Resort resort = new Resort(id, "title", "description", Collections.emptyList(),
-                new Hotel(2, "hotel title",
-                        new City(5, "title", new Country(7, "Country title",
-                                "Country description"), Collections.emptyList()), "address",
-                        (byte) 5, Collections.emptyList()), 5, new Date(4364363),
-                new Date(4374363), 5463);
-
-        modelAndView.addObject("resort", resort);*/
+        modelAndView.addObject("resort", resortService.getById(id));
         return modelAndView;
     }
 
@@ -109,12 +82,98 @@ public class FrontController {
     }
 
     @PostMapping("/main")
-    public ModelAndView search(MinSearchRequest searchRequest) {
+    public ModelAndView search(@RequestParam MultiValueMap<String, String> paramMap) {
+        int minCost = Integer.parseInt(paramMap.get("minCost").get(0));
+        int maxCost = Integer.parseInt(paramMap.get("maxCost").get(0));
+        int minDuration = Integer.parseInt(paramMap.get("minDuration").get(0));
+        int maxDuration = Integer.parseInt(paramMap.get("maxDuration").get(0));
+        Date startDate = new Date(12312313); //TODO: Parse date
+        SortType sortType = SortType.valueOf(paramMap.get("sortType").get(0));
+
+        List<Tag> tags = paramMap.keySet().stream()
+                .filter(key -> key.startsWith("tag"))
+                .map(tagKey -> tagKey.substring(3))
+                .map(Integer::valueOf)
+                .map(tagService::getById)
+                .collect(Collectors.toList());
+
+        List<Country> countries = paramMap.keySet().stream()
+                .filter(key -> key.startsWith("country"))
+                .map(countryKey -> countryKey.substring(7))
+                .map(Integer::valueOf)
+                .map((id) -> countryService.getById((long) id))
+                .collect(Collectors.toList());
+
+        List<City> cities = paramMap.keySet().stream()
+                .filter(key -> key.startsWith("city"))
+                .map(countryKey -> countryKey.substring(4))
+                .map(Integer::valueOf)
+                .map((id) -> cityService.getById((long) id))
+                .collect(Collectors.toList());
+
+        List<Entertainment> entertainments = paramMap.keySet().stream()
+                .filter(key -> key.startsWith("entertainment"))
+                .map(countryKey -> countryKey.substring(13))
+                .map(Entertainment::valueOf)
+                .collect(Collectors.toList());
+
+        int minStar = Integer.parseInt(paramMap.get("minStar").get(0));
+
+        List<Facility> facilities = paramMap.keySet().stream()
+                .filter(key -> key.startsWith("facility"))
+                .map(countryKey -> countryKey.substring(8))
+                .map(Facility::valueOf)
+                .collect(Collectors.toList());
+
         ModelAndView modelAndView = new ModelAndView("searchResult");
-        List<Resort> resorts = new ArrayList<Resort>(resortService.search(searchRequest.getMinCost(), searchRequest.getMaxCost(),
-                searchRequest.getMinDuration(), searchRequest.getMaxDuration(), searchRequest.getStartDate(),
-                searchRequest.getSortType()));
+        List<Resort> resorts = new ArrayList<Resort>(resortService.search(minCost, maxCost,
+                minDuration, maxDuration, startDate,
+                sortType));
+
         modelAndView.addObject("resorts", resorts);
+        return modelAndView;
+    }
+
+    @GetMapping("/searchResult")
+    public ModelAndView getSearchResult(List<Resort> resorts) {
+        ModelAndView modelAndView = new ModelAndView("searchResult");
+        modelAndView.addObject("resorts", resorts);
+        return modelAndView;
+    }
+
+    @GetMapping("/cities")
+    public ModelAndView getCities() {
+        ModelAndView modelAndView = new ModelAndView("cities");
+        modelAndView.addObject("cities", cityService.getAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/countries")
+    public ModelAndView getCountries() {
+        ModelAndView modelAndView = new ModelAndView("countries");
+        modelAndView.addObject("countries", countryService.getAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/hotels")
+    public ModelAndView getHotels() {
+        ModelAndView modelAndView = new ModelAndView("hotels");
+        modelAndView.addObject("hotels", hotelService.getAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/hotels/{id}/hotelRooms")
+    public ModelAndView getHotelRooms(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("hotelRooms");
+        Hotel hotel = hotelService.getById(id);
+        modelAndView.addObject("hotelRooms", hotel.getRooms());
+        return modelAndView;
+    }
+
+    @GetMapping("/resorts")
+    public ModelAndView getResorts() {
+        ModelAndView modelAndView = new ModelAndView("resorts");
+        modelAndView.addObject("resorts", resortService.getAll());
         return modelAndView;
     }
 }

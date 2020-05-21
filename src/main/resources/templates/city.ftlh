@@ -6,17 +6,17 @@
 </HEAD>
 <BODY>
 
-<p>${city.title}</p>
+<h2>${city.title}</h2>
 
 <p>Список развлечений:</p>
 <ul>
     <#list city.entertainments as entertainment>
-        <li>${entertainment}</li>
+        <li>${entertainment.title}</li>
     </#list>
 </ul>
 <p>Гостиницы:</p>
 <ul>
-    <li>!Название развлечения!</li>
+    <li>!Название гостиницы!</li>
 </ul>
 
 <p>дата начала курорта</p>

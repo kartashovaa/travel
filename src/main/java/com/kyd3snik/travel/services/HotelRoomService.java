@@ -19,6 +19,10 @@ public class HotelRoomService {
         hotelRoomRepository.save(hotelRoom);
     }
 
+    public HotelRoom getById(long id) {
+        return hotelRoomRepository.findById(id).get();
+    }
+
     public List<HotelRoom> getAll() {
         return hotelRoomRepository.findAll();
     }

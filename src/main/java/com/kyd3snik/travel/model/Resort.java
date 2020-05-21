@@ -32,7 +32,7 @@ public class Resort {
     private int durationInDays;
     private Date startDate;
     private Date endDate;
-    private long cost;
+    private float cost;
     private byte personCount;
     private boolean NeedForForeignPassport;
 }

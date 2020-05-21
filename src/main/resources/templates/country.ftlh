@@ -6,7 +6,7 @@
 </HEAD>
 <BODY>
 
-<p>${country.title}</p>
+<h2>${country.title}</h2>
 
 <p>${country.description}</p>
 
