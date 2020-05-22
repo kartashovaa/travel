@@ -17,9 +17,10 @@ public class SignUpRequest {
     private String middleName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
-    private boolean gender;
-    private boolean hasInternationalPassport;
-    private String city;
+    private String hasInternationalPassport;
+    private long cityId;
     private String password;
     private String confirmPassword;
+    //    @Pattern(regexp = "^(man|woman)$")
+    private String gender;
 }

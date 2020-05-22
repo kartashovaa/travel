@@ -16,8 +16,8 @@
             <p><a href="/cities/${hotel.city.id}">Город: ${hotel.city.title}</a></p>
             <p>Адрес гостиницы: ${hotel.address}</p>
             <p>Количество звезд: ${hotel.stars}<p>
-            <p>Количество номеров: !Количество номеров!</p>
-            <p>Средняя стоимость номера: !Средняя стоимость номера!</p>
+            <p>Количество номеров: ${hotel.getRoomsCount()}</p>
+            <p>Средняя стоимость номера: ${hotel.getAvgRoomPrice()}</p>
         </div>
     </#list>
 </ul>

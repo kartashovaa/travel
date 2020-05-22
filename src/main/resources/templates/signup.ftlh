@@ -1,47 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-<h2>Please sign in!</h2>
-<form method="post" action="/signup">
-    <#if errorMessage??>
-        <h2 style="color: #ff0000">${errorMessage}</h2>
-    </#if>
+<HTML>
+<HEAD>
+    <meta charset="utf-8">
+    <LINK REL="STYLESHEET" HREF="STYLESHEET.CSS">
+    <title>Регистрация</title>
+</HEAD>
+<BODY>
+
+<h2>Регистрация</h2>
+<form action="/signup" method="POST">
+    <h3>Введите Ваши данные:</h3>
     <p>
-        <label>First name</label> <input type="text" name="firstName" placeholder="First name" autofocus/>
+        <label>Фамилия</label>
+        <input type="text" name="lastName" required>
     </p>
     <p>
-        <label>Last name</label> <input type="text" name="lastName" placeholder="Last name"/>
+        <label>Имя</label>
+        <input type="text" name="firstName" required>
     </p>
     <p>
-        <label>Middle name</label> <input type="text" name="middleName" placeholder="Middle name"/>
+        <label>Отчество</label>
+        <input type="text" name="middleName" required>
     </p>
     <p>
-        <label>Email</label> <input type="text" name="email" placeholder="Email"/>
+        <label>Дата рождения</label>
+        <input type="date" name="birthday" required>
+    </p>
+    <label>Пол</label>
+    <p>
+        <input type="radio" name="gender" value="man" checked>Мужской</input>
+        <input type="radio" name="gender" value="woman">Женский</input>
+    </p>
+    <label>Наличие загранпаспорта</label>
+    <p>
+        <input type="radio" name="hasInternationalPassport" value="yes">Да</input>
+        <input type="radio" name="hasInternationalPassport" value="no" checked>Нет</input>
+    </p>
+    <label>Город</label>
+    <p>
+        <select name="cityId">
+            <#list cities as city>
+                <option value="${city.id}">${city.title}</option>
+            </#list>
+        </select>
     </p>
     <p>
-        <label>City</label> <input type="text" name="city" placeholder="Moscow"/>
+        <label>Email</label>
+        <input type="text" name="email" required>
     </p>
     <p>
-        <label>Birthday</label> <input type="date" name="birthday"/>
+        <label>Пароль</label>
+        <input type="password" name="password" required>
+    </p>
+
+    <p>
+        <label>Подтвердите пароль</label>
+        <input type="password" name="confirmPassword" required>
     </p>
     <p>
-        <label>Is male</label> <input type="checkbox" name="gender"/>
+        <button type="submit">Зарегистрироваться</button>
     </p>
-    <p>
-        <label>Has International Password</label> <input type="checkbox" name="hasInternationalPassport"/>
-    </p>
-    <p>
-        <label>Password</label> <input type="password" name="password" placeholder="Password"/>
-    </p>
-    <p>
-        <label>Confirm password</label>
-        <input type="password" name="confirmPassword" placeholder="Confirm password"/>
-    </p>
-    <button type="submit">Sing-up</button>
 </form>
-</body>
-</html>
+
+</BODY>
+
+</HTML>

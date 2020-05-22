@@ -20,5 +20,5 @@ public class City {
     private Country country;
     @Enumerated
     @ElementCollection
-    private List<Entertainment> entertainments;
+    private List<EntertainmentOld> entertainments;
 }

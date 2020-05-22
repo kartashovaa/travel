@@ -22,12 +22,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/signup").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/**").permitAll()
                 .and()
-                .formLogin().loginPage("/signin").defaultSuccessUrl("/user").permitAll()
-                .and()
-                .logout().permitAll();
+//                .antMatchers("/", "/signup").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+                .formLogin().loginPage("/signin").defaultSuccessUrl("/successfulRegistration").permitAll()
+//                .and()
+//                .logout().permitAll()
+        ;
     }
 
     @Bean
@@ -47,8 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         true,
                         "email@mail.com",
                         "password",
-                        new City(0, "Moscow", null, Collections.emptyList())
-                ),
+                        new City(0, "Moscow", null, Collections.emptyList()),
+                        false),
                 new User(0,
                         "First name another",
                         "Last name another",
@@ -58,7 +61,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         false,
                         "example@mail.com",
                         "pass",
-                        new City(0, "Voronezh", null, Collections.emptyList())
+                        new City(0, "Voronezh", null, Collections.emptyList()),
+                        true
                 )
         };
         return new InMemoryUserDetailsManager(users);

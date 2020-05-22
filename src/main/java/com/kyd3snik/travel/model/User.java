@@ -34,6 +34,7 @@ public class User implements UserDetails {
     private String password;
     @ManyToOne
     private City city;
+    private boolean hasDiscount;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

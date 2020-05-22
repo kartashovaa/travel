@@ -7,13 +7,17 @@
 <BODY>
 
 <div>
-    <button class="loginBtn">Войти</button>
-    <button class="RegBtn">Зарегистрироваться</button>
-    <button class="ExitBtn">Выйти</button>
+    <#if isUserAuthenticated>
+        <a href="/logout" class="ExitBtn">Выйти</a>
+        <h3><a href="/profile">Личный кабинет</a></h3>
+    <#else>
+        <p><a href="/signin">Войти</a></p>
+        <p><a href="/signup">Зарегистрироваться</a></p>
+    </#if>
 </div>
 
 <div>
-    <input type="text"></input>
+    <input type="text"/>
     <input type="button" value="поиск">
 </div>
 
@@ -23,35 +27,49 @@
         <ul class="searchPanelList">
             <li>
                 <p><span>Количество человек</span>
-                    <input type="number" size="2" name="personCount" min="1" max="20" value="1"></p>
+                    <input type="number" size="2" name="personCount" min="1" max="20"
+                           value="#{personCount!1}"></p>
             </li>
             <li>
                 <p><span>Минимальная стоимость</span>
-                    <input type="number" size="5" name="minCost" min="0" max="10000000" value="0"></p>
+                    <input type="number" size="5" name="minCost" min="0" max="10000000"
+                           value="#{minCost!0}"></p>
             </li>
             <li>
                 <p><span>Максимальная стоимость</span>
-                    <input type="number" size="5" name="maxCost" min="0" max="10000000" value="10000000"></p>
+                    <input type="number" size="5" name="maxCost" min="0" max="10000000"
+                           value="#{maxCost!9999999}"></p>
             </li>
             <li>
                 <p><span>Минимальная длительность (в днях)</span>
-                    <input type="number" size="3" name="minDuration" min="0" max="100" value="0"></p>
+                    <input type="number" size="3" name="minDuration" min="0" max="100"
+                           value="#{minDuration!1}"></p>
             </li>
             <li>
                 <p><span>Максимальная длительность (в днях)</span>
-                    <input type="number" size="3" name="maxDuration" min="0" max="100" value="100"></p>
+                    <input type="number" size="3" name="maxDuration" min="0" max="100"
+                           value="#{maxDuration!100}"></p>
             </li>
             <li>
                 <p><span>дата начала курорта</span>
-                    <input type="date" name="startDate" min="2020-05-16" max="2025-12-31" value="2020-05-16"></p>
+                    <input type="date" name="startDate" min="2020-05-16" max="2025-12-31"
+                           value="${startDate?string("yyyy-MM-dd")!"2020-05-16"}"></p>
             </li>
             <li>
                 <p><span>Сортировать по:</span>
                     <select name="sortType">
-                        <option value="COST_UP" name="COST_UP">Возрастанию цены</option>
-                        <option value="COST_DOWN" name="COST_DOWN">Уменьшению цены</option>
-                        <option value="DURATION_UP" name="DURATION_UP">Возрастанию длительности</option>
-                        <option value="DURATION_DOWN" name="DURATION_DOWN">Уменьшению длительности</option>
+                        <option value="COST_UP" name="COST_UP"
+                                <#if sortType?? && sortType=="COST_UP">selected</#if>>Возрастанию цены
+                        </option>
+                        <option value="COST_DOWN" name="COST_DOWN"
+                                <#if sortType?? && sortType=="COST_DOWN">selected</#if>>Уменьшению цены
+                        </option>
+                        <option value="DURATION_UP" name="DURATION_UP"
+                                <#if sortType?? && sortType=="DURATION_UP">selected</#if>>Возрастанию длительности
+                        </option>
+                        <option value="DURATION_DOWN" name="DURATION_DOWN"
+                                <#if sortType?? && sortType=="DURATION_DOWN">selected</#if>>Уменьшению длительности
+                        </option>
                     </select></p>
             </li>
             <li>
@@ -60,7 +78,8 @@
             <li>
                 <p><span>Необходимые теги</span>
                     <#list tags as tag>
-                        <input type="checkbox" name="tag${tag.id}">${tag.title}</input>
+                        <input type="checkbox" name="tag${tag.data.id}"
+                               <#if tag.isSelected()>checked</#if>>${tag.data.title}</input>
                     </#list>
                 </p>
             </li>
@@ -70,14 +89,16 @@
             <li>
                 <p><span>Допустимые страны</span>
                     <#list countries as country>
-                        <input type="checkbox" name="country${country.id}" checked>${country.title}</input>
+                        <input type="checkbox" name="country${country.data.id}"
+                               <#if country.selected>checked</#if> >${country.data.title}</input>
                     </#list>
                 </p>
             </li>
             <li>
                 <p><span>Допустимые города</span>
                     <#list cities as city>
-                        <input type="checkbox" name="city${city.id}" checked>${city.title}</input>
+                        <input type="checkbox" name="city${city.data.id}"
+                               <#if city.selected>checked</#if>>${city.data.title}</input>
                     </#list>
                 </p>
             </li>
@@ -85,18 +106,21 @@
                 <p><span>Необходимые развлечения</span>
                     <#list entertainments as entertainment>
                         <input type="checkbox"
-                               name="entertainment${entertainment.name()}">${entertainment.title}</input>
+                               name="entertainment${entertainment.data.name()}"
+                               <#if entertainment.selected>checked</#if>>${entertainment.data.title}</input>
                     </#list>
                 </p>
             </li>
             <li>
                 <p><span>Минимальное количество звезд в гостинице</span>
-                    <input type="number" size="3" name="minStar" min="0" max="5" value="0"></p>
+                    <input type="number" size="3" name="minStar" min="0" max="5"
+                           value="#{minStar!1}"></p>
             </li>
             <li>
                 <p><span>Необходимые удобства</span>
                     <#list facilities as facility>
-                        <input type="checkbox" name="facility${facility.name()}">${facility.title}</input>
+                        <input type="checkbox" name="facility${facility.data.name()}"
+                               <#if facility.selected>checked</#if>>${facility.data.title}</input>
                     </#list>
                 </p>
             </li>

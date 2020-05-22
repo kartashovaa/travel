@@ -1,22 +1,20 @@
 package com.kyd3snik.travel.model;
 
-public enum Entertainment {
-    CINEMA("кино"),
-    RESTAURANTS("рестораны"),
-    FISHING("рыбалка"),
-    SEA("море"),
-    HUNTING("охота"),
-    EXCURSIONS("экскурсии"),
-    AQUAPARK("аквапарк"),
-    MUSEUMS("музеи");
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    private final String title;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-    Entertainment(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Entertainment {
+    @Id
+    @GeneratedValue
+    private long id;
+    private String title;
 }

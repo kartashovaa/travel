@@ -44,8 +44,8 @@ public class ResortService {
 
     public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
                                      SortType sort, List<Tag> necessaryTags, List<Country> acceptableCountries,
-                                     List<City> acceptableCities, List<Entertainment> necessaryEntertainments,
-                                     byte minStar, List<Facility> necessaryFacilities) {
+                                     List<City> acceptableCities, List<EntertainmentOld> necessaryEntertainments,
+                                     byte minStar, List<FacilityOld> necessaryFacilities) {
         TreeSet<Resort> res;
         switch (sort) {
             case COST_DOWN:
@@ -71,7 +71,7 @@ public class ResortService {
                 .filter((resort) -> acceptableCities.contains(resort.getArrivalCity()))
                 .filter((resort) -> resort.getHotel().getCity().getEntertainments().containsAll(necessaryEntertainments))
                 .filter((resort) -> resort.getHotel().getStars() >= minStar)
-                .filter((resort) -> resort.getHotelRoom().getFacilities().containsAll(necessaryFacilities))
+//                .filter((resort) -> resort.getHotelRoom().getFacilities().containsAll(necessaryFacilities))
                 .collect(Collectors.toList());
     }
 

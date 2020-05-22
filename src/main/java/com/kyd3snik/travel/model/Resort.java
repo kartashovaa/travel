@@ -27,8 +27,6 @@ public class Resort {
     private List<Tag> tags;
     @ManyToOne(fetch = FetchType.LAZY)
     private Hotel hotel;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private HotelRoom hotelRoom;
     private int durationInDays;
     private Date startDate;
     private Date endDate;

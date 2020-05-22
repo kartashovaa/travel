@@ -18,6 +18,6 @@ public class HotelRoom {
     private byte numberOfSleepingPlaces;
     @Enumerated
     @ElementCollection
-    private List<Facility> facilities;
+    private List<FacilityOld> facilities;
     private float cost;
 }

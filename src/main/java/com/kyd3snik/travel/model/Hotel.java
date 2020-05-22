@@ -22,4 +22,12 @@ public class Hotel {
     private byte stars;
     @ManyToMany
     private List<HotelRoom> rooms;
+
+    public double getAvgRoomPrice() {
+        return rooms.stream().mapToDouble(HotelRoom::getCost).sum() / getRoomsCount();
+    }
+
+    public int getRoomsCount() {
+        return rooms.size();
+    }
 }

@@ -1,22 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-<h2>Please sign in!</h2>
-<form method="post" action="/signin">
-    <p>
-        <label>Email</label>
-        <input type="text" name="username" placeholder="Email" required autofocus/>
-    </p>
-    <p>
-        <label>Password</label>
-        <input type="password" name="password" placeholder="Password" required/>
-    </p>
-    <button type="submit">Sing-in</button>
-    <a href="/signup">I don't have a account</a>
+<HTML>
+<HEAD>
+    <meta charset="utf-8">
+    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
+    <title>Вход в аккаунт</title>
+</HEAD>
+<BODY>
+
+<h2>Вход в аккаунт</h2>
+<form action="/signin" method="POST">
+    <p>Email</p>
+    <input type="text" name="username" required>
+    <p>Пароль</p>
+    <input type="password" name="password" required>
+    <button type="submit">Войти</button>
 </form>
-</body>
-</html>
+<a href="/signup">У меня нет аккаунта</a>
+</BODY>
+</HTML>

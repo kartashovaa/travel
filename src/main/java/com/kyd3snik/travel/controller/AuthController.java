@@ -1,7 +1,9 @@
 package com.kyd3snik.travel.controller;
 
+import com.kyd3snik.travel.model.User;
 import com.kyd3snik.travel.model.request.SignUpRequest;
 import com.kyd3snik.travel.service.AuthService;
+import com.kyd3snik.travel.services.CityService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 public class AuthController {
 
     private final AuthService authService;
+    private final CityService cityService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, CityService cityService) {
         this.authService = authService;
+        this.cityService = cityService;
     }
+
 
     @GetMapping("/signin")
     String signin(Authentication auth) {
@@ -27,8 +32,15 @@ public class AuthController {
     }
 
     @GetMapping("/signup")
-    String signup(Authentication auth) {
-        return auth == null ? "signup" : "redirect:/";
+    ModelAndView signup(Authentication auth) {
+        ModelAndView modelAndView = new ModelAndView("signup");
+        if (auth != null) {
+            modelAndView.setView(new RedirectView("/"));
+            return modelAndView;
+
+        }
+        modelAndView.addObject("cities", cityService.getAll());
+        return modelAndView;
     }
 
     @PostMapping("/signup")
@@ -43,4 +55,13 @@ public class AuthController {
 
         return modelAndView;
     }
+
+    @GetMapping("/profile")
+    public ModelAndView getPersonalAccount(Authentication auth) {
+        ModelAndView modelAndView = new ModelAndView("personalAccount");
+        User user = authService.getUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
 }

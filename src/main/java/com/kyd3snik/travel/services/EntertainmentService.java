@@ -1,6 +1,6 @@
 package com.kyd3snik.travel.services;
 
-import com.kyd3snik.travel.model.Entertainment1;
+import com.kyd3snik.travel.model.Entertainment;
 import com.kyd3snik.travel.repository.EntertainmentRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +16,19 @@ public class EntertainmentService {
         this.entertainmentRepository = entertainmentRepository;
     }
 
-    public void addEntertainment(Entertainment1 entertainment) {
+    public void addEntertainment(Entertainment entertainment) {
         entertainmentRepository.save(entertainment);
     }
 
-    public Entertainment1 getById(long id) {
+    public Entertainment getById(long id) {
         return entertainmentRepository.findById(id).get();
     }
 
-    public List<Entertainment1> getAll() {
+    public List<Entertainment> getAll() {
         return entertainmentRepository.findAll();
     }
 
-    public void update(Entertainment1 entertainment1) {
+    public void update(Entertainment entertainment1) {
         boolean exists = entertainmentRepository.existsById(entertainment1.getId());
         if (exists) {
             entertainmentRepository.save(entertainment1);
