@@ -5,7 +5,7 @@
     <title>Вход в аккаунт</title>
 </HEAD>
 <BODY>
-
+<h3><a href="/main">Вернуться на главную</a></h3>
 <h2>Вход в аккаунт</h2>
 <form method="post">
     <p>Email</p>

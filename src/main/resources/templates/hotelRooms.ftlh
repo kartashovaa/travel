@@ -5,7 +5,7 @@
     <title>Номера в !Название гостиницы!</title>
 </HEAD>
 <BODY>
-
+<h3><a href="/main">Вернуться на главную</a></h3>
 <h2>Номера в !Название гостиницы!</h2>
 <ul>
     <#list hotelRooms as hotelRoom>

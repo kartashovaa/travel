@@ -5,7 +5,7 @@
     <title>Результаты поиска</title>
 </HEAD>
 <BODY>
-
+<h3><a href="/main">Вернуться на главную</a></h3>
 <div>
     <button class="loginBtn">Войти</button>
     <button class="RegBtn">Зарегистрироваться</button>

@@ -5,6 +5,7 @@
     <title>Страны</title>
 </HEAD>
 <BODY>
+<h3><a href="/main">Вернуться на главную</a></h3>
 <h1>Страны</h1>
 
 <ul>
