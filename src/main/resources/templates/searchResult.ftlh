@@ -85,7 +85,7 @@
                 <p><span>Необходимые развлечения</span>
                     <#list entertainments as entertainment>
                         <input type="checkbox"
-                               name="entertainment${entertainment.name()}">${entertainment.title}</input>
+                               name="entertainment${entertainment.id}">${entertainment.title}</input>
                     </#list>
                 </p>
             </li>
@@ -96,7 +96,7 @@
             <li>
                 <p><span>Необходимые удобства</span>
                     <#list facilities as facility>
-                        <input type="checkbox" name="facility${facility.name()}">${facility.title}</input>
+                        <input type="checkbox" name="facility${facility.id}">${facility.title}</input>
                     </#list>
                 </p>
             </li>

@@ -17,7 +17,8 @@ class MainConfiguration {
     public CommandLineRunner test(HotelRepository hotelRepository, HotelRoomRepository hotelRoomRepository,
                                   ResortRepository resortRepository, TagRepository tagRepository,
                                   UserRepository userRepository, CityRepository cityRepository,
-                                  CountryRepository countryRepository) {
+                                  CountryRepository countryRepository, EntertainmentRepository entertainmentRepository,
+                                  FacilityRepository facilityRepository) {
         return args -> {
             Tag tag1 = tagRepository.save(new Tag(0, "Горы"));
             Tag tag2 = tagRepository.save(new Tag(0, "Море"));
@@ -26,6 +27,21 @@ class MainConfiguration {
             Tag tag5 = tagRepository.save(new Tag(0, "Архитектура"));
             Tag tag6 = tagRepository.save(new Tag(0, "Столица"));
             Tag tag7 = tagRepository.save(new Tag(0, "Экскурсии"));
+            Facility facility1 = facilityRepository.save(new Facility(0, "душ в номере"));
+            Facility facility2 = facilityRepository.save(new Facility(0, "туалет в номере"));
+            Facility facility3 = facilityRepository.save(new Facility(0, "кухня"));
+            Facility facility4 = facilityRepository.save(new Facility(0, "кондиционер"));
+            Facility facility5 = facilityRepository.save(new Facility(0, "Wi-Fi"));
+            Facility facility6 = facilityRepository.save(new Facility(0, "бассейн"));
+            Entertainment entertainment1 = entertainmentRepository.save(new Entertainment(0, "кино"));
+            Entertainment entertainment2 = entertainmentRepository.save(new Entertainment(0, "рестораны"));
+            Entertainment entertainment3 = entertainmentRepository.save(new Entertainment(0, "рыбалка"));
+            Entertainment entertainment4 = entertainmentRepository.save(new Entertainment(0, "море"));
+            Entertainment entertainment5 = entertainmentRepository.save(new Entertainment(0, "охота"));
+            Entertainment entertainment6 = entertainmentRepository.save(new Entertainment(0, "экскурсии"));
+            Entertainment entertainment7 = entertainmentRepository.save(new Entertainment(0, "аквапарк"));
+            Entertainment entertainment8 = entertainmentRepository.save(new Entertainment(0, "музеи"));
+
             Country country1 = countryRepository.save(new Country(0, "Россия", "крупнейшая страна " +
                     "мира, расположенная в Восточной Европе и Северной Азии"));
             Country country2 = countryRepository.save(new Country(0, "Германия", "государство " +
@@ -35,41 +51,38 @@ class MainConfiguration {
             Country country4 = countryRepository.save(new Country(0, "Турция", "государство на " +
                     "юго-востоке Европы и юго-западе Азии, культура которого сочетает древнегреческие, персидские, " +
                     "римские, византийские и османские традиции"));
-            City city1 = cityRepository.save(new City(0, "Москва", country1, List.of(Entertainment.CINEMA,
-                    Entertainment.RESTAURANTS, Entertainment.EXCURSIONS, Entertainment.MUSEUMS)));
-            City city2 = cityRepository.save(new City(0, "Сочи", country1, List.of(Entertainment.SEA,
-                    Entertainment.EXCURSIONS, Entertainment.AQUAPARK)));
-            City city3 = cityRepository.save(new City(0, "Берлин", country2, List.of(Entertainment.CINEMA,
-                    Entertainment.RESTAURANTS, Entertainment.MUSEUMS)));
-            City city4 = cityRepository.save(new City(0, "Воронеж", country1, List.of(Entertainment.CINEMA,
-                    Entertainment.RESTAURANTS)));
-            City city5 = cityRepository.save(new City(0, "Рабат", country3, List.of(Entertainment.RESTAURANTS,
-                    Entertainment.SEA, Entertainment.EXCURSIONS)));
-            City city6 = cityRepository.save(new City(0, "Анкара", country4, List.of(Entertainment.RESTAURANTS,
-                    Entertainment.EXCURSIONS, Entertainment.MUSEUMS)));
-            City city7 = cityRepository.save(new City(0, "Измир", country4, List.of(Entertainment.RESTAURANTS,
-                    Entertainment.EXCURSIONS, Entertainment.SEA)));
+            City city1 = cityRepository.save(new City(0, "Москва", country1, List.of(entertainment1,
+                    entertainment2, entertainment6, entertainment8)));
+            City city2 = cityRepository.save(new City(0, "Сочи", country1, List.of(entertainment4,
+                    entertainment6, entertainment7)));
+            City city3 = cityRepository.save(new City(0, "Берлин", country2, List.of(entertainment1,
+                    entertainment2, entertainment8)));
+            City city4 = cityRepository.save(new City(0, "Воронеж", country1, List.of(entertainment1,
+                    entertainment2)));
+            City city5 = cityRepository.save(new City(0, "Рабат", country3, List.of(entertainment2,
+                    entertainment4, entertainment6)));
+            City city6 = cityRepository.save(new City(0, "Анкара", country4, List.of(entertainment2,
+                    entertainment6, entertainment8)));
+            City city7 = cityRepository.save(new City(0, "Измир", country4, List.of(entertainment2,
+                    entertainment6, entertainment4)));
             HotelRoom hotelRoom1 = hotelRoomRepository.save(new HotelRoom(0, (byte) 1,
-                    List.of(Facility.WI_FI), 1100));
+                    List.of(facility5), 1100));
             HotelRoom hotelRoom2 = hotelRoomRepository.save(new HotelRoom(0, (byte) 2,
-                    List.of(Facility.WI_FI), 2000));
+                    List.of(facility5), 2000));
             HotelRoom hotelRoom3 = hotelRoomRepository.save(new HotelRoom(0, (byte) 2,
-                    List.of(Facility.WI_FI, Facility.AIR_CONDITIONING), 2300));
+                    List.of(facility5, facility4), 2300));
             HotelRoom hotelRoom4 = hotelRoomRepository.save(new HotelRoom(0, (byte) 3,
-                    List.of(Facility.WI_FI, Facility.AIR_CONDITIONING, Facility.WC_IN_HOTEL_ROOM), 4500));
+                    List.of(facility5, facility4, facility2), 4500));
             HotelRoom hotelRoom5 = hotelRoomRepository.save(new HotelRoom(0, (byte) 2,
-                    List.of(Facility.WI_FI, Facility.AIR_CONDITIONING, Facility.WC_IN_HOTEL_ROOM,
-                            Facility.SHOWER_IN_HOTEL_ROOM), 4000));
+                    List.of(facility5, facility4, facility2, facility1), 4000));
             HotelRoom hotelRoom6 = hotelRoomRepository.save(new HotelRoom(0, (byte) 2,
-                    List.of(Facility.WI_FI, Facility.AIR_CONDITIONING, Facility.WC_IN_HOTEL_ROOM,
-                            Facility.SHOWER_IN_HOTEL_ROOM, Facility.SWIMMING_POOL), 4500));
+                    List.of(facility5, facility4, facility2, facility1, facility6), 4500));
             HotelRoom hotelRoom7 = hotelRoomRepository.save(new HotelRoom(0, (byte) 2,
-                    List.of(Facility.WI_FI, Facility.AIR_CONDITIONING, Facility.SWIMMING_POOL), 4800));
+                    List.of(facility5, facility4, facility6), 4800));
             HotelRoom hotelRoom8 = hotelRoomRepository.save(new HotelRoom(0, (byte) 3,
-                    List.of(Facility.WI_FI, Facility.AIR_CONDITIONING, Facility.SWIMMING_POOL), 6000));
+                    List.of(facility5, facility4, facility6), 6000));
             HotelRoom hotelRoom9 = hotelRoomRepository.save(new HotelRoom(0, (byte) 2,
-                    List.of(Facility.WI_FI, Facility.AIR_CONDITIONING, Facility.WC_IN_HOTEL_ROOM,
-                            Facility.SHOWER_IN_HOTEL_ROOM, Facility.SWIMMING_POOL), 5000));
+                    List.of(facility5, facility4, facility2, facility1, facility6), 5000));
             Hotel hotel1 = hotelRepository.save(new Hotel(0, "Гостиница Останкино", city1,
                     "Ботаническая ул., 29, к. 1", (byte) 3, List.of(hotelRoom1, hotelRoom2, hotelRoom3)));
             Hotel hotel2 = hotelRepository.save(new Hotel(0, "Arbat House", city1,
