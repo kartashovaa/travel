@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -84,14 +85,14 @@ class MainConfiguration {
              */
             Resort resort1 = resortRepository.save(new Resort(0, "Поездка в Москву", "Непродолжительное путешествие " +
                     "в столицу России с экскурсией", city4, city1, List.of(tag6, tag7), hotel1, hotelRoom1, 3,
-                    new Date(13555), new Date(14555), 8300, (byte) 1, false));
+                    Calendar.getInstance().getTime(), new Date(14555), 8300, (byte) 1, false));
             Resort resort2 = resortRepository.save(new Resort(0, "Поездка в столицу Марокко",
                     "Увлекательное путешествие", city1, city5, List.of(tag6, tag7, tag2, tag5), hotel4,
-                    hotelRoom7, 7, new Date(13555), new Date(14555), 52000, (byte) 2,
+                    hotelRoom7, 7, new Date(445413555), new Date(14555), 52000, (byte) 2,
                     true));
             Resort resort3 = resortRepository.save(new Resort(0, "Отпуск в Турции",
                     "Великолепный отдых на берегу Эгейского моря", city1, city7, List.of(tag2, tag5), hotel5,
-                    hotelRoom9, 5, new Date(13555), new Date(14555), 45000, (byte) 2,
+                    hotelRoom9, 5, new Date(135454555), new Date(14555), 45000, (byte) 2,
                     true));
             userRepository.save(new User());
         };

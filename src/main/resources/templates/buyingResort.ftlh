@@ -5,8 +5,9 @@
     <title>${resort.title}</title>
 </HEAD>
 <BODY>
-
-<h2>${resort.title}</h2>
+<h1>Оформление покупки:</h1>
+<h2>Данные о курорте:</h2>
+<h3>${resort.title}</h3>
 
 <p><a href="/hotels/${resort.hotel.id}">Гостиница ${resort.hotel.title} ${resort.hotel.stars} звезд</a></p>
 
@@ -25,8 +26,26 @@
 <p>Дата отправления: ${resort.startDate?string('dd.MM.yyyy')}</p>
 <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
-<!--<button class="BuyingBtn" >Купить билеты</button>-->
-<a href="/buyingResort/${resort.id}">Купить билеты</a>
+<div>
+    <h3>Введите ваши данные</h3>
+    <form method="post" action="/searchResult">
+        <p>Фамилия</p>
+        <input type="text" name="lastName" required>
+        <p>Имя</p>
+        <input type="text" name="firstName" required>
+        <p>Отчество</p>
+        <input type="text" name="middleName" required>
+        <p>Номер карты</p>
+        <input type="text" name="cardNumber" required>
+        <p>Имя владельца карты</p>
+        <input type="text" name="cardHolderName" required>
+        <p>Код cvv</p>
+        <input type="text" name="cvv" required>
+        <p>
+            <button type="submit">Совершить покупку</button>
+        </p>
+    </form>
+</div>
 </BODY>
 
 </HTML>

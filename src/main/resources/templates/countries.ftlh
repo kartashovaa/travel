@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.CSS">
+    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
     <title>Страны</title>
 </HEAD>
 <BODY>
@@ -21,6 +21,8 @@
         </div>
     </#list>
 </ul>
+
+<p><a href="/addCountry">Добавить страну</a></p>
 </BODY>
 
 </HTML>

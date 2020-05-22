@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.CSS">
+    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
     <title>Номера в !Название гостиницы!</title>
 </HEAD>
 <BODY>
@@ -22,6 +22,8 @@
         </div>
     </#list>
 </ul>
+
+<p><a href="/addHotelRoom">Добавить номер</a></p>
 
 </BODY>
 

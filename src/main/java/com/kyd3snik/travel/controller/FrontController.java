@@ -56,8 +56,8 @@ public class FrontController {
         return modelAndView;
     }
 
-    @GetMapping("/hotelRooms/{id}")
-    public ModelAndView getHotelRoom(@PathVariable("id") long id) {
+    @GetMapping("/hotels/{hotelId}/hotelRooms/{roomId}")
+    public ModelAndView getHotelRoom(@PathVariable("roomId") long id) {
         ModelAndView modelAndView = new ModelAndView("hotelRoom");
         modelAndView.addObject("hotelRoom", hotelRoomService.getById(id));
         return modelAndView;
@@ -70,9 +70,49 @@ public class FrontController {
         return modelAndView;
     }
 
+    @GetMapping("/buyingResort/{id}")
+    public ModelAndView buyingResort(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("buyingResort");
+        modelAndView.addObject("resort", resortService.getById(id));
+        return modelAndView;
+    }
+
+    @GetMapping("/buyingHotelRoom/{id}")
+    public ModelAndView buyingHotelRoom(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("buyingHotelRoom");
+        modelAndView.addObject("hotelRoom", hotelRoomService.getById(id));
+        return modelAndView;
+    }
+
+    @GetMapping("/registration")
+    public ModelAndView registration() {
+        ModelAndView modelAndView = new ModelAndView("registration");
+        modelAndView.addObject("cities", cityService.getAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/logIn")
+    public ModelAndView logIn() {
+        return new ModelAndView("logIn");
+    }
+
+    //TODO: Сделать нормальную версию с доступом в зависимости от авторизации
+    @GetMapping("/personalAccount")
+    public ModelAndView getPersonalAccount() {
+        ModelAndView modelAndView = new ModelAndView("personalAccount");
+        User user = new User(1, "First name", "Last name", "Middle name", new Date(243423123), true, false,
+                "Email@gmail.com", cityService.getById(13));
+        modelAndView.addObject("user", user);
+        return modelAndView;
+    }
+
     @GetMapping("/main")
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView("mainPage");
+        return getResortsSearchParameters(modelAndView);
+    }
+
+    private ModelAndView getResortsSearchParameters(ModelAndView modelAndView) {
         modelAndView.addObject("entertainments", List.of(Entertainment.values()));
         modelAndView.addObject("facilities", List.of((Facility.values())));
         modelAndView.addObject("cities", cityService.getAll());
@@ -81,7 +121,7 @@ public class FrontController {
         return modelAndView;
     }
 
-    @PostMapping("/main")
+    @PostMapping("/searchResult")
     public ModelAndView search(@RequestParam MultiValueMap<String, String> paramMap) {
         int minCost = Integer.parseInt(paramMap.get("minCost").get(0));
         int maxCost = Integer.parseInt(paramMap.get("maxCost").get(0));
@@ -117,7 +157,7 @@ public class FrontController {
                 .map(Entertainment::valueOf)
                 .collect(Collectors.toList());
 
-        int minStar = Integer.parseInt(paramMap.get("minStar").get(0));
+        byte minStar = Byte.parseByte(paramMap.get("minStar").get(0));
 
         List<Facility> facilities = paramMap.keySet().stream()
                 .filter(key -> key.startsWith("facility"))
@@ -128,17 +168,16 @@ public class FrontController {
         ModelAndView modelAndView = new ModelAndView("searchResult");
         List<Resort> resorts = new ArrayList<Resort>(resortService.search(minCost, maxCost,
                 minDuration, maxDuration, startDate,
-                sortType));
+                sortType, tags, countries, cities, entertainments, minStar, facilities));
 
         modelAndView.addObject("resorts", resorts);
         return modelAndView;
     }
 
     @GetMapping("/searchResult")
-    public ModelAndView getSearchResult(List<Resort> resorts) {
+    public ModelAndView getSearchResult() {
         ModelAndView modelAndView = new ModelAndView("searchResult");
-        modelAndView.addObject("resorts", resorts);
-        return modelAndView;
+        return getResortsSearchParameters(modelAndView);
     }
 
     @GetMapping("/cities")
@@ -174,6 +213,44 @@ public class FrontController {
     public ModelAndView getResorts() {
         ModelAndView modelAndView = new ModelAndView("resorts");
         modelAndView.addObject("resorts", resortService.getAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/addCountry")
+    public ModelAndView addCountry() {
+        return new ModelAndView("addCountry");
+    }
+
+    @GetMapping("/addCity")
+    public ModelAndView addCity() {
+        ModelAndView modelAndView = new ModelAndView("addCity");
+        modelAndView.addObject("countries", countryService.getAll());
+        modelAndView.addObject("entertainments", List.of(Entertainment.values()));
+        return modelAndView;
+    }
+
+    @GetMapping("/addHotel")
+    public ModelAndView addHotel() {
+        ModelAndView modelAndView = new ModelAndView("addHotel");
+        modelAndView.addObject("cities", cityService.getAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/addHotelRoom")
+    public ModelAndView addHotelRoom() {
+        ModelAndView modelAndView = new ModelAndView("addHotelRoom");
+        modelAndView.addObject("hotels", hotelService.getAll());
+        modelAndView.addObject("facilities", List.of(Facility.values()));
+        return modelAndView;
+    }
+
+    @GetMapping("/addResort")
+    public ModelAndView addResort() {
+        ModelAndView modelAndView = new ModelAndView("addResort");
+        modelAndView.addObject("hotels", hotelService.getAll());
+        modelAndView.addObject("cities", cityService.getAll());
+        modelAndView.addObject("tags", tagService.getAll());
+        modelAndView.addObject("hotelRooms", hotelRoomService.getAll());
         return modelAndView;
     }
 }

@@ -64,6 +64,15 @@ ul {
     margin-top: 5px;
 }
 
-div {
-    margin-bottom: 70px;
+ul div {
+    border-width: 3px;
+    border-radius: 30px;
+    border-color: darkgoldenrod;
+    margin: 20px;
+    padding: 20px;
+    border-style: solid;
+}
+
+button {
+    padding: 10px;
 }

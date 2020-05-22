@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.CSS">
+    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
     <title>Курорты</title>
 </HEAD>
 <BODY>
@@ -27,10 +27,12 @@
             <p>Дата отправления: ${resort.startDate?string('dd.MM.yyyy')}</p>
             <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
-            <button class="BuyingBtn">Купить билеты</button>
+            <a href="/buyingResort/${resort.id}">Купить билеты</a>
         </div>
     </#list>
 </ul>
+
+<p><a href="/addResort">Добавить курорт</a></p>
 </BODY>
 
 </HTML>
