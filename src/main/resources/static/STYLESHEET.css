@@ -1,0 +1,78 @@
+
+body {
+    margin-left: 45px;
+    margin-right: 40px;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    font-family: "Times New Roman", serif;
+    background-image: url(back_desert.jpg);
+    background-size: 100%;
+}
+
+.searchPanelList li {
+    display: inline;
+    margin-right: 15px;
+}
+
+.searchPanelList li p span {
+    font-weight: bold;
+}
+
+p {
+    margin-bottom: 20px;
+    text-indent: 0px;
+    text-align: left;
+    font-size: 14pt;
+}
+
+.center {
+    text-align: center;
+    text-indent: 0px;
+}
+
+.medium_font {
+    font-size: 18pt;
+}
+
+.big_font {
+    font-size: 24pt;
+}
+
+.margin_top {
+    margin-top: 50px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+ol {
+    font-size: 14pt;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+
+ul {
+    list-style-type: disc;
+    font-size: 14pt;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}
+
+ul div {
+    border-width: 3px;
+    border-radius: 30px;
+    border-color: darkgoldenrod;
+    margin: 20px;
+    padding: 20px;
+    border-style: solid;
+}
+
+button {
+    padding: 10px;
+}
