@@ -25,15 +25,20 @@ public class FrontController {
     private TagService tagService;
     private HotelService hotelService;
     private HotelRoomService hotelRoomService;
+    private FacilityService facilityService;
+    private EntertainmentService entertainmentService;
 
     public FrontController(CityService cityService, CountryService countryService, ResortService resortService,
-                           TagService tagService, HotelService hotelService, HotelRoomService hotelRoomService) {
+                           TagService tagService, HotelService hotelService, HotelRoomService hotelRoomService,
+                           FacilityService facilityService, EntertainmentService entertainmentService) {
         this.cityService = cityService;
         this.countryService = countryService;
         this.resortService = resortService;
         this.tagService = tagService;
         this.hotelService = hotelService;
         this.hotelRoomService = hotelRoomService;
+        this.entertainmentService = entertainmentService;
+        this.facilityService = facilityService;
     }
 
     @GetMapping("/cities/{id}")
@@ -93,6 +98,15 @@ public class FrontController {
         return getResortsSearchParameters(modelAndView);
     }
 
+    private ModelAndView getResortsSearchParameters(ModelAndView modelAndView) {
+        modelAndView.addObject("entertainments", entertainmentService.getAll());
+        modelAndView.addObject("facilities", facilityService.getAll());
+        modelAndView.addObject("cities", cityService.getAll());
+        modelAndView.addObject("countries", countryService.getAll());
+        modelAndView.addObject("tags", tagService.getAll());
+        return modelAndView;
+    }
+
     @PostMapping("/searchResult")
     public ModelAndView search(@RequestParam HashMap<String, String> params, Authentication auth) {
         int personCount = Integer.parseInt(params.get("personCount"));
@@ -133,13 +147,15 @@ public class FrontController {
         List<EntertainmentOld> entertainments = params.keySet().stream()
                 .filter(key -> key.startsWith("entertainment"))
                 .map(countryKey -> countryKey.substring(13))
-                .map(EntertainmentOld::valueOf)
+                .map(Integer::valueOf)
+                .map(entertainmentService::getById)
                 .collect(Collectors.toList());
 
         List<FacilityOld> facilities = params.keySet().stream()
                 .filter(key -> key.startsWith("facility"))
                 .map(countryKey -> countryKey.substring(8))
-                .map(FacilityOld::valueOf)
+                .map(Integer::valueOf)
+                .map(facilityService::getById)
                 .collect(Collectors.toList());
 
         ModelAndView modelAndView = new ModelAndView("searchResult");
@@ -235,7 +251,7 @@ public class FrontController {
     public ModelAndView addCity() {
         ModelAndView modelAndView = new ModelAndView("addCity");
         modelAndView.addObject("countries", countryService.getAll());
-        modelAndView.addObject("entertainments", List.of(EntertainmentOld.values()));
+        modelAndView.addObject("entertainments", entertainmentService.getAll());
         return modelAndView;
     }
 
@@ -250,7 +266,7 @@ public class FrontController {
     public ModelAndView addHotelRoom() {
         ModelAndView modelAndView = new ModelAndView("addHotelRoom");
         modelAndView.addObject("hotels", hotelService.getAll());
-        modelAndView.addObject("facilities", List.of(FacilityOld.values()));
+        modelAndView.addObject("facilities", facilityService.getAll());
         return modelAndView;
     }
 
@@ -278,4 +294,3 @@ public class FrontController {
         return modelAndView;
     }
 }
-

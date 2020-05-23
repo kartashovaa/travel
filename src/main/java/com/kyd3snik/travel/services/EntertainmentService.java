@@ -28,10 +28,10 @@ public class EntertainmentService {
         return entertainmentRepository.findAll();
     }
 
-    public void update(Entertainment entertainment1) {
-        boolean exists = entertainmentRepository.existsById(entertainment1.getId());
+    public void update(Entertainment entertainment) {
+        boolean exists = entertainmentRepository.existsById(entertainment.getId());
         if (exists) {
-            entertainmentRepository.save(entertainment1);
+            entertainmentRepository.save(entertainment);
         } else {
             throw new EntityNotFoundException("Entertainment not found!");
         }

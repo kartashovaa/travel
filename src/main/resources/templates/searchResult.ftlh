@@ -5,7 +5,7 @@
     <title>Результаты поиска</title>
 </HEAD>
 <BODY>
-
+<h3><a href="/main">Вернуться на главную</a></h3>
 <div>
     <#if isUserAuthenticated>
         <a href="/logout" class="ExitBtn">Выйти</a>
@@ -106,7 +106,7 @@
                 <p><span>Необходимые развлечения</span>
                     <#list entertainments as entertainment>
                         <input type="checkbox"
-                               name="entertainment${entertainment.data.name()}"
+                               name="entertainment${entertainment.data.id}"
                                <#if entertainment.selected>checked</#if>>${entertainment.data.title}</input>
                     </#list>
                 </p>
@@ -119,7 +119,7 @@
             <li>
                 <p><span>Необходимые удобства</span>
                     <#list facilities as facility>
-                        <input type="checkbox" name="facility${facility.data.name()}"
+                        <input type="checkbox" name="facility${facility.data.id}"
                                <#if facility.selected>checked</#if>>${facility.data.title}</input>
                     </#list>
                 </p>

@@ -5,7 +5,7 @@
     <title>${resort.title}</title>
 </HEAD>
 <BODY>
-
+<h3><a href="/main">Вернуться на главную</a></h3>
 <h2>${resort.title}</h2>
 
 <p><a href="/hotels/${resort.hotel.id}">Гостиница ${resort.hotel.title} ${resort.hotel.stars} звезд</a></p>

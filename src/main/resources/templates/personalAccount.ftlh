@@ -5,6 +5,7 @@
     <title>Личный кабинет</title>
 </HEAD>
 <BODY>
+<h3><a href="/main">Вернуться на главную</a></h3>
 <a href="/logout" class="ExitBtn">Выйти</a>
 <h2>Личный кабинет</h2>
 <p>Здравствуйте, ${user.firstName} ${user.middleName}!</p>

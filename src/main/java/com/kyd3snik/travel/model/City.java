@@ -18,7 +18,6 @@ public class City {
     private String title;
     @ManyToOne
     private Country country;
-    @Enumerated
-    @ElementCollection
-    private List<EntertainmentOld> entertainments;
+    @ManyToMany
+    private List<Entertainment> entertainments;
 }

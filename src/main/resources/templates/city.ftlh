@@ -5,7 +5,7 @@
     <title>${city.title}</title>
 </HEAD>
 <BODY>
-
+<h3><a href="/main">Вернуться на главную</a></h3>
 <h2>${city.title}</h2>
 
 <p>Список развлечений:</p>
