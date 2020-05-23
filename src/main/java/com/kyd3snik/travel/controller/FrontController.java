@@ -110,7 +110,7 @@ public class FrontController {
         try {
             startDate = new SimpleDateFormat("yyyy-MM-dd").parse(params.get("startDate"));
         } catch (ParseException e) {
-            e.printStackTrace();
+            startDate = DateUtil.getDate(2000, 12, 12);
         }
         SortType sortType = SortType.valueOf(params.get("sortType"));
         byte minStar = Byte.parseByte(params.get("minStar"));
@@ -278,8 +278,8 @@ public class FrontController {
     }
 
     private ModelAndView getResortsSearchParameters(ModelAndView modelAndView) {
-        modelAndView.addObject("entertainments", List.of(EntertainmentOld.values()));
-        modelAndView.addObject("facilities", List.of((FacilityOld.values())));
+        modelAndView.addObject("entertainments", entertainmentService.getAll());
+        modelAndView.addObject("facilities", facilityService.getAll());
         modelAndView.addObject("cities", cityService.getAll());
         modelAndView.addObject("countries", countryService.getAll());
         modelAndView.addObject("tags", tagService.getAll());
