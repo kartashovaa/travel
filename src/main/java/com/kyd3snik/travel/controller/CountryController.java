@@ -1,6 +1,8 @@
 package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.Country;
+import com.kyd3snik.travel.services.AuthService;
+import com.kyd3snik.travel.services.CityService;
 import com.kyd3snik.travel.services.CountryService;
 import com.kyd3snik.travel.services.ResortService;
 import org.springframework.stereotype.Controller;
@@ -15,16 +17,20 @@ public class CountryController {
 
     private final CountryService countryService;
     private final ResortService resortService;
+    private final CityService cityService;
 
-    public CountryController(CountryService countryService, ResortService resortService) {
+    public CountryController(CountryService countryService, ResortService resortService, CityService cityService) {
         this.countryService = countryService;
         this.resortService = resortService;
+        this.cityService = cityService;
     }
 
     @GetMapping
     public ModelAndView getCountries() {
         ModelAndView modelAndView = new ModelAndView("countries");
         modelAndView.addObject("countries", countryService.getAll());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
     }
 
@@ -34,6 +40,8 @@ public class CountryController {
         Country country = countryService.getById(id);
         modelAndView.addObject("country", country);
         modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
+        modelAndView.addObject("cities", cityService.getAllCitiesInCountry(country));
+
         return modelAndView;
     }
 

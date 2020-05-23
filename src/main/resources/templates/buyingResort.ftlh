@@ -6,6 +6,14 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<#if isSuccessful??>
+    <h3 style="color: #00ff00">Путевка успешно офомлена</h3>
+</#if>
+
+<#if errorMessage??>
+    <h3 style="color: #ff0000">${errorMessage}</h3>
+</#if>
+
 <h1>Оформление покупки:</h1>
 <h2>Данные о курорте:</h2>
 <h3>${resort.title}</h3>
@@ -33,10 +41,8 @@
             <button type="submit">Совершить покупку</button>
         </form>
     <#else >
-        <h3>Для покупки билета нужно войти в аккаунт!</h3>
+        <h3 style="color: #ff0000">Для покупки билета нужно войти в аккаунт!</h3>
     </#if>
-
-
 </div>
 </BODY>
 

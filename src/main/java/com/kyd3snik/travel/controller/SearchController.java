@@ -4,7 +4,6 @@ import com.kyd3snik.travel.base.SelectableData;
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.services.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +41,12 @@ public class SearchController {
         this.facilityService = facilityService;
     }
 
+    @GetMapping("/search")
+    public ModelAndView getSearchResult() {
+        ModelAndView modelAndView = new ModelAndView("searchResult");
+        return getResortsSearchParameters(modelAndView);
+    }
+
     @PostMapping("/search")
     public ModelAndView search(
             @RequestParam("personCount") int personCount,
@@ -53,8 +58,7 @@ public class SearchController {
             @DateTimeFormat(pattern = "yyyy-MM-dd")
             @RequestParam("startDate") Date startDate,
             @RequestParam("sortType") SortType sortType,
-            @RequestParam HashMap<String, String> params,
-            Authentication auth
+            @RequestParam HashMap<String, String> params
     ) {
         List<Tag> selectedTags = getSelectedTagsFromParams(params);
         List<Country> selectedCountries = getSelectedCountriesFromParams(params);
@@ -81,18 +85,11 @@ public class SearchController {
         List<Resort> resorts = resortService.search(searchModel);
         ModelAndView modelAndView = new ModelAndView("searchResult");
         restoreSearchFields(modelAndView, searchModel);
-        modelAndView.addObject("isUserAuthenticated", auth != null);
+        modelAndView.addObject("isUserAuthenticated", AuthService.isAuthenticated());
         modelAndView.addObject("resorts", resorts);
 
         return modelAndView;
     }
-
-    @GetMapping("/search")
-    public ModelAndView getSearchResult() {
-        ModelAndView modelAndView = new ModelAndView("searchResult");
-        return getResortsSearchParameters(modelAndView);
-    }
-
 
     private List<Tag> getSelectedTagsFromParams(HashMap<String, String> params) {
         return params.keySet().stream()

@@ -1,6 +1,5 @@
 package com.kyd3snik.travel.configuration;
 
-import com.kyd3snik.travel.model.User;
 import com.kyd3snik.travel.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.userDetailsService(authService)
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**/add").hasRole(User.ROLE_MODERATOR)
+//                .antMatchers("/**/add").hasRole(User.ROLE_MODERATOR)
                 .antMatchers("/profile").authenticated()
                 .antMatchers("/**").permitAll()
                 .and()

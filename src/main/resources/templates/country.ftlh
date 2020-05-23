@@ -12,7 +12,9 @@
 
 <a>Города:</a>
 <ul>
-    <li><a>!Название города!</a></li>
+    <#list cities as city>
+        <li><a>${city.title}</a></li>
+    </#list>
 </ul>
 
 <p>дата начала курорта</p>
@@ -33,7 +35,7 @@
                             </#list>
                         </ul>
                     </li>
-                    <li><a>${resort.hotel}</a></li>
+                    <li><a>${resort.hotel.title}</a></li>
                     <li>Дата начала курорта: ${resort.startDate?date}</li>
                     <li>Дата окончания курорта: ${resort.endDate?date}</li>
                 </ul>

@@ -4,10 +4,7 @@ import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Country;
 import com.kyd3snik.travel.model.Entertainment;
 import com.kyd3snik.travel.repository.HotelRepository;
-import com.kyd3snik.travel.services.CityService;
-import com.kyd3snik.travel.services.CountryService;
-import com.kyd3snik.travel.services.EntertainmentService;
-import com.kyd3snik.travel.services.ResortService;
+import com.kyd3snik.travel.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,6 +42,8 @@ public class CityController {
     public ModelAndView getCities() {
         ModelAndView modelAndView = new ModelAndView("cities");
         modelAndView.addObject("cities", cityService.getAll());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
     }
 

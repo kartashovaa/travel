@@ -6,8 +6,12 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
-<p>Гостиницы</p>
+<#if isModerator>
+    <p><a href="/hotels/add">Добавить отель</a></p>
+    <p><a href="/hotelRooms/add">Добавить номер</a></p>
+</#if>
 
+<p>Гостиницы</p>
 <ul>
     <#list hotels as hotel>
         <div>
@@ -22,8 +26,6 @@
     </#list>
 </ul>
 
-<p><a href="/hotels/add">Добавить отель</a></p>
-<p><a href="/hotelRooms/add">Добавить номер</a></p>
 
 </BODY>
 

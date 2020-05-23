@@ -1,6 +1,7 @@
 package com.kyd3snik.travel.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +22,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class User implements UserDetails {
     private static String ROLE_PREFIX = "ROLE_";
     public static String ROLE_USER = "USER";
@@ -36,6 +38,7 @@ public class User implements UserDetails {
     private boolean hasInternationalPassport;
     private String email;
     private String password;
+    private float balance;
 
     private String role;
     @ManyToOne
@@ -45,6 +48,10 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(ROLE_PREFIX + role));
+    }
+
+    public boolean isModerator() {
+        return role.equals(ROLE_MODERATOR);
     }
 
     @Override

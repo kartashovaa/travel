@@ -6,8 +6,10 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<#if isModerator>
+    <p><a href="/resorts/add">Добавить курорт</a></p>
+</#if>
 <h1>Курорты</h1>
-
 <ul>
     <#list resorts as resort>
         <div>
@@ -33,7 +35,6 @@
     </#list>
 </ul>
 
-<p><a href="/resorts/add">Добавить курорт</a></p>
 </BODY>
 
 </HTML>

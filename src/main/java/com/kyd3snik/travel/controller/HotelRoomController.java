@@ -57,5 +57,4 @@ public class HotelRoomController {
         hotelService.addHotelRoomToHotel(hotel, hotelRoom);
         return "redirect:/hotelRooms/add";
     }
-
 }

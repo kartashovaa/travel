@@ -1,5 +1,7 @@
 package com.kyd3snik.travel.services;
 
+import com.kyd3snik.travel.model.Resort;
+import com.kyd3snik.travel.model.ResortTransaction;
 import com.kyd3snik.travel.model.User;
 import com.kyd3snik.travel.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -10,10 +12,12 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TransactionService transactionService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, TransactionService transactionService) {
         this.userRepository = userRepository;
+        this.transactionService = transactionService;
     }
 
     public void addUser(User user) {
@@ -39,5 +43,23 @@ public class UserService {
 
     public void delete(long id) {
         userRepository.deleteById(id);
+    }
+
+    public void buyResort(Resort resort) {
+        User user = AuthService.getUser();
+        if (user == null)
+            throw new IllegalStateException("Пользователь не авторизован!");
+        if (user.getBalance() < resort.getCost())
+            throw new IllegalStateException("Не достаточно средств на счету!");
+
+        user.setBalance(user.getBalance() - resort.getCost());
+        userRepository.save(user);
+        transactionService.save(new ResortTransaction(0, user, resort));
+    }
+
+    public void refill() {
+        User user = AuthService.getUser();
+        user.setBalance(10000);
+        userRepository.save(user);
     }
 }

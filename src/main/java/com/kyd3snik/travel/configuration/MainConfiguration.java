@@ -1,29 +1,17 @@
 package com.kyd3snik.travel.configuration;
 
-import com.kyd3snik.travel.controller.AuthInterceptor;
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.repository.*;
 import com.kyd3snik.travel.util.DateUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Configuration
-class MainConfiguration implements WebMvcConfigurer {
-
-    @Autowired
-    AuthInterceptor authInterceptor;
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor);
-    }
-
+class MainConfiguration {
     @Bean
     public CommandLineRunner test(HotelRepository hotelRepository, HotelRoomRepository hotelRoomRepository,
                                   ResortRepository resortRepository, TagRepository tagRepository,
@@ -80,6 +68,8 @@ class MainConfiguration implements WebMvcConfigurer {
             Resort resort1 = resortRepository.save(new Resort(0, "Поездка в Москву", "Непродолжительное путешествие в столицу России с экскурсией", city4, city1, List.of(tag6, tag7), hotel1, 3, DateUtil.getDate(1990, 12, 23), DateUtil.getDate(1990, 12, 23), 8300, (byte) 1, false));
             Resort resort2 = resortRepository.save(new Resort(0, "Поездка в столицу Марокко", "Увлекательное путешествие", city1, city5, List.of(tag6, tag7, tag2, tag5), hotel4, 7, DateUtil.getDate(1990, 12, 23), DateUtil.getDate(1990, 12, 23), 52000, (byte) 2, true));
             Resort resort3 = resortRepository.save(new Resort(0, "Отпуск в Турции", "Великолепный отдых на берегу Эгейского моря", city1, city7, List.of(tag2, tag5), hotel5, 5, DateUtil.getDate(1990, 12, 23), DateUtil.getDate(1990, 12, 23), 45000, (byte) 2, true));
+            User user1 = userRepository.save(new User(0, "First name", "Last name", "Middle name", Calendar.getInstance().getTime(), true, true, "email@mail.com", "password", 0, User.ROLE_MODERATOR, city1, false));
+            User user2 = userRepository.save(new User(0, "First name another", "Last name another", "Middle name another", Calendar.getInstance().getTime(), true, false, "example@mail.com", "pass", 0, User.ROLE_USER, city2, true));
         };
     }
 

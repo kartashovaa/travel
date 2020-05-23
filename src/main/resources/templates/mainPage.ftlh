@@ -17,11 +17,6 @@
 </div>
 
 <div>
-    <input type="text">
-    <input type="button" value="поиск">
-</div>
-
-<div>
     <h3><a href="/resorts">Посмотреть все курорты</a></h3>
     <h3><a href="/countries">Посмотреть все страны</a></h3>
     <h3><a href="/cities">Посмотреть все города</a></h3>

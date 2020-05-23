@@ -24,19 +24,23 @@ public class ResortController {
     private final CityService cityService;
     private final TagService tagService;
     private final HotelRoomService hotelRoomService;
+    private final UserService userService;
 
-    public ResortController(ResortService resortService, HotelService hotelService, CityService cityService, TagService tagService, HotelRoomService hotelRoomService) {
+    public ResortController(ResortService resortService, HotelService hotelService, CityService cityService, TagService tagService, HotelRoomService hotelRoomService, UserService userService) {
         this.resortService = resortService;
         this.hotelService = hotelService;
         this.cityService = cityService;
         this.tagService = tagService;
         this.hotelRoomService = hotelRoomService;
+        this.userService = userService;
     }
 
     @GetMapping
     public ModelAndView getResorts() {
         ModelAndView modelAndView = new ModelAndView("resorts");
         modelAndView.addObject("resorts", resortService.getAll());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
     }
 
@@ -51,6 +55,23 @@ public class ResortController {
     public ModelAndView buyingResort(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("buyingResort");
         modelAndView.addObject("resort", resortService.getById(id));
+        modelAndView.addObject("isUserAuthenticated", AuthService.isAuthenticated());
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/buy")
+    public ModelAndView buyingResortPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("buyingResort");
+        modelAndView.addObject("resort", resortService.getById(id));
+        modelAndView.addObject("isUserAuthenticated", AuthService.isAuthenticated());
+
+        Resort resort = resortService.getById(id);
+        try {
+            userService.buyResort(resort);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
         return modelAndView;
     }
 
@@ -65,7 +86,7 @@ public class ResortController {
     }
 
     @PostMapping("/add")
-    public String addResort(
+    public ModelAndView addResort(
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("departureCity") long idDepartureCity,
@@ -79,6 +100,7 @@ public class ResortController {
             @RequestParam("personCount") byte personCount,
             @RequestParam("needForForeignPassport") String needForForeignPassport,
             @RequestParam HashMap<String, String> params) {
+        ModelAndView modelAndView = new ModelAndView("addResort");
         City departureCity = cityService.getById(idDepartureCity);
         City arrivalCity = cityService.getById(idArrivalCity);
         Hotel hotel = hotelService.getById(idHotel);
@@ -93,6 +115,7 @@ public class ResortController {
 
         resortService.addResort(new Resort(0, title, description, departureCity, arrivalCity, tags, hotel,
                 DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount, needPassport));
-        return "redirect:/resorts/add";
+        modelAndView.addObject("isSuccessful", true);
+        return modelAndView;
     }
 }

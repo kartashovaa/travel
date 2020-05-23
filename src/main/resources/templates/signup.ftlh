@@ -9,22 +9,25 @@
 
 <h2>Регистрация</h2>
 <form action="/signup" method="POST">
+    <#if errorMessage??>
+        <h2 style="color: #ff0000">${errorMessage}</h2>
+    </#if>
     <h3>Введите Ваши данные:</h3>
     <p>
         <label>Фамилия</label>
-        <input type="text" name="lastName" required>
+        <input type="text" name="lastName">
     </p>
     <p>
         <label>Имя</label>
-        <input type="text" name="firstName" required>
+        <input type="text" name="firstName">
     </p>
     <p>
         <label>Отчество</label>
-        <input type="text" name="middleName" required>
+        <input type="text" name="middleName">
     </p>
     <p>
         <label>Дата рождения</label>
-        <input type="date" name="birthday" required>
+        <input type="date" name="birthday">
     </p>
     <label>Пол</label>
     <p>
@@ -46,16 +49,16 @@
     </p>
     <p>
         <label>Email</label>
-        <input type="text" name="email" required>
+        <input type="text" name="email">
     </p>
     <p>
         <label>Пароль</label>
-        <input type="password" name="password" required>
+        <input type="password" name="password">
     </p>
 
     <p>
         <label>Подтвердите пароль</label>
-        <input type="password" name="confirmPassword" required>
+        <input type="password" name="confirmPassword">
     </p>
     <p>
         <button type="submit">Зарегистрироваться</button>

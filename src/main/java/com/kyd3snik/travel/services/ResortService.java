@@ -8,7 +8,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,23 +73,7 @@ public class ResortService {
                                 SortType sort, List<Tag> necessaryTags, List<Country> acceptableCountries,
                                 List<City> acceptableCities, List<Entertainment> necessaryEntertainments,
                                 int minStar, List<Facility> necessaryFacilities) {
-        TreeSet<Resort> res;
-        switch (sort) {
-            case COST_DOWN:
-                res = new TreeSet<>((o1, o2) -> Float.compare(o2.getCost(), o1.getCost()));
-                break;
-            case DURATION_UP:
-                res = new TreeSet<>(Comparator.comparingInt(Resort::getDurationInDays));
-                break;
-            case DURATION_DOWN:
-                res = new TreeSet<>(Comparator.comparingDouble(Resort::getCost));
-                break;
-            case COST_UP:
-            default:
-                res = new TreeSet<>((o1, o2) -> Integer.compare(o2.getDurationInDays(), o1.getDurationInDays()));
-        }
-        res.addAll(resortRepository.findAll());
-        return res.stream()
+        return resortRepository.findAll().stream()
                 .filter((resort) -> resort.getCost() >= minCost && resort.getCost() <= maxCost)
                 .filter((resort) -> resort.getDurationInDays() >= minDuration && resort.getDurationInDays() <= maxDuration)
                 .filter((resort) -> resort.getStartDate().after(startDate))
@@ -99,7 +82,26 @@ public class ResortService {
                 .filter((resort) -> acceptableCities.contains(resort.getArrivalCity()))
                 .filter((resort) -> resort.getHotel().getCity().getEntertainments().containsAll(necessaryEntertainments))
                 .filter((resort) -> resort.getHotel().getStars() >= minStar)
-//                .filter((resort) -> resort.getHotelRoom().getFacilities().containsAll(necessaryFacilities))
+                .filter((resort) -> getAllFacilities(resort.getHotel()).containsAll(necessaryFacilities))
+                .sorted(getCoparator(sort))
                 .collect(Collectors.toList());
+    }
+
+    private List<Facility> getAllFacilities(Hotel hotel) {
+        return hotel.getRooms().stream().flatMap(room -> room.getFacilities().stream()).collect(Collectors.toList());
+    }
+
+    private Comparator<? super Resort> getCoparator(SortType sort) {
+        switch (sort) {
+            case COST_DOWN:
+                return (o1, o2) -> Float.compare(o2.getCost(), o1.getCost());
+            case DURATION_UP:
+                return Comparator.comparingInt(Resort::getDurationInDays);
+            case DURATION_DOWN:
+                return (o1, o2) -> Integer.compare(o2.getDurationInDays(), o1.getDurationInDays());
+            case COST_UP:
+            default:
+                return Comparator.comparingDouble(Resort::getCost);
+        }
     }
 }

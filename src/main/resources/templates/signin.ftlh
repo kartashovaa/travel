@@ -5,7 +5,13 @@
     <title>Вход в аккаунт</title>
 </HEAD>
 <BODY>
+<#if RequestParameters.error??>
+    <h3 style="color: #ff0000">Пользователь не найден!</h3>
+</#if>
 
+<#if RequestParameters.logout??>
+    <h3 style="color: #00ff00">Вы успешно вышли!</h3>
+</#if>
 <h2>Вход в аккаунт</h2>
 <form action="/signin" method="POST">
     <p>Email</p>

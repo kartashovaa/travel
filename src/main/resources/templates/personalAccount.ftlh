@@ -18,10 +18,13 @@
     <li>Email: ${user.email}</li>
     <li>Город: ${user.city.title}</li>
     <li>Наличие скидки: <#if user.hasDiscount>Да<#else>Нет</#if>!</li>
+    <li>Баланс: #{user.balance}</li>
 </ul>
 <p>История заказов</p>
 <ul>
-
+    <#list transactions as transaction>
+        <li>${transaction.resort.title} Цена: (${transaction.resort.cost})</li>
+    </#list>
 </ul>
 </BODY>
 </HTML>

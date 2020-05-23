@@ -3,10 +3,7 @@ package com.kyd3snik.travel.controller;
 import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
 import com.kyd3snik.travel.model.HotelRoom;
-import com.kyd3snik.travel.services.CityService;
-import com.kyd3snik.travel.services.FacilityService;
-import com.kyd3snik.travel.services.HotelRoomService;
-import com.kyd3snik.travel.services.HotelService;
+import com.kyd3snik.travel.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,6 +31,8 @@ public class HotelController {
     public ModelAndView getHotels() {
         ModelAndView modelAndView = new ModelAndView("hotels");
         modelAndView.addObject("hotels", hotelService.getAll());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
     }
 

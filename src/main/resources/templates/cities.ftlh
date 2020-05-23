@@ -6,6 +6,11 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+
+<#if isModerator>
+    <p><a href="/cities/add">Добавить город</a></p>
+</#if>
+
 <h1>Города:</h1>
 
 <ul>
@@ -22,9 +27,6 @@
         </div>
     </#list>
 </ul>
-
-<p><a href="/cities/add">Добавить город</a></p>
-
 </BODY>
 
 </HTML>

@@ -6,6 +6,9 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<#if isModerator>
+    <p><a href="/countries/add">Добавить страну</a></p>
+</#if>
 <h1>Страны</h1>
 
 <ul>
@@ -17,8 +20,6 @@
         </div>
     </#list>
 </ul>
-
-<p><a href="/countries/add">Добавить страну</a></p>
 </BODY>
 
 </HTML>
