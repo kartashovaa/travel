@@ -96,9 +96,9 @@ public class ResortService {
             case COST_DOWN:
                 return (o1, o2) -> Float.compare(o2.getCost(), o1.getCost());
             case DURATION_UP:
-                return Comparator.comparingInt(Resort::getDurationInDays);
+                return Comparator.comparingLong(Resort::getDurationInDays);
             case DURATION_DOWN:
-                return (o1, o2) -> Integer.compare(o2.getDurationInDays(), o1.getDurationInDays());
+                return (o1, o2) -> Long.compare(o2.getDurationInDays(), o1.getDurationInDays());
             case COST_UP:
             default:
                 return Comparator.comparingDouble(Resort::getCost);
