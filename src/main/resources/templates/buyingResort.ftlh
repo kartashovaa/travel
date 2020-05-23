@@ -28,24 +28,15 @@
 <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
 <div>
-    <h3>Введите ваши данные</h3>
-    <form method="post" action="/search">
-        <p>Фамилия</p>
-        <input type="text" name="lastName" required>
-        <p>Имя</p>
-        <input type="text" name="firstName" required>
-        <p>Отчество</p>
-        <input type="text" name="middleName" required>
-        <p>Номер карты</p>
-        <input type="text" name="cardNumber" required>
-        <p>Имя владельца карты</p>
-        <input type="text" name="cardHolderName" required>
-        <p>Код cvv</p>
-        <input type="text" name="cvv" required>
-        <p>
+    <#if isUserAuthenticated>
+        <form method="post" action="/resorts/${resort.id}/buy">
             <button type="submit">Совершить покупку</button>
-        </p>
-    </form>
+        </form>
+    <#else >
+        <h3>Для покупки билета нужно войти в аккаунт!</h3>
+    </#if>
+
+
 </div>
 </BODY>
 

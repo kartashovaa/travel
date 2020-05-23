@@ -1,27 +1,29 @@
 package com.kyd3snik.travel.configuration;
 
-import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.User;
+import com.kyd3snik.travel.services.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
-
-import java.util.Calendar;
-import java.util.Collections;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    @Autowired
+    AuthService authService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.userDetailsService(authService)
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/**/add").hasRole(User.ROLE_MODERATOR)
+                .antMatchers("/profile").authenticated()
                 .antMatchers("/**").permitAll()
                 .and()
 //                .antMatchers("/", "/signup").permitAll()
@@ -33,38 +35,47 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         ;
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+    }
+
     @Bean
-    PasswordEncoder passwordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
 
     @Bean
-    UserDetailsManager securityManager() {
-        UserDetails[] users = {
-                new User(0,
-                        "First name",
-                        "Last name",
-                        "Middle name",
-                        Calendar.getInstance().getTime(),
-                        true,
-                        true,
-                        "email@mail.com",
-                        "password",
-                        new City(0, "Moscow", null, Collections.emptyList()),
-                        false),
-                new User(0,
-                        "First name another",
-                        "Last name another",
-                        "Middle name another",
-                        Calendar.getInstance().getTime(),
-                        true,
-                        false,
-                        "example@mail.com",
-                        "pass",
-                        new City(0, "Voronezh", null, Collections.emptyList()),
-                        true
-                )
-        };
-        return new InMemoryUserDetailsManager(users);
+    public UserDetailsService userDetailsService() {
+        return authService;
     }
+//    @Bean
+//    UserDetailsManager securityManager() {
+//        UserDetails[] users = {
+//                new User(0,
+//                        "First name",
+//                        "Last name",
+//                        "Middle name",
+//                        Calendar.getInstance().getTime(),
+//                        true,
+//                        true,
+//                        "email@mail.com",
+//                        "password",
+//                        new City(0, "Moscow", null, Collections.emptyList()),
+//                        false),
+//                new User(0,
+//                        "First name another",
+//                        "Last name another",
+//                        "Middle name another",
+//                        Calendar.getInstance().getTime(),
+//                        true,
+//                        false,
+//                        "example@mail.com",
+//                        "pass",
+//                        new City(0, "Voronezh", null, Collections.emptyList()),
+//                        true
+//                )
+//        };
+//        return new InMemoryUserDetailsManager(users);
+//    }
 }

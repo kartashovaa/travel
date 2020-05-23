@@ -26,7 +26,7 @@
 <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
 <!--<button class="BuyingBtn" >Купить билеты</button>-->
-<a href="/buyingResort/${resort.id}">Купить билеты</a>
+<a href="/resorts/${resort.id}/buy">Купить билеты</a>
 </BODY>
 
 </HTML>

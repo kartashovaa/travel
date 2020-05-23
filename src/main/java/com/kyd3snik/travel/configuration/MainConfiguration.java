@@ -1,16 +1,28 @@
 package com.kyd3snik.travel.configuration;
 
+import com.kyd3snik.travel.controller.AuthInterceptor;
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.repository.*;
 import com.kyd3snik.travel.util.DateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
 @Configuration
-class MainConfiguration {
+class MainConfiguration implements WebMvcConfigurer {
+
+    @Autowired
+    AuthInterceptor authInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor);
+    }
 
     @Bean
     public CommandLineRunner test(HotelRepository hotelRepository, HotelRoomRepository hotelRoomRepository,

@@ -154,7 +154,7 @@
             <p>Дата отправления: ${resort.startDate?string('dd.MM.yyyy')}</p>
             <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
-            <a href="/buyingResort/${resort.id}">Купить билеты</a>
+            <a href="/resorts/${resort.id}/buy">Купить билеты</a>
         </#list >
     </ul>
 </div>

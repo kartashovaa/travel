@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
@@ -21,6 +22,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
+    private static String ROLE_PREFIX = "ROLE_";
+    public static String ROLE_USER = "USER";
+    public static String ROLE_MODERATOR = "MODERATOR";
     @Id
     @GeneratedValue
     private long id;
@@ -32,13 +36,15 @@ public class User implements UserDetails {
     private boolean hasInternationalPassport;
     private String email;
     private String password;
+
+    private String role;
     @ManyToOne
     private City city;
     private boolean hasDiscount;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return Collections.singletonList(new SimpleGrantedAuthority(ROLE_PREFIX + role));
     }
 
     @Override

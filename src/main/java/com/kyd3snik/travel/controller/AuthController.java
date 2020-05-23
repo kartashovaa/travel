@@ -4,15 +4,11 @@ import com.kyd3snik.travel.model.User;
 import com.kyd3snik.travel.model.request.SignUpRequest;
 import com.kyd3snik.travel.services.AuthService;
 import com.kyd3snik.travel.services.CityService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AuthController {
@@ -27,14 +23,14 @@ public class AuthController {
 
 
     @GetMapping("/signin")
-    String signin(Authentication auth) {
-        return auth == null ? "signin" : "redirect:/";
+    String signin() {
+        return AuthService.isAuthorized() ? "redirect:/" : "signin";
     }
 
     @GetMapping("/signup")
-    ModelAndView signup(Authentication auth) {
+    ModelAndView signup() {
         ModelAndView modelAndView = new ModelAndView("signup");
-        if (auth != null) {
+        if (AuthService.isAuthorized()) {
             modelAndView.setView(new RedirectView("/"));
             return modelAndView;
 
@@ -44,10 +40,10 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    ModelAndView signup(HttpServletRequest request, SignUpRequest user) {
+    ModelAndView signup(SignUpRequest user) {
         ModelAndView modelAndView = new ModelAndView(new RedirectView("/successfulRegistration"));
         try {
-            authService.signUpUser(user, new WebAuthenticationDetails(request));
+            authService.signUpUser(user);
         } catch (Exception ex) {
             modelAndView.setViewName("signup");
             modelAndView.addObject("errorMessage", ex.getMessage());
@@ -57,9 +53,9 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    public ModelAndView profile(Authentication auth) {
+    public ModelAndView profile() {
         ModelAndView modelAndView = new ModelAndView("personalAccount");
-        User user = authService.getUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+        User user = AuthService.getUser();
         modelAndView.addObject("user", user);
         return modelAndView;
     }
@@ -68,5 +64,4 @@ public class AuthController {
     public String success() {
         return "successfulRegistration";
     }
-
 }
