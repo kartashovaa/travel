@@ -12,4 +12,9 @@ public class DateUtil {
     public static Date getToday() {
         return Calendar.getInstance().getTime();
     }
+
+    //TODO: Реализовать метод
+    public static int getPeriod(Date start, Date end) {
+        return 3;
+    }
 }

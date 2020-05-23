@@ -30,4 +30,8 @@ public class Hotel {
     public int getRoomsCount() {
         return rooms.size();
     }
+
+    public void addHotelRoom(HotelRoom hotelRoom) {
+        rooms.add(hotelRoom);
+    }
 }

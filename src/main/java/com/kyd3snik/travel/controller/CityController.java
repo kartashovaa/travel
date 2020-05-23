@@ -68,9 +68,10 @@ public class CityController {
     }
 
     @PostMapping("/add")
-    public String addCity(@RequestParam HashMap<String, String> params) {
-        String title = params.get("title");
-        long idCountry = Long.parseLong(params.get("country"));
+    public String addCity(
+            @RequestParam("title") String title,
+            @RequestParam("country") long idCountry,
+            @RequestParam HashMap<String, String> params) {
         Country country = countryService.getById(idCountry);
         List<Entertainment> entertainments = params.keySet().stream()
                 .filter(key -> key.startsWith("entertainment"))

@@ -12,7 +12,7 @@
     <p>Название</p>
     <input type="text" name="title" required>
     <p>Описание</p>
-    <input type="text" name="title" required>
+    <input type="text" name="description" required>
     <p>Город отправления</p>
     <select name="departureCity" required>
         <#list cities as city>
@@ -27,7 +27,7 @@
     </select>
     <p>Теги</p>
     <#list tags as tag>
-        <input type="checkbox" name="entertainment${tag.id}">${tag.title}</input>
+        <input type="checkbox" name="tag${tag.id}">${tag.title}</input>
     </#list>
     <p>Отель</p>
     <select name="hotel" required>
@@ -41,7 +41,7 @@
     <p>дата начала курорта</p>
     <input type="date" name="startDate" min="2020-05-16" max="2025-12-31" value="2020-05-16">
     <p>дата окончания курорта</p>
-    <input type="date" name="startDate" min="2020-05-16" max="2025-12-31" value="2020-05-16">
+    <input type="date" name="endDate" min="2020-05-16" max="2025-12-31" value="2020-05-16">
     <p>Стоимость</p>
     <input type="number" size="5" name="cost" min="0" max="1000000" value="0" required>
     <p>Количество человек</p>

@@ -1,15 +1,18 @@
 package com.kyd3snik.travel.controller;
 
+import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
+import com.kyd3snik.travel.model.HotelRoom;
 import com.kyd3snik.travel.services.CityService;
 import com.kyd3snik.travel.services.FacilityService;
 import com.kyd3snik.travel.services.HotelRoomService;
 import com.kyd3snik.travel.services.HotelService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/hotels")
@@ -86,5 +89,17 @@ public class HotelController {
         ModelAndView modelAndView = new ModelAndView("hotel");
         modelAndView.addObject("hotel", hotelService.getById(id));
         return modelAndView;
+    }
+
+    @PostMapping("/add")
+    public String addHotel(
+            @RequestParam("title") String title,
+            @RequestParam("city") long idCity,
+            @RequestParam("address") String address,
+            @RequestParam("stars") byte stars,
+            @RequestParam HashMap<String, String> params) {
+        City city = cityService.getById(idCity);
+        hotelService.addHotel(new Hotel(0, title, city, address, stars, new ArrayList<HotelRoom>()));
+        return "redirect:/hotels/add";
     }
 }
