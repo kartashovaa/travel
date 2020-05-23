@@ -21,20 +21,24 @@
 
 <p>Доступные курорты в эту страну:</p>
 <ul>
-    <li><a>
-            <ul>
-                <li>!Название курорта!</li>
-                <li>!Описание курорта!</li>
-                <li>Теги:
-                    <ul>
-                        <li>!Тег!</li>
-                    </ul>
-                </li>
-                <li><a>!Название гостиницы!</a></li>
-                <li>Дата начала курорта: !Дата начала курорта!</li>
-                <li>Дата окончания курорта: !Дата окончания курорта!</li>
-            </ul>
-        </a></li>
+    <#list resorts as resort>
+        <li><a>
+                <ul>
+                    <li>${resort.title}</li>
+                    <li>${resort.description}</li>
+                    <li>Теги:
+                        <ul>
+                            <#list resort.tags as tag>
+                                <li>${tag.title}</li>
+                            </#list>
+                        </ul>
+                    </li>
+                    <li><a>${resort.hotel}</a></li>
+                    <li>Дата начала курорта: ${resort.startDate?date}</li>
+                    <li>Дата окончания курорта: ${resort.endDate?date}</li>
+                </ul>
+            </a></li>
+    </#list>
 </ul>
 
 </BODY>

@@ -1,5 +1,7 @@
 package com.kyd3snik.travel.controller;
 
+import com.kyd3snik.travel.model.Country;
+import com.kyd3snik.travel.services.CountryService;
 import com.kyd3snik.travel.services.ResortService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +13,12 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/countries")
 public class CountryController {
 
-    private final ResortService countryService;
+    private final CountryService countryService;
+    private final ResortService resortService;
 
-    public CountryController(ResortService countryService) {
+    public CountryController(CountryService countryService, ResortService resortService) {
         this.countryService = countryService;
+        this.resortService = resortService;
     }
 
     @GetMapping
@@ -27,7 +31,9 @@ public class CountryController {
     @GetMapping("/{id}")
     public ModelAndView getCountry(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("country");
-        modelAndView.addObject("country", countryService.getById(id));
+        Country country = countryService.getById(id);
+        modelAndView.addObject("country", country);
+        modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
         return modelAndView;
     }
 

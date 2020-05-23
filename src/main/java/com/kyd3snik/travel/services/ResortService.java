@@ -49,6 +49,10 @@ public class ResortService {
         resortRepository.deleteById(id);
     }
 
+    public List<Resort> getResortsInCountry(Country country) {
+        return resortRepository.findByArrivalCity_Country(country);
+    }
+
     public List<Resort> search(SearchModel searchModel) {
         //TODO: refactor this
         return getAll();
