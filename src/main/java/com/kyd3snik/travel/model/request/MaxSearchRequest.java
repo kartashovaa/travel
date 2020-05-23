@@ -1,5 +1,6 @@
-package com.kyd3snik.travel.model;
+package com.kyd3snik.travel.model.request;
 
+import com.kyd3snik.travel.model.*;
 import lombok.Data;
 
 import java.util.List;

@@ -247,6 +247,21 @@ public class FrontController {
         return modelAndView;
     }
 
+    @PostMapping("/addCity")
+    public String addCity(@RequestParam HashMap<String, String> params) {
+        String title = params.get("title");
+        long idCountry = Long.parseLong(params.get("country"));
+        Country country = countryService.getById(idCountry);
+        List<Entertainment> entertainments = params.keySet().stream()
+                .filter(key -> key.startsWith("entertainment"))
+                .map(countryKey -> countryKey.substring(13))
+                .map(Integer::valueOf)
+                .map(entertainmentService::getById)
+                .collect(Collectors.toList());
+        cityService.addCity(new City(0, title, country, entertainments));
+        return "redirect:/addCity";
+    }
+
     @GetMapping("/addHotel")
     public ModelAndView addHotel() {
         ModelAndView modelAndView = new ModelAndView("addHotel");
@@ -278,8 +293,8 @@ public class FrontController {
     }
 
     private ModelAndView getResortsSearchParameters(ModelAndView modelAndView) {
-        modelAndView.addObject("entertainments", List.of(EntertainmentOld.values()));
-        modelAndView.addObject("facilities", List.of((FacilityOld.values())));
+        modelAndView.addObject("entertainments", entertainmentService.getAll());
+        modelAndView.addObject("facilities", facilityService.getAll());
         modelAndView.addObject("cities", cityService.getAll());
         modelAndView.addObject("countries", countryService.getAll());
         modelAndView.addObject("tags", tagService.getAll());
