@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
     <title>Гостиницы</title>
 </HEAD>
 <BODY>
@@ -22,7 +22,7 @@
     </#list>
 </ul>
 
-<p><a href="/addHotel">Добавить отели</a></p>
+<p><a href="/hotels/add">Добавить отели</a></p>
 
 </BODY>
 

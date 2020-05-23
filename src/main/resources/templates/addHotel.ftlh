@@ -7,7 +7,7 @@
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
 <h3>Добавление нового отеля</h3>
-<form method="post">
+<form action="/hotels/add" method="post">
     <p>Введите данные об отеле</p>
     <p>Название отеля</p>
     <input type="text" name="title" required>

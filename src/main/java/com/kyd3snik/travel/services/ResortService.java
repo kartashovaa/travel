@@ -5,7 +5,10 @@ import com.kyd3snik.travel.repository.ResortRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,10 +49,27 @@ public class ResortService {
         resortRepository.deleteById(id);
     }
 
-    public Collection<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
-                                     SortType sort, List<Tag> necessaryTags, List<Country> acceptableCountries,
-                                     List<City> acceptableCities, List<Entertainment> necessaryEntertainments,
-                                     byte minStar, List<Facility> necessaryFacilities) {
+    public List<Resort> search(SearchModel searchModel) {
+        //TODO: refactor this
+        return getAll();
+//        return search(searchModel.getMinCost(),
+//                searchModel.getMaxCost(),
+//                searchModel.getMinDuration(),
+//                searchModel.getMaxDuration(),
+//                searchModel.getStartDate(),
+//                searchModel.getSortType(),
+//                searchModel.getNecessaryTags(),
+//                searchModel.getAcceptableCountries(),
+//                searchModel.getAcceptableCities(),
+//                searchModel.getNecessaryEntertainments(),
+//                searchModel.getMinStar(),
+//                searchModel.getNecessaryFacilities());
+    }
+
+    private List<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+                                SortType sort, List<Tag> necessaryTags, List<Country> acceptableCountries,
+                                List<City> acceptableCities, List<Entertainment> necessaryEntertainments,
+                                int minStar, List<Facility> necessaryFacilities) {
         TreeSet<Resort> res;
         switch (sort) {
             case COST_DOWN:
@@ -78,5 +98,4 @@ public class ResortService {
 //                .filter((resort) -> resort.getHotelRoom().getFacilities().containsAll(necessaryFacilities))
                 .collect(Collectors.toList());
     }
-
 }

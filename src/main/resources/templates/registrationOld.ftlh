@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.CSS">
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
     <title>Регистрация</title>
 </HEAD>
 <BODY>

@@ -17,7 +17,7 @@
 
 <#list hotel.rooms as room>
     <div>
-        <a href="/hotels/${hotel.id}/hotelRooms/${room.id}">
+        <a href="/hotels/${hotel.id}/rooms/${room.id}">
             <ul>
                 <li>Количество спальных мест: ${room.numberOfSleepingPlaces}</li>
                 <li>Удобства:

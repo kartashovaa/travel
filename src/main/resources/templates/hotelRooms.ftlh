@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
     <title>Номера в !Название гостиницы!</title>
 </HEAD>
 <BODY>

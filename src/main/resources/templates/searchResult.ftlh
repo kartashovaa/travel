@@ -23,7 +23,7 @@
 
 <div>
     <h3>Подобрать курорт:</h3>
-    <form method="post" action="/searchResult">
+    <form method="post" action="/search">
         <ul class="searchPanelList">
             <li>
                 <p><span>Количество человек</span>

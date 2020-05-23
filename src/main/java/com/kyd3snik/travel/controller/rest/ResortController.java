@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(description = "Работа с курортами")
-@RestController
+//@RestController
 @RequestMapping("/api")
 public class ResortController {
 

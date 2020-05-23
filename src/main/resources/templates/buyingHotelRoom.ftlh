@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
     <meta charset="utf-8">
-    <LINK REL="STYLESHEET" HREF="STYLESHEET.css">
+    <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">
     <title>Покупка номера</title>
 </HEAD>
 <BODY>
@@ -18,7 +18,7 @@
 </div>
 <div>
     <h3>Введите ваши данные</h3>
-    <form method="post" action="/searchResult">
+    <form method="post" action="/search">
         <p>Фамилия</p>
         <input type="text" name="lastName" required>
         <p>Имя</p>

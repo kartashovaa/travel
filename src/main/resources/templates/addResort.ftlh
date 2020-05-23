@@ -1,4 +1,4 @@
-<HTML>
+<HTML lang="en">
 <HEAD>
     <meta charset="utf-8">
     <LINK REL="STYLESHEET" HREF="/STYLESHEET.css">

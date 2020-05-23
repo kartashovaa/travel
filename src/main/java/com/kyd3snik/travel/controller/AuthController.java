@@ -57,11 +57,16 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    public ModelAndView getPersonalAccount(Authentication auth) {
+    public ModelAndView profile(Authentication auth) {
         ModelAndView modelAndView = new ModelAndView("personalAccount");
         User user = authService.getUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
         modelAndView.addObject("user", user);
         return modelAndView;
+    }
+
+    @GetMapping("/successfulRegistration")
+    public String success() {
+        return "successfulRegistration";
     }
 
 }
