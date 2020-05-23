@@ -69,7 +69,7 @@ public class ResortService {
 //                searchModel.getNecessaryFacilities());
     }
 
-    private List<Resort> search(int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
+    private List<Resort> search(SearchModel model, int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
                                 SortType sort, List<Tag> necessaryTags, List<Country> acceptableCountries,
                                 List<City> acceptableCities, List<Entertainment> necessaryEntertainments,
                                 int minStar, List<Facility> necessaryFacilities) {
@@ -82,16 +82,16 @@ public class ResortService {
                 .filter((resort) -> acceptableCities.contains(resort.getArrivalCity()))
                 .filter((resort) -> resort.getHotel().getCity().getEntertainments().containsAll(necessaryEntertainments))
                 .filter((resort) -> resort.getHotel().getStars() >= minStar)
-                .filter((resort) -> getAllFacilities(resort.getHotel()).containsAll(necessaryFacilities))
-                .sorted(getCoparator(sort))
+                .filter((resort) -> getAllFacilitiesInHotel(resort.getHotel()).containsAll(necessaryFacilities))
+                .sorted(getComparator(sort))
                 .collect(Collectors.toList());
     }
 
-    private List<Facility> getAllFacilities(Hotel hotel) {
+    private List<Facility> getAllFacilitiesInHotel(Hotel hotel) {
         return hotel.getRooms().stream().flatMap(room -> room.getFacilities().stream()).collect(Collectors.toList());
     }
 
-    private Comparator<? super Resort> getCoparator(SortType sort) {
+    private Comparator<? super Resort> getComparator(SortType sort) {
         switch (sort) {
             case COST_DOWN:
                 return (o1, o2) -> Float.compare(o2.getCost(), o1.getCost());

@@ -1,5 +1,6 @@
 package com.kyd3snik.travel.configuration;
 
+import com.kyd3snik.travel.model.User;
 import com.kyd3snik.travel.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,17 +22,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.userDetailsService(authService)
                 .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers("/**/add").hasRole(User.ROLE_MODERATOR)
+                .antMatchers("/**/add").hasRole(User.ROLE_MODERATOR)
                 .antMatchers("/profile").authenticated()
                 .antMatchers("/**").permitAll()
                 .and()
-//                .antMatchers("/", "/signup").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
                 .formLogin().loginPage("/signin").defaultSuccessUrl("/profile").permitAll()
-//                .and()
-//                .logout().permitAll()
-        ;
+                .and()
+                .logout().permitAll();
     }
 
     @Override
@@ -48,33 +45,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return authService;
     }
-//    @Bean
-//    UserDetailsManager securityManager() {
-//        UserDetails[] users = {
-//                new User(0,
-//                        "First name",
-//                        "Last name",
-//                        "Middle name",
-//                        Calendar.getInstance().getTime(),
-//                        true,
-//                        true,
-//                        "email@mail.com",
-//                        "password",
-//                        new City(0, "Moscow", null, Collections.emptyList()),
-//                        false),
-//                new User(0,
-//                        "First name another",
-//                        "Last name another",
-//                        "Middle name another",
-//                        Calendar.getInstance().getTime(),
-//                        true,
-//                        false,
-//                        "example@mail.com",
-//                        "pass",
-//                        new City(0, "Voronezh", null, Collections.emptyList()),
-//                        true
-//                )
-//        };
-//        return new InMemoryUserDetailsManager(users);
-//    }
 }

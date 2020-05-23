@@ -59,15 +59,6 @@ public class HotelController {
         return modelAndView;
     }
 
-
-//    @GetMapping("/addHotelRoom")
-//    public ModelAndView addHotelRoom() {
-//        ModelAndView modelAndView = new ModelAndView("addHotelRoom");
-//        modelAndView.addObject("hotels", hotelService.getAll());
-//        modelAndView.addObject("facilities", facilityService.getAll());
-//        return modelAndView;
-//    }
-
     @GetMapping("/{hotelId}/rooms/{roomId}")
     public ModelAndView getHotelRoom(@PathVariable("roomId") long id) {
         ModelAndView modelAndView = new ModelAndView("hotelRoom");

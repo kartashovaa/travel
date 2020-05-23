@@ -17,7 +17,6 @@ import java.util.Collections;
 import java.util.Date;
 
 
-//TODO: добавить историю заказов, наличие скидки
 @Entity
 @Data
 @AllArgsConstructor
