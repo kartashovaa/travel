@@ -45,7 +45,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     ModelAndView signup(HttpServletRequest request, SignUpRequest user) {
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("user"));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("/successfulRegistration"));
         try {
             authService.signUpUser(user, new WebAuthenticationDetails(request));
         } catch (Exception ex) {

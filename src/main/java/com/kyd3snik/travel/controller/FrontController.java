@@ -110,7 +110,7 @@ public class FrontController {
         try {
             startDate = new SimpleDateFormat("yyyy-MM-dd").parse(params.get("startDate"));
         } catch (ParseException e) {
-            e.printStackTrace();
+            startDate = DateUtil.getDate(2000, 12, 12);
         }
         SortType sortType = SortType.valueOf(params.get("sortType"));
         byte minStar = Byte.parseByte(params.get("minStar"));
