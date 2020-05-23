@@ -98,14 +98,6 @@ public class FrontController {
         return getResortsSearchParameters(modelAndView);
     }
 
-    private ModelAndView getResortsSearchParameters(ModelAndView modelAndView) {
-        modelAndView.addObject("entertainments", entertainmentService.getAll());
-        modelAndView.addObject("facilities", facilityService.getAll());
-        modelAndView.addObject("cities", cityService.getAll());
-        modelAndView.addObject("countries", countryService.getAll());
-        modelAndView.addObject("tags", tagService.getAll());
-        return modelAndView;
-    }
 
     @PostMapping("/searchResult")
     public ModelAndView search(@RequestParam HashMap<String, String> params, Authentication auth) {
@@ -144,14 +136,14 @@ public class FrontController {
                 .map((id) -> cityService.getById((long) id))
                 .collect(Collectors.toList());
 
-        List<EntertainmentOld> entertainments = params.keySet().stream()
+        List<Entertainment> entertainments = params.keySet().stream()
                 .filter(key -> key.startsWith("entertainment"))
                 .map(countryKey -> countryKey.substring(13))
                 .map(Integer::valueOf)
                 .map(entertainmentService::getById)
                 .collect(Collectors.toList());
 
-        List<FacilityOld> facilities = params.keySet().stream()
+        List<Facility> facilities = params.keySet().stream()
                 .filter(key -> key.startsWith("facility"))
                 .map(countryKey -> countryKey.substring(8))
                 .map(Integer::valueOf)
