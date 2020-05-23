@@ -55,7 +55,8 @@
             <li>
                 <p>
                     <span>дата начала курорта</span>
-                    <input type="date" name="startDate" min="${today?date}" max="2025-12-31" value="${today?date}">
+                    <input type="date" name="startDate" min="${today?string("yyyy-MM-dd")}" max="2025-12-31"
+                           value="${today?string("yyyy-MM-dd")}">
                 </p>
             </li>
             <li>

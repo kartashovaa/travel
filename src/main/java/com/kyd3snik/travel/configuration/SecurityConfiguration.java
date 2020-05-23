@@ -1,4 +1,4 @@
-package com.kyd3snik.travel.configurator;
+package com.kyd3snik.travel.configuration;
 
 import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.User;

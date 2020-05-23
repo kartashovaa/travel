@@ -29,6 +29,10 @@ public class ResortService {
         return resortRepository.findAll();
     }
 
+    public List<Resort> findByArrivalCity(City city) {
+        return resortRepository.findByArrivalCity(city);
+    }
+
     public void update(Resort resort) {
         boolean exists = resortRepository.existsById(resort.getId());
         if (exists) {

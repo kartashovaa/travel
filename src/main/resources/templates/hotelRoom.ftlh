@@ -5,7 +5,7 @@
     <title>!Название гостиницы!</title>
 </HEAD>
 <BODY>
-<h3><a href="/main">Вернуться на главную</a></h3>
+<h3><a href="/">Вернуться на главную</a></h3>
 <p>!Название гостиницы!</p>
 <ul>
     <li>Количество спальных мест: ${hotelRoom.numberOfSleepingPlaces}</li>

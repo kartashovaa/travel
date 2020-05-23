@@ -1,4 +1,4 @@
-package com.kyd3snik.travel.controller;
+package com.kyd3snik.travel.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

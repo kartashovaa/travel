@@ -5,7 +5,7 @@
     <title>Города</title>
 </HEAD>
 <BODY>
-<h3><a href="/main">Вернуться на главную</a></h3>
+<h3><a href="/">Вернуться на главную</a></h3>
 <h1>Города:</h1>
 
 <ul>
@@ -18,10 +18,6 @@
                 <#list city.entertainments as entertainment>
                     ${entertainment.title},
                 </#list>
-            </ul>
-            <p>Гостиницы:</p>
-            <ul>
-                <li>!Название гостиницы!</li>
             </ul>
         </div>
     </#list>

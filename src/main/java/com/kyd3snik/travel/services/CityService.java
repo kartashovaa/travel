@@ -1,6 +1,7 @@
 package com.kyd3snik.travel.services;
 
 import com.kyd3snik.travel.model.City;
+import com.kyd3snik.travel.model.Country;
 import com.kyd3snik.travel.repository.CityRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,10 @@ public class CityService {
         } else {
             throw new EntityNotFoundException("City not found!");
         }
+    }
+
+    public List<City> getAllCitiesInCountry(Country country) {
+        return cityRepository.findByCountry(country);
     }
 
     public void delete(long id) {

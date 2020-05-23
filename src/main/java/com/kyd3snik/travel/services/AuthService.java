@@ -1,8 +1,7 @@
-package com.kyd3snik.travel.service;
+package com.kyd3snik.travel.services;
 
 import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.request.SignUpRequest;
-import com.kyd3snik.travel.services.CityService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

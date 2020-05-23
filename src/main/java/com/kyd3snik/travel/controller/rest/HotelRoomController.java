@@ -1,4 +1,4 @@
-package com.kyd3snik.travel.controller;
+package com.kyd3snik.travel.controller.rest;
 
 import com.kyd3snik.travel.model.HotelRoom;
 import com.kyd3snik.travel.services.HotelRoomService;

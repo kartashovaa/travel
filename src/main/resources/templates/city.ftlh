@@ -5,7 +5,7 @@
     <title>${city.title}</title>
 </HEAD>
 <BODY>
-<h3><a href="/main">Вернуться на главную</a></h3>
+<h3><a href="/">Вернуться на главную</a></h3>
 <h2>${city.title}</h2>
 
 <p>Список развлечений:</p>
@@ -16,7 +16,9 @@
 </ul>
 <p>Гостиницы:</p>
 <ul>
-    <li>!Название гостиницы!</li>
+    <#list hotels as hotel>
+        <li>${hotel.title}</li>
+    </#list>
 </ul>
 
 <p>дата начала курорта</p>
@@ -25,20 +27,24 @@
 
 <p>Доступные курорты в этот город:</p>
 <ul>
-    <li><a>
-            <ul>
-                <li>!Название курорта!</li>
-                <li>!Описание курорта!</li>
-                <li>Теги:
-                    <ul>
-                        <li>!Тег!</li>
-                    </ul>
-                </li>
-                <li><a>!Название гостиницы!</a></li>
-                <li>Дата начала курорта: !Дата начала курорта!</li>
-                <li>Дата окончания курорта: !Дата окончания курорта!</li>
-            </ul>
-        </a></li>
+    <#list resorts as resort>
+        <li><a>
+                <ul>
+                    <li>${resort.title}</li>
+                    <li>${resort.description}</li>
+                    <li>Теги:
+                        <ul>
+                            <#list resort.tags as tag>
+                                <li>${tag.title}</li>
+                            </#list>
+                        </ul>
+                    </li>
+                    <li><a>${resort.hotel.title}</a></li>
+                    <li>Дата начала курорта: ${resort.startDate?date}</li>
+                    <li>Дата окончания курорта: ${resort.endDate?date}</li>
+                </ul>
+            </a></li>
+    </#list>
 </ul>
 
 </BODY>

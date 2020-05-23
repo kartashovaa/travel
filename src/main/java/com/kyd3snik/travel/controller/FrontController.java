@@ -1,8 +1,10 @@
 package com.kyd3snik.travel.controller;
 
+import com.kyd3snik.travel.base.SelectableData;
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.services.*;
 import com.kyd3snik.travel.util.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -44,7 +47,11 @@ public class FrontController {
     @GetMapping("/cities/{id}")
     public ModelAndView getCity(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("city");
-        modelAndView.addObject("city", cityService.getById(id));
+        City city = cityService.getById(id);
+        modelAndView.addObject("city", city);
+        modelAndView.addObject("hotels", hotelService.findByCity(city));
+        modelAndView.addObject("resorts", resortService.findByArrivalCity(city));
+
         return modelAndView;
     }
 
@@ -95,25 +102,41 @@ public class FrontController {
         ModelAndView modelAndView = new ModelAndView("mainPage");
         modelAndView.addObject("isUserAuthenticated", auth != null);
         modelAndView.addObject("today", DateUtil.getToday());
+        City city = cityService.getById(26);
+        List<Resort> hotels = resortService.findByArrivalCity(city);
         return getResortsSearchParameters(modelAndView);
     }
 
+    public static class Request {
+        public int personCount;
+    }
 
     @PostMapping("/searchResult")
-    public ModelAndView search(@RequestParam HashMap<String, String> params, Authentication auth) {
-        int personCount = Integer.parseInt(params.get("personCount"));
-        int minCost = Integer.parseInt(params.get("minCost"));
-        int maxCost = Integer.parseInt(params.get("maxCost"));
-        int minDuration = Integer.parseInt(params.get("minDuration"));
-        int maxDuration = Integer.parseInt(params.get("maxDuration"));
-        Date startDate = null;
-        try {
-            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(params.get("startDate"));
-        } catch (ParseException e) {
-            startDate = DateUtil.getDate(2000, 12, 12);
-        }
-        SortType sortType = SortType.valueOf(params.get("sortType"));
-        byte minStar = Byte.parseByte(params.get("minStar"));
+    public ModelAndView search(
+            @RequestParam("personCount") int personCount,
+            @RequestParam("minCost") int minCost,
+            @RequestParam("maxCost") int maxCost,
+            @RequestParam("minDuration") int minDuration,
+            @RequestParam("maxDuration") int maxDuration,
+            @RequestParam("minStar") byte minStar,
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            @RequestParam("startDate") Date startDate,
+            @RequestParam("sortType") SortType sortType,
+            @RequestParam HashMap<String, String> params,
+            Authentication auth) {
+//        int personCount = Integer.parseInt(params.get("personCount"));
+//        int minCost = Integer.parseInt(params.get("minCost"));
+//        int maxCost = Integer.parseInt(params.get("maxCost"));
+//        int minDuration = Integer.parseInt(params.get("minDuration"));
+//        int maxDuration = Integer.parseInt(params.get("maxDuration"));
+//        Date startDate = null;
+//        try {
+//            startDate = new SimpleDateFormat("yyyy-MM-dd").parse(params.get("startDate"));
+//        } catch (ParseException e) {
+//            startDate = DateUtil.getDate(2000, 12, 12);
+//        }
+//        SortType sortType = SortType.valueOf(params.get("sortType"));
+//        byte minStar = Byte.parseByte(params.get("minStar"));
 
         List<Tag> tags = params.keySet().stream()
                 .filter(key -> key.startsWith("tag"))
@@ -157,7 +180,7 @@ public class FrontController {
 
         modelAndView.addObject("isUserAuthenticated", auth != null);
         modelAndView.addObject("resorts", resorts);
-//        modelAndView.addObject("personCount", personCount);
+        modelAndView.addObject("personCount", personCount);
         modelAndView.addObject("minCost", minCost);
         modelAndView.addObject("maxCost", maxCost);
         modelAndView.addObject("minDuration", minDuration);
@@ -178,13 +201,12 @@ public class FrontController {
                 .map(city -> new SelectableData<City>(city, cities.contains(city)))
                 .collect(Collectors.toList())
         );
-        //TODO: заменить на сервисы
-        modelAndView.addObject("entertainments", Arrays.stream(EntertainmentOld.values())
-                .map(entertainment -> new SelectableData<EntertainmentOld>(entertainment, entertainments.contains(entertainment)))
+        modelAndView.addObject("entertainments", entertainmentService.getAll().stream()
+                .map(entertainment -> new SelectableData<Entertainment>(entertainment, entertainments.contains(entertainment)))
                 .collect(Collectors.toList())
         );
-        modelAndView.addObject("facilities", Arrays.stream(FacilityOld.values())
-                .map(ficility -> new SelectableData<FacilityOld>(ficility, false))
+        modelAndView.addObject("facilities", facilityService.getAll().stream()
+                .map(facility -> new SelectableData<Facility>(facility, facilities.contains(facility)))
                 .collect(Collectors.toList())
         );
 

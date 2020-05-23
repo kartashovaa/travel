@@ -5,7 +5,7 @@
     <title>Результаты поиска</title>
 </HEAD>
 <BODY>
-<h3><a href="/main">Вернуться на главную</a></h3>
+<h3><a href="/">Вернуться на главную</a></h3>
 <div>
     <#if isUserAuthenticated>
         <a href="/logout" class="ExitBtn">Выйти</a>

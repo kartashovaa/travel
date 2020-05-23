@@ -5,7 +5,7 @@
     <title>Страны</title>
 </HEAD>
 <BODY>
-<h3><a href="/main">Вернуться на главную</a></h3>
+<h3><a href="/">Вернуться на главную</a></h3>
 <h1>Страны</h1>
 
 <ul>
@@ -14,11 +14,6 @@
             <a href="/countries/${country.id}">${country.title}</a>
 
             <p>${country.description}</p>
-
-            <p>Города:</p>
-            <ul>
-                <li><a>!Название города!</a></li>
-            </ul>
         </div>
     </#list>
 </ul>

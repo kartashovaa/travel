@@ -2,7 +2,7 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.User;
 import com.kyd3snik.travel.model.request.SignUpRequest;
-import com.kyd3snik.travel.service.AuthService;
+import com.kyd3snik.travel.services.AuthService;
 import com.kyd3snik.travel.services.CityService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
