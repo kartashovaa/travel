@@ -4,10 +4,10 @@ import com.kyd3snik.travel.model.Country;
 import com.kyd3snik.travel.services.CountryService;
 import com.kyd3snik.travel.services.ResortService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/countries")
@@ -40,6 +40,15 @@ public class CountryController {
     @GetMapping("/add")
     public ModelAndView addCountry() {
         return new ModelAndView("addCountry");
+    }
+
+    @PostMapping("/add")
+    public String addCountry(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam HashMap<String, String> params) {
+        countryService.addCountry(new Country(0, title, description));
+        return "redirect:/countries/add";
     }
 
 }

@@ -46,7 +46,6 @@ public class MainController {
         return getResortsSearchParameters(modelAndView);
     }
 
-
     private ModelAndView getResortsSearchParameters(ModelAndView modelAndView) {
         modelAndView.addObject("entertainments", entertainmentService.getAll());
         modelAndView.addObject("facilities", facilityService.getAll());

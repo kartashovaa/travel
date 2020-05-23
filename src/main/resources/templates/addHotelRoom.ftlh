@@ -19,7 +19,7 @@
     </select>
     <p>Список удобств:</p>
     <#list facilities as facility>
-        <input type="checkbox" name="entertainment${facility.name()}">${facility.title}</input>
+        <input type="checkbox" name="facility${facility.id}">${facility.title}</input>
     </#list>
     <p>Стоимость (сутки)</p>
     <input type="number" size="3" name="cost" min="0" max="1000000" value="0" required>

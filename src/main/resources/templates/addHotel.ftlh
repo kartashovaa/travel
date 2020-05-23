@@ -20,7 +20,7 @@
     <p>Адрес отеля</p>
     <input type="text" name="address">
     <p>Количество звезд</p>
-    <input type="number" size="3" name="minStar" min="0" max="5" value="1">
+    <input type="number" size="3" name="stars" min="0" max="5" value="1">
     <p>
         <button type="submit">Добавить отель</button>
     </p>

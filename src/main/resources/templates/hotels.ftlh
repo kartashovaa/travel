@@ -22,7 +22,8 @@
     </#list>
 </ul>
 
-<p><a href="/hotels/add">Добавить отели</a></p>
+<p><a href="/hotels/add">Добавить отель</a></p>
+<p><a href="/hotelRooms/add">Добавить номер</a></p>
 
 </BODY>
 

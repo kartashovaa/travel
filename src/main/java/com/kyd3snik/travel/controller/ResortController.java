@@ -1,11 +1,20 @@
 package com.kyd3snik.travel.controller;
 
+import com.kyd3snik.travel.model.City;
+import com.kyd3snik.travel.model.Hotel;
+import com.kyd3snik.travel.model.Resort;
+import com.kyd3snik.travel.model.Tag;
 import com.kyd3snik.travel.services.*;
+import com.kyd3snik.travel.util.DateUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/resorts")
@@ -53,5 +62,37 @@ public class ResortController {
         modelAndView.addObject("tags", tagService.getAll());
         modelAndView.addObject("hotelRooms", hotelRoomService.getAll());
         return modelAndView;
+    }
+
+    @PostMapping("/add")
+    public String addResort(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("departureCity") long idDepartureCity,
+            @RequestParam("arrivalCity") long idArrivalCity,
+            @RequestParam("hotel") long idHotel,
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            @RequestParam("startDate") Date startDate,
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            @RequestParam("endDate") Date endDate,
+            @RequestParam("cost") float cost,
+            @RequestParam("personCount") byte personCount,
+            @RequestParam("needForForeignPassport") String needForForeignPassport,
+            @RequestParam HashMap<String, String> params) {
+        City departureCity = cityService.getById(idDepartureCity);
+        City arrivalCity = cityService.getById(idArrivalCity);
+        Hotel hotel = hotelService.getById(idHotel);
+        boolean needPassport = needForForeignPassport.equals("yes");
+
+        List<Tag> tags = params.keySet().stream()
+                .filter(key -> key.startsWith("tag"))
+                .map(countryKey -> countryKey.substring(3))
+                .map(Integer::valueOf)
+                .map(tagService::getById)
+                .collect(Collectors.toList());
+
+        resortService.addResort(new Resort(0, title, description, departureCity, arrivalCity, tags, hotel,
+                DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount, needPassport));
+        return "redirect:/resorts/add";
     }
 }
