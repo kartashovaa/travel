@@ -14,7 +14,7 @@
 <ul>
     <#list countries as country>
         <div>
-            <a href="/countries/${country.id}">${country.title}</a>
+            <h3><a href="/countries/${country.id}">${country.title}</a></h3>
 
             <p>${country.description}</p>
         </div>

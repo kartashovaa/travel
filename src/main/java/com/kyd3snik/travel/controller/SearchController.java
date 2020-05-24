@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 @Controller
 public class SearchController {
 
-    private CityService cityService;
-    private CountryService countryService;
-    private ResortService resortService;
-    private TagService tagService;
-    private FacilityService facilityService;
-    private EntertainmentService entertainmentService;
+    private final CityService cityService;
+    private final CountryService countryService;
+    private final ResortService resortService;
+    private final TagService tagService;
+    private final FacilityService facilityService;
+    private final EntertainmentService entertainmentService;
 
     public SearchController(
             CityService cityService,

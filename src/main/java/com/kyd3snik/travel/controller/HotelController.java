@@ -3,7 +3,10 @@ package com.kyd3snik.travel.controller;
 import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
 import com.kyd3snik.travel.model.HotelRoom;
-import com.kyd3snik.travel.services.*;
+import com.kyd3snik.travel.services.AuthService;
+import com.kyd3snik.travel.services.CityService;
+import com.kyd3snik.travel.services.HotelRoomService;
+import com.kyd3snik.travel.services.HotelService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,13 +20,11 @@ public class HotelController {
 
     private final HotelService hotelService;
     private final CityService cityService;
-    private final FacilityService facilityService;
     private final HotelRoomService hotelRoomService;
 
-    public HotelController(HotelService hotelService, CityService cityService, FacilityService facilityService, HotelRoomService hotelRoomService) {
+    public HotelController(HotelService hotelService, CityService cityService, HotelRoomService hotelRoomService) {
         this.hotelService = hotelService;
         this.cityService = cityService;
-        this.facilityService = facilityService;
         this.hotelRoomService = hotelRoomService;
     }
 

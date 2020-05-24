@@ -17,11 +17,6 @@
 </div>
 
 <div>
-    <input type="text"/>
-    <input type="button" value="поиск">
-</div>
-
-<div>
     <h3>Подобрать курорт:</h3>
     <form method="post" action="/search">
         <ul class="searchPanelList">

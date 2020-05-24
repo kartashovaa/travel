@@ -17,33 +17,29 @@
 <p>Гостиницы:</p>
 <ul>
     <#list hotels as hotel>
-        <li>${hotel.title}</li>
+        <li><a href="/hotels/${hotel.id}">${hotel.title}</a></li>
     </#list>
 </ul>
-
-<p>дата начала курорта</p>
-<p><input type="date" min="2020-05-16" max="2025-12-31" value="2020-05-16"></p>
-<!--в min и value надо указать сегодняшнюю дату-->
 
 <p>Доступные курорты в этот город:</p>
 <ul>
     <#list resorts as resort>
-        <li><a>
-                <ul>
-                    <li>${resort.title}</li>
-                    <li>${resort.description}</li>
-                    <li>Теги:
-                        <ul>
-                            <#list resort.tags as tag>
-                                <li>${tag.title}</li>
-                            </#list>
-                        </ul>
-                    </li>
-                    <li><a>${resort.hotel.title}</a></li>
-                    <li>Дата начала курорта: ${resort.startDate?date}</li>
-                    <li>Дата окончания курорта: ${resort.endDate?date}</li>
-                </ul>
-            </a></li>
+        <li>
+            <ul>
+                <li><h3><a href="/resorts/${resort.id}">${resort.title}</a></h3></li>
+                <li>${resort.description}</li>
+                <li>Теги:
+                    <ul>
+                        <#list resort.tags as tag>
+                            <li>${tag.title}</li>
+                        </#list>
+                    </ul>
+                </li>
+                <li><a href="/hotels/${resort.hotel.id}">${resort.hotel.title}</a></li>
+                <li>Дата начала курорта: ${resort.startDate?date}</li>
+                <li>Дата окончания курорта: ${resort.endDate?date}</li>
+            </ul>
+        </li>
     </#list>
 </ul>
 

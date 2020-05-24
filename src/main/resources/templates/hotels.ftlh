@@ -15,7 +15,7 @@
 <ul>
     <#list hotels as hotel>
         <div>
-            <p><a href="/hotels/${hotel.id}">Гостиница ${hotel.title}</a></p>
+            <h3><a href="/hotels/${hotel.id}">Гостиница ${hotel.title}</a></h3>
 
             <p><a href="/cities/${hotel.city.id}">Город: ${hotel.city.title}</a></p>
             <p>Адрес гостиницы: ${hotel.address}</p>

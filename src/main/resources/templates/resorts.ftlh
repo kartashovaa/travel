@@ -13,7 +13,7 @@
 <ul>
     <#list resorts as resort>
         <div>
-            <p><a href="/resorts/${resort.id}">${resort.title}</a></p>
+            <h3><a href="/resorts/${resort.id}">${resort.title}</a></h3>
 
             <p><a href="/hotels/${resort.hotel.id}">Гостиница: ${resort.hotel.title} ${resort.hotel.stars} звезд</a></p>
 

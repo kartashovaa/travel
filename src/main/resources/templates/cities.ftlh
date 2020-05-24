@@ -16,8 +16,8 @@
 <ul>
     <#list cities as city>
         <div>
-            <a href="/countries/${city.country.id}">${city.country.title}</a>
-            <a href="/cities/${city.id}">${city.title}</a>
+            <h3><a href="/cities/${city.id}">${city.title}</a></h3>
+            <p><a href="/countries/${city.country.id}">Страна: ${city.country.title}</a></p>
             <p>Список развлечений:</p>
             <ul>
                 <#list city.entertainments as entertainment>

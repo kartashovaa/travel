@@ -25,40 +25,8 @@ p {
     font-size: 14pt;
 }
 
-.center {
-    text-align: center;
-    text-indent: 0px;
-}
-
-.medium_font {
-    font-size: 18pt;
-}
-
-.big_font {
-    font-size: 24pt;
-}
-
-.margin_top {
-    margin-top: 50px;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-.italic {
-    font-style: italic;
-}
-
-ol {
-    font-size: 14pt;
-    margin-bottom: 20px;
-    margin-top: 5px;
-}
-
-
 ul {
-    list-style-type: disc;
+    list-style-type: none;
     font-size: 14pt;
     margin-bottom: 20px;
     margin-top: 5px;

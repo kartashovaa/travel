@@ -14,24 +14,20 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    private CityService cityService;
-    private CountryService countryService;
-    private ResortService resortService;
-    private TagService tagService;
-    private HotelService hotelService;
-    private HotelRoomService hotelRoomService;
-    private FacilityService facilityService;
-    private EntertainmentService entertainmentService;
+    private final CityService cityService;
+    private final CountryService countryService;
+    private final ResortService resortService;
+    private final TagService tagService;
+    private final FacilityService facilityService;
+    private final EntertainmentService entertainmentService;
 
     public MainController(CityService cityService, CountryService countryService, ResortService resortService,
-                          TagService tagService, HotelService hotelService, HotelRoomService hotelRoomService,
-                          FacilityService facilityService, EntertainmentService entertainmentService) {
+                          TagService tagService, FacilityService facilityService,
+                          EntertainmentService entertainmentService) {
         this.cityService = cityService;
         this.countryService = countryService;
         this.resortService = resortService;
         this.tagService = tagService;
-        this.hotelService = hotelService;
-        this.hotelRoomService = hotelRoomService;
         this.entertainmentService = entertainmentService;
         this.facilityService = facilityService;
     }

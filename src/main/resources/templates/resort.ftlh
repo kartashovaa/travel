@@ -7,11 +7,9 @@
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
 <h2>${resort.title}</h2>
-
-<p><a href="/hotels/${resort.hotel.id}">Гостиница ${resort.hotel.title} ${resort.hotel.stars} звезд</a></p>
-
 <p><a href="/countries/${resort.hotel.city.country.id}">Страна: ${resort.hotel.city.country.title}</a></p>
 <p><a href="/cities/${resort.arrivalCity.id}">Город: ${resort.arrivalCity.title}</a></p>
+<p><a href="/hotels/${resort.hotel.id}">Гостиница: ${resort.hotel.title}, звезд: ${resort.hotel.stars}</a></p>
 <p>Описание курорта: ${resort.description}</p>
 <p>Длительность (в днях): ${resort.durationInDays} </p>
 <p>Стоимость: ${resort.cost}</p>
@@ -25,7 +23,6 @@
 <p>Дата отправления: ${resort.startDate?string('dd.MM.yyyy')}</p>
 <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
-<!--<button class="BuyingBtn" >Купить билеты</button>-->
 <a href="/resorts/${resort.id}/buy">Купить билеты</a>
 </BODY>
 
