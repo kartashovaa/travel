@@ -68,9 +68,6 @@
                     </select></p>
             </li>
             <li>
-                <!--в min и value надо указать сегодняшнюю дату-->
-            </li>
-            <li>
                 <p><span>Необходимые теги</span>
                     <#list tags as tag>
                         <input type="checkbox" name="tag${tag.data.id}"
@@ -132,7 +129,7 @@
     <p>Подходящие курорты:</p>
     <ul>
         <#list resorts as resort>
-            <p>${resort.title}</p>
+            <h3><a href="/resorts/${resort.id}">${resort.title}</a></h3>
 
             <p><a href="/hotels/${resort.hotel.id}">Гостиница ${resort.hotel.title} ${resort.hotel.stars} звезд</a></p>
 
