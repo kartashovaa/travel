@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,38 +51,18 @@ public class ResortService {
         return resortRepository.findByArrivalCity_Country(country);
     }
 
-    public List<Resort> search(SearchModel searchModel) {
-        //TODO: refactor this
-        return getAll();
-//        return search(searchModel.getMinCost(),
-//                searchModel.getMaxCost(),
-//                searchModel.getMinDuration(),
-//                searchModel.getMaxDuration(),
-//                searchModel.getStartDate(),
-//                searchModel.getSortType(),
-//                searchModel.getNecessaryTags(),
-//                searchModel.getAcceptableCountries(),
-//                searchModel.getAcceptableCities(),
-//                searchModel.getNecessaryEntertainments(),
-//                searchModel.getMinStar(),
-//                searchModel.getNecessaryFacilities());
-    }
-
-    private List<Resort> search(SearchModel model, int minCost, int maxCost, int minDuration, int maxDuration, Date startDate,
-                                SortType sort, List<Tag> necessaryTags, List<Country> acceptableCountries,
-                                List<City> acceptableCities, List<Entertainment> necessaryEntertainments,
-                                int minStar, List<Facility> necessaryFacilities) {
+    public List<Resort> search(SearchModel model) {
         return resortRepository.findAll().stream()
-                .filter((resort) -> resort.getCost() >= minCost && resort.getCost() <= maxCost)
-                .filter((resort) -> resort.getDurationInDays() >= minDuration && resort.getDurationInDays() <= maxDuration)
-                .filter((resort) -> resort.getStartDate().after(startDate))
-                .filter((resort) -> resort.getTags().containsAll(necessaryTags))
-                .filter((resort) -> acceptableCountries.contains(resort.getArrivalCity().getCountry()))
-                .filter((resort) -> acceptableCities.contains(resort.getArrivalCity()))
-                .filter((resort) -> resort.getHotel().getCity().getEntertainments().containsAll(necessaryEntertainments))
-                .filter((resort) -> resort.getHotel().getStars() >= minStar)
-                .filter((resort) -> getAllFacilitiesInHotel(resort.getHotel()).containsAll(necessaryFacilities))
-                .sorted(getComparator(sort))
+                .filter((resort) -> resort.getCost() >= model.getMinCost() && resort.getCost() <= model.getMaxCost())
+                .filter((resort) -> resort.getDurationInDays() >= model.getMinDuration() && resort.getDurationInDays() <= model.getMaxDuration())
+                .filter((resort) -> resort.getStartDate().after(model.getStartDate()))
+                .filter((resort) -> resort.getTags().containsAll(model.getNecessaryTags()))
+                .filter((resort) -> model.getAcceptableCountries().contains(resort.getArrivalCity().getCountry()))
+                .filter((resort) -> model.getAcceptableCities().contains(resort.getArrivalCity()))
+                .filter((resort) -> resort.getHotel().getCity().getEntertainments().containsAll(model.getNecessaryEntertainments()))
+                .filter((resort) -> resort.getHotel().getStars() >= model.getMinStar())
+                .filter((resort) -> getAllFacilitiesInHotel(resort.getHotel()).containsAll(model.getNecessaryFacilities()))
+                .sorted(getComparator(model.getSortType()))
                 .collect(Collectors.toList());
     }
 
@@ -91,7 +70,7 @@ public class ResortService {
         return hotel.getRooms().stream().flatMap(room -> room.getFacilities().stream()).collect(Collectors.toList());
     }
 
-    private Comparator<? super Resort> getComparator(SortType sort) {
+    private Comparator<Resort> getComparator(SortType sort) {
         switch (sort) {
             case COST_DOWN:
                 return (o1, o2) -> Float.compare(o2.getCost(), o1.getCost());
