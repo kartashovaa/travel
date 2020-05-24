@@ -56,6 +56,7 @@ public class ResortService {
                 .filter((resort) -> resort.getCost() >= model.getMinCost() && resort.getCost() <= model.getMaxCost())
                 .filter((resort) -> resort.getDurationInDays() >= model.getMinDuration() && resort.getDurationInDays() <= model.getMaxDuration())
                 .filter((resort) -> resort.getStartDate().after(model.getStartDate()))
+                .filter((resort) -> model.getPersonCount() < resort.getPersonCount())
                 .filter((resort) -> resort.getTags().containsAll(model.getNecessaryTags()))
                 .filter((resort) -> model.getAcceptableCountries().contains(resort.getArrivalCity().getCountry()))
                 .filter((resort) -> model.getAcceptableCities().contains(resort.getArrivalCity()))
