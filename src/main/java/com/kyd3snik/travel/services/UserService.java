@@ -47,14 +47,20 @@ public class UserService {
 
     public void buyResort(Resort resort) {
         User user = AuthService.getUser();
-        if (user == null)
-            throw new IllegalStateException("Пользователь не авторизован!");
-        if (user.getBalance() < resort.getCost())
-            throw new IllegalStateException("Не достаточно средств на счету!");
+        throwIfCantBuy(user, resort);
 
         user.setBalance(user.getBalance() - resort.getCost());
         userRepository.save(user);
         transactionService.save(new ResortTransaction(0, user, resort));
+    }
+
+    private void throwIfCantBuy(User user, Resort resort) {
+        if (user == null)
+            throw new IllegalStateException("Пользователь не авторизован!");
+        if (resort.getArrivalCity().getCountry() != user.getCity().getCountry() && !user.isHasInternationalPassport())
+            throw new IllegalStateException("Нет загранпасспорта!");
+        if (user.getBalance() < resort.getCost())
+            throw new IllegalStateException("Не достаточно средств на счету!");
     }
 
     public void refill() {

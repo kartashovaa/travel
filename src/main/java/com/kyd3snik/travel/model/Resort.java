@@ -19,18 +19,17 @@ public class Resort {
     private long id;
     private String title;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private City departureCity;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private City arrivalCity;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private List<Tag> tags;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Hotel hotel;
     private long durationInDays;
     private Date startDate;
     private Date endDate;
     private float cost;
     private byte personCount;
-    private boolean needForForeignPassport;
 }

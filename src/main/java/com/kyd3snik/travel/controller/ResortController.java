@@ -98,13 +98,11 @@ public class ResortController {
             @RequestParam("endDate") Date endDate,
             @RequestParam("cost") float cost,
             @RequestParam("personCount") byte personCount,
-            @RequestParam("needForForeignPassport") String needForForeignPassport,
             @RequestParam HashMap<String, String> params) {
         ModelAndView modelAndView = new ModelAndView("addResort");
         City departureCity = cityService.getById(idDepartureCity);
         City arrivalCity = cityService.getById(idArrivalCity);
         Hotel hotel = hotelService.getById(idHotel);
-        boolean needPassport = needForForeignPassport.equals("yes");
 
         List<Tag> tags = params.keySet().stream()
                 .filter(key -> key.startsWith("tag"))
@@ -114,7 +112,7 @@ public class ResortController {
                 .collect(Collectors.toList());
 
         resortService.addResort(new Resort(0, title, description, departureCity, arrivalCity, tags, hotel,
-                DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount, needPassport));
+                DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount));
         modelAndView.addObject("isSuccessful", true);
         return modelAndView;
     }
