@@ -14,10 +14,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final TransactionService transactionService;
+    private final ResortService resortService;
 
-    public UserService(UserRepository userRepository, TransactionService transactionService) {
+    public UserService(UserRepository userRepository, TransactionService transactionService, ResortService resortService) {
         this.userRepository = userRepository;
         this.transactionService = transactionService;
+        this.resortService = resortService;
     }
 
     public void addUser(User user) {
@@ -51,6 +53,7 @@ public class UserService {
 
         user.setBalance(user.getBalance() - resort.getCost());
         resort.setPurchased(true);
+        resortService.update(resort);
         userRepository.save(user);
         transactionService.save(new ResortTransaction(0, user, resort));
     }

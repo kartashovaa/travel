@@ -31,13 +31,11 @@ public class ResortService {
     }
 
     public List<Resort> getAllAvailable() {
-        return resortRepository.findAll().stream()
-                .filter(res -> !res.isPurchased())
-                .collect(Collectors.toList());
+        return filterPurchasedResorts(resortRepository.findAll());
     }
 
     public List<Resort> findByArrivalCity(City city) {
-        return resortRepository.findByArrivalCity(city);
+        return filterPurchasedResorts(resortRepository.findByArrivalCity(city));
     }
 
     public void update(Resort resort) {
@@ -54,7 +52,7 @@ public class ResortService {
     }
 
     public List<Resort> getResortsInCountry(Country country) {
-        return resortRepository.findByArrivalCity_Country(country);
+        return filterPurchasedResorts(resortRepository.findByArrivalCity_Country(country));
     }
 
     public List<Resort> search(SearchModel model) {
@@ -75,6 +73,12 @@ public class ResortService {
 
     private List<Facility> getAllFacilitiesInHotel(Hotel hotel) {
         return hotel.getRooms().stream().flatMap(room -> room.getFacilities().stream()).collect(Collectors.toList());
+    }
+
+    private List<Resort> filterPurchasedResorts(List<Resort> resorts) {
+        return resorts.stream()
+                .filter(resort -> !resort.isPurchased())
+                .collect(Collectors.toList());
     }
 
     private Comparator<Resort> getComparator(SortType sort) {

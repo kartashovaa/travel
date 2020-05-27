@@ -28,7 +28,7 @@
                 <li>Стоимость: ${room.cost}</li>
             </ul>
         </a>
-        <a href="/buyingHotelRoom/${room.id}">Забронировать номер</a>
+        <!--<a href="/buyingHotelRoom/{room.id}">Забронировать номер</a>-->
     </div>
 </#list>
 
