@@ -47,6 +47,15 @@ public class CityController {
         return modelAndView;
     }
 
+    @GetMapping("/search")
+    public ModelAndView searchByTitle(@RequestParam("search") String title) {
+        ModelAndView modelAndView = new ModelAndView("cities");
+        modelAndView.addObject("cities", cityService.searchByTitle(title));
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
+    }
+
     @GetMapping("/{id}")
     public ModelAndView getCity(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("city");

@@ -30,6 +30,10 @@ public class ResortService {
         return resortRepository.findAll();
     }
 
+    public List<Resort> searchByTitle(String string) {
+        return resortRepository.findByTitleContainingIgnoreCase(string);
+    }
+
     public List<Resort> getAllAvailable() {
         return filterPurchasedResorts(resortRepository.findAll());
     }

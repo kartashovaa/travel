@@ -34,12 +34,13 @@
 
     <p>Дата отправления: ${resort.startDate?string('dd.MM.yyyy')}</p>
     <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
-
-    <div>
-        <form method="post" action="/resorts/${transaction.id}/cancellation">
-            <button type="submit">Отменить покупку</button>
-        </form>
-    </div>
+    <#if !errorMessage??>
+        <div>
+            <form method="post" action="/resorts/${transaction.id}/cancellation">
+                <button type="submit">Отменить покупку</button>
+            </form>
+        </div>
+    </#if>
 </#if >
 </BODY>
 

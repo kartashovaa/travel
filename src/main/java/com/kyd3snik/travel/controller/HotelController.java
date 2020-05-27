@@ -37,6 +37,15 @@ public class HotelController {
         return modelAndView;
     }
 
+    @GetMapping("/search")
+    public ModelAndView searchByTitle(@RequestParam("search") String title) {
+        ModelAndView modelAndView = new ModelAndView("hotels");
+        modelAndView.addObject("hotels", hotelService.searchByTitle(title));
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
+    }
+
     @GetMapping("/{id}")
     public ModelAndView getHotelDetails(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("hotel");

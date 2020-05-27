@@ -30,6 +30,10 @@ public class HotelService {
         return hotelRepository.findAll();
     }
 
+    public List<Hotel> searchByTitle(String string) {
+        return hotelRepository.findByTitleContainingIgnoreCase(string);
+    }
+
     public void update(Hotel hotel) {
         boolean exists = hotelRepository.existsById(hotel.getId());
         if (exists) {

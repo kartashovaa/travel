@@ -34,6 +34,15 @@ public class CountryController {
         return modelAndView;
     }
 
+    @GetMapping("/search")
+    public ModelAndView searchByTitle(@RequestParam("search") String title) {
+        ModelAndView modelAndView = new ModelAndView("countries");
+        modelAndView.addObject("countries", countryService.searchByTitle(title));
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
+    }
+
     @GetMapping("/{id}")
     public ModelAndView getCountry(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("country");

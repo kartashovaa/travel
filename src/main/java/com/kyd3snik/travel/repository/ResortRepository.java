@@ -10,5 +10,7 @@ import java.util.List;
 public interface ResortRepository extends JpaRepository<Resort, Long> {
     List<Resort> findByArrivalCity(City city);
 
+    List<Resort> findByTitleContainingIgnoreCase(String pattern);
+
     List<Resort> findByArrivalCity_Country(Country country);
 }

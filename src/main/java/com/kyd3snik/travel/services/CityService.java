@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class CityService {
 
-    private CityRepository cityRepository;
+    private final CityRepository cityRepository;
 
     public CityService(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
@@ -19,6 +19,10 @@ public class CityService {
 
     public void addCity(City city) {
         cityRepository.save(city);
+    }
+
+    public List<City> searchByTitle(String string) {
+        return cityRepository.findByTitleContainingIgnoreCase(string);
     }
 
     public City getById(long id) {

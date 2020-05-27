@@ -9,6 +9,12 @@
 <#if isModerator>
     <p><a href="/countries/add">Добавить страну</a></p>
 </#if>
+
+<form method="get" action="/countries/search">
+    <input type="text" name="search">
+    <button type="submit">Поиск по названию</button>
+</form>
+
 <h1>Страны</h1>
 
 <ul>

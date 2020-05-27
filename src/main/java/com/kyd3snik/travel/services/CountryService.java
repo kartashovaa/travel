@@ -24,6 +24,10 @@ public class CountryService {
         return countryRepository.findAll();
     }
 
+    public List<Country> searchByTitle(String string) {
+        return countryRepository.findByTitleContainingIgnoreCase(string);
+    }
+
     public Country getById(Long id) {
         return countryRepository.findById(id).get();
     }
