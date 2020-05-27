@@ -1,15 +1,11 @@
 package com.kyd3snik.travel.controller;
 
-import com.kyd3snik.travel.model.City;
-import com.kyd3snik.travel.model.Resort;
 import com.kyd3snik.travel.services.*;
 import com.kyd3snik.travel.util.DateUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @Controller
 public class MainController {
@@ -37,8 +33,6 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("mainPage");
         modelAndView.addObject("isUserAuthenticated", auth != null);
         modelAndView.addObject("today", DateUtil.getToday());
-        City city = cityService.getById(26);
-        List<Resort> hotels = resortService.findByArrivalCity(city);
         return getResortsSearchParameters(modelAndView);
     }
 
