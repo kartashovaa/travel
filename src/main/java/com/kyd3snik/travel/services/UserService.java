@@ -50,6 +50,7 @@ public class UserService {
         throwIfCantBuy(user, resort);
 
         user.setBalance(user.getBalance() - resort.getCost());
+        resort.setPurchased(true);
         userRepository.save(user);
         transactionService.save(new ResortTransaction(0, user, resort));
     }
@@ -61,6 +62,8 @@ public class UserService {
             throw new IllegalStateException("Нет загранпасспорта!");
         if (user.getBalance() < resort.getCost())
             throw new IllegalStateException("Не достаточно средств на счету!");
+        if (resort.isPurchased())
+            throw new IllegalStateException("Данный курорт недоступен, т.к. уже был куплен!");
     }
 
     public void refill() {

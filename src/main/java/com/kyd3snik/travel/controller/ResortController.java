@@ -38,7 +38,7 @@ public class ResortController {
     @GetMapping
     public ModelAndView getResorts() {
         ModelAndView modelAndView = new ModelAndView("resorts");
-        modelAndView.addObject("resorts", resortService.getAll());
+        modelAndView.addObject("resorts", resortService.getAllAvailable());
         modelAndView.addObject("isModerator",
                 AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
@@ -112,7 +112,7 @@ public class ResortController {
                 .collect(Collectors.toList());
 
         resortService.addResort(new Resort(0, title, description, departureCity, arrivalCity, tags, hotel,
-                DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount));
+                DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount, false));
         modelAndView.addObject("isSuccessful", true);
         return modelAndView;
     }

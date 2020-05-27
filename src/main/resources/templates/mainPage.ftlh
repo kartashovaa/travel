@@ -28,7 +28,7 @@
     <form method="post" action="/search">
         <ul class="searchPanelList">
             <li>
-                <p><span>Количество человек</span>
+                <p><span>Минимальное количество человек</span>
                     <input type="number" size="2" name="personCount" min="1" max="20" value="1"></p>
             </li>
             <li>

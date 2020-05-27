@@ -30,6 +30,12 @@ public class ResortService {
         return resortRepository.findAll();
     }
 
+    public List<Resort> getAllAvailable() {
+        return resortRepository.findAll().stream()
+                .filter(res -> !res.isPurchased())
+                .collect(Collectors.toList());
+    }
+
     public List<Resort> findByArrivalCity(City city) {
         return resortRepository.findByArrivalCity(city);
     }
@@ -52,7 +58,7 @@ public class ResortService {
     }
 
     public List<Resort> search(SearchModel model) {
-        return resortRepository.findAll().stream()
+        return this.getAllAvailable().stream()
                 .filter((resort) -> resort.getCost() >= model.getMinCost() && resort.getCost() <= model.getMaxCost())
                 .filter((resort) -> resort.getDurationInDays() >= model.getMinDuration() && resort.getDurationInDays() <= model.getMaxDuration())
                 .filter((resort) -> resort.getStartDate().after(model.getStartDate()))
