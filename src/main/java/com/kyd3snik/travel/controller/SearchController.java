@@ -47,50 +47,47 @@ public class SearchController {
         return getResortsSearchParameters(modelAndView);
     }
 
-    public static class SearchRequest {
-        int personCount;
-        int minCost;
-        int maxCost;
-        int minDuration;
-        int maxDuration;
-        byte minStar;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        Date startDate;
-        SortType sortType;
-    }
-
     @PostMapping("/search")
     public ModelAndView search(
-            @RequestParam SearchRequest request
+            @RequestParam("personCount") int personCount,
+            @RequestParam("minCost") int minCost,
+            @RequestParam("maxCost") int maxCost,
+            @RequestParam("minDuration") int minDuration,
+            @RequestParam("maxDuration") int maxDuration,
+            @RequestParam("minStar") byte minStar,
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            @RequestParam("startDate") Date startDate,
+            @RequestParam("sortType") SortType sortType,
+            @RequestParam HashMap<String, String> params
     ) {
-//        List<Tag> selectedTags = getSelectedTagsFromParams(params);
-//        List<Country> selectedCountries = getSelectedCountriesFromParams(params);
-//        List<City> selectedCities = getSelectedCitiesFromParams(params);
-//        List<Entertainment> selectedEntertainments = getSelectedEntertainmentsFromParams(params);
-//        List<Facility> selectedFacilities = getSelectedFacilitiesFromParams(params);
-//
-//        SearchModel searchModel = SearchModel.builder()
-//                .personCount(request.personCount)
-//                .minCost(request.minCost)
-//                .maxCost(request.maxCost)
-//                .minDuration(request.minDuration)
-//                .maxDuration(request.maxDuration)
-//                .minStar(request.minStar)
-//                .startDate(request.startDate)
-//                .sortType(request.sortType)
-//                .necessaryTags(selectedTags)
-//                .acceptableCities(selectedCities)
-//                .acceptableCountries(selectedCountries)
-//                .necessaryEntertainments(selectedEntertainments)
-//                .necessaryFacilities(selectedFacilities)
-//                .build();
-//
-//        List<Resort> resorts = resortService.search(searchModel);
+        List<Tag> selectedTags = getSelectedTagsFromParams(params);
+        List<Country> selectedCountries = getSelectedCountriesFromParams(params);
+        List<City> selectedCities = getSelectedCitiesFromParams(params);
+        List<Entertainment> selectedEntertainments = getSelectedEntertainmentsFromParams(params);
+        List<Facility> selectedFacilities = getSelectedFacilitiesFromParams(params);
+
+        SearchModel searchModel = SearchModel.builder()
+                .personCount(personCount)
+                .minCost(minCost)
+                .maxCost(maxCost)
+                .minDuration(minDuration)
+                .maxDuration(maxDuration)
+                .minStar(minStar)
+                .startDate(startDate)
+                .sortType(sortType)
+                .necessaryTags(selectedTags)
+                .acceptableCities(selectedCities)
+                .acceptableCountries(selectedCountries)
+                .necessaryEntertainments(selectedEntertainments)
+                .necessaryFacilities(selectedFacilities)
+                .build();
+
+        List<Resort> resorts = resortService.search(searchModel);
         ModelAndView modelAndView = new ModelAndView("searchResult");
-//        restoreSearchFields(modelAndView, searchModel);
-//        modelAndView.addObject("isUserAuthenticated", AuthService.isAuthenticated());
-//        modelAndView.addObject("resorts", resorts);
-//
+        restoreSearchFields(modelAndView, searchModel);
+        modelAndView.addObject("isUserAuthenticated", AuthService.isAuthenticated());
+        modelAndView.addObject("resorts", resorts);
+
         return modelAndView;
     }
 
