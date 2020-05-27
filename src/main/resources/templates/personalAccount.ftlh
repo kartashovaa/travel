@@ -24,6 +24,9 @@
 <ul>
     <#list transactions as transaction>
         <li>${transaction.resort.title} Цена: (${transaction.resort.cost})</li>
+        <form method="get" action="/resorts/${transaction.id}/cancellation">
+            <button type="submit">Отменить покупку</button>
+        </form>
     </#list>
 </ul>
 </BODY>

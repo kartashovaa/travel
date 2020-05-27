@@ -71,6 +71,7 @@ class MainConfiguration {
             Resort resort2 = resortRepository.save(new Resort(0, "Поездка в столицу Марокко", "Увлекательное путешествие", city1, city5, List.of(tag6, tag7, tag2, tag5), hotel4, 7, DateUtil.getDate(2020, 6, 5), DateUtil.getDate(2020, 6, 12), 52000, (byte) 2, false));
             Resort resort3 = resortRepository.save(new Resort(0, "Отпуск в Турции", "Великолепный отдых на берегу Эгейского моря", city1, city7, List.of(tag2, tag5), hotel5, 5, DateUtil.getDate(2020, 7, 9), DateUtil.getDate(2020, 7, 14), 45000, (byte) 2, false));
             Resort resort4 = resortRepository.save(new Resort(0, "Отпуск в Сочи", "Поездка в Сочи", city1, city2, List.of(tag1, tag2, tag7), hotel6, 7, DateUtil.getDate(2020, 12, 5), DateUtil.getDate(2020, 12, 12), 42000, (byte) 2, false));
+            Resort resort5 = resortRepository.save(new Resort(0, "Поездка в Москву", "Непродолжительное путешествие в столицу России с экскурсией", city4, city1, List.of(tag6, tag7), hotel1, 3, DateUtil.getDate(2020, 5, 28), DateUtil.getDate(2020, 5, 31), 9400, (byte) 1, false));
             User user1 = userRepository.save(new User(0, "First name", "Last name", "Middle name", Calendar.getInstance().getTime(), true, true, "email@mail.com", "password", 0, User.ROLE_MODERATOR, city1, false));
             User user2 = userRepository.save(new User(0, "First name another", "Last name another", "Middle name another", Calendar.getInstance().getTime(), true, false, "example@mail.com", "pass", 0, User.ROLE_USER, city2, true));
         };
