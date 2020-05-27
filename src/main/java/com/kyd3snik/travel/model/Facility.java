@@ -1,8 +1,20 @@
 package com.kyd3snik.travel.model;
 
-//удобства
-public enum Facility {
-    SHOWER_IN_HOTEL_ROOM,
-    WC_IN_HOTEL_ROOM,
-    KITCHEN
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Facility {
+    @Id
+    @GeneratedValue
+    private long id;
+    private String title;
 }

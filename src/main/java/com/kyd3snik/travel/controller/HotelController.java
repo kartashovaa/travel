@@ -1,52 +1,96 @@
 package com.kyd3snik.travel.controller;
 
+import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
+import com.kyd3snik.travel.model.HotelRoom;
+import com.kyd3snik.travel.services.AuthService;
+import com.kyd3snik.travel.services.CityService;
+import com.kyd3snik.travel.services.HotelRoomService;
 import com.kyd3snik.travel.services.HotelService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-@Api(description = "Работа с отелями")
-@RestController
+@Controller
+@RequestMapping("/hotels")
 public class HotelController {
 
-    private HotelService hotelService;
+    private final HotelService hotelService;
+    private final CityService cityService;
+    private final HotelRoomService hotelRoomService;
 
-    public HotelController(HotelService hotelService) {
+    public HotelController(HotelService hotelService, CityService cityService, HotelRoomService hotelRoomService) {
         this.hotelService = hotelService;
+        this.cityService = cityService;
+        this.hotelRoomService = hotelRoomService;
     }
 
-    @ApiOperation("Добавление нового отеля")
-    @PostMapping("/Hotels")
-    public ResponseEntity<Object> addHotel(@RequestBody Hotel hotel) {
-        hotelService.addHotel(hotel);
-        return ResponseEntity.ok(hotel);
+    @GetMapping
+    public ModelAndView getHotels() {
+        ModelAndView modelAndView = new ModelAndView("hotels");
+        modelAndView.addObject("hotels", hotelService.getAll());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
     }
 
-    @ApiOperation("Получение списка отелей")
-    @GetMapping("/Hotels")
-    public ResponseEntity<List<Hotel>> getListHotels() {
-        return ResponseEntity.ok(hotelService.getAll());
+    @GetMapping("/{id}")
+    public ModelAndView getHotelDetails(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("hotel");
+        modelAndView.addObject("hotel", hotelService.getById(id));
+        return modelAndView;
+
     }
 
-    @ApiOperation("Редактирование отелей")
-    @PutMapping("/Hotels")
-    public ResponseEntity updateHotel(@RequestBody Hotel hotel) {
-        try {
-            hotelService.update(hotel);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/{id}/rooms")
+    public ModelAndView getHotelRooms(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("hotelRooms");
+        Hotel hotel = hotelService.getById(id);
+        modelAndView.addObject("hotelRooms", hotel.getRooms());
+        return modelAndView;
     }
 
-    @ApiOperation("Удаление отеля")
-    @DeleteMapping("/Hotels/{id}")
-    public ResponseEntity deleteHotel(@PathVariable long id) {
-        hotelService.delete(id);
-        return ResponseEntity.ok().build();
+    @GetMapping("/add")
+    public ModelAndView addHotel() {
+        ModelAndView modelAndView = new ModelAndView("addHotel");
+        modelAndView.addObject("cities", cityService.getAll());
+        return modelAndView;
+    }
+
+    @GetMapping("/{hotelId}/rooms/{roomId}")
+    public ModelAndView getHotelRoom(@PathVariable("roomId") long id) {
+        ModelAndView modelAndView = new ModelAndView("hotelRoom");
+        modelAndView.addObject("hotelRoom", hotelRoomService.getById(id));
+        return modelAndView;
+    }
+
+
+    @GetMapping("/buyingHotelRoom/{id}")
+    public ModelAndView buyingHotelRoom(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("buyingHotelRoom");
+        modelAndView.addObject("hotelRoom", hotelRoomService.getById(id));
+        return modelAndView;
+    }
+
+    @GetMapping("/hotels/{id}")
+    public ModelAndView getHotel(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("hotel");
+        modelAndView.addObject("hotel", hotelService.getById(id));
+        return modelAndView;
+    }
+
+    @PostMapping("/add")
+    public String addHotel(
+            @RequestParam("title") String title,
+            @RequestParam("city") long idCity,
+            @RequestParam("address") String address,
+            @RequestParam("stars") byte stars,
+            @RequestParam HashMap<String, String> params) {
+        City city = cityService.getById(idCity);
+        hotelService.addHotel(new Hotel(0, title, city, address, stars, new ArrayList<HotelRoom>()));
+        return "redirect:/hotels/add";
     }
 }

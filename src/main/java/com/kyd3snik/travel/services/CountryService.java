@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class CountryService {
 
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
 
     public CountryService(CountryRepository countryRepository) {
         this.countryRepository = countryRepository;
@@ -22,6 +22,10 @@ public class CountryService {
 
     public List<Country> getAll() {
         return countryRepository.findAll();
+    }
+
+    public Country getById(Long id) {
+        return countryRepository.findById(id).get();
     }
 
     public void update(Country country) {

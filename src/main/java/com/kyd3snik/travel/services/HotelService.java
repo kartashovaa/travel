@@ -1,6 +1,8 @@
 package com.kyd3snik.travel.services;
 
+import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
+import com.kyd3snik.travel.model.HotelRoom;
 import com.kyd3snik.travel.repository.HotelRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,10 @@ public class HotelService {
         hotelRepository.save(hotel);
     }
 
+    public Hotel getById(long id) {
+        return hotelRepository.findById(id).get();
+    }
+
     public List<Hotel> getAll() {
         return hotelRepository.findAll();
     }
@@ -31,6 +37,14 @@ public class HotelService {
         } else {
             throw new EntityNotFoundException("Hotel not found!");
         }
+    }
+
+    public void addHotelRoomToHotel(Hotel hotel, HotelRoom hotelRoom) {
+        hotel.addHotelRoom(hotelRoom);
+    }
+
+    public List<Hotel> findByCity(City city) {
+        return hotelRepository.findByCity(city);
     }
 
     public void delete(long id) {

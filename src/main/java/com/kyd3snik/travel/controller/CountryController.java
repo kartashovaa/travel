@@ -1,52 +1,62 @@
 package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.Country;
+import com.kyd3snik.travel.services.AuthService;
+import com.kyd3snik.travel.services.CityService;
 import com.kyd3snik.travel.services.CountryService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.http.ResponseEntity;
+import com.kyd3snik.travel.services.ResortService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.HashMap;
 
-@Api(description = "Работа со странами")
-@RestController
+@Controller
+@RequestMapping("/countries")
 public class CountryController {
 
-    private CountryService countryService;
+    private final CountryService countryService;
+    private final ResortService resortService;
+    private final CityService cityService;
 
-    public CountryController(CountryService countryService) {
+    public CountryController(CountryService countryService, ResortService resortService, CityService cityService) {
         this.countryService = countryService;
+        this.resortService = resortService;
+        this.cityService = cityService;
     }
 
-    @ApiOperation("Добавление новой страны")
-    @PostMapping("/countries")
-    public ResponseEntity<Object> addCountry(@RequestBody Country country) {
-        countryService.addCountry(country);
-        return ResponseEntity.ok(country);
+    @GetMapping
+    public ModelAndView getCountries() {
+        ModelAndView modelAndView = new ModelAndView("countries");
+        modelAndView.addObject("countries", countryService.getAll());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
     }
 
-    @ApiOperation("Получение списка стран")
-    @GetMapping("/countries")
-    public ResponseEntity<List<Country>> getListCountries() {
-        return ResponseEntity.ok(countryService.getAll());
+    @GetMapping("/{id}")
+    public ModelAndView getCountry(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("country");
+        Country country = countryService.getById(id);
+        modelAndView.addObject("country", country);
+        modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
+        modelAndView.addObject("cities", cityService.getAllCitiesInCountry(country));
+
+        return modelAndView;
     }
 
-    @ApiOperation("Редактирование стран")
-    @PutMapping("/countries")
-    public ResponseEntity updateCountry(@RequestBody Country country) {
-        try {
-            countryService.update(country);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/add")
+    public ModelAndView addCountry() {
+        return new ModelAndView("addCountry");
     }
 
-    @ApiOperation("Удаление страны")
-    @DeleteMapping("/countries/{id}")
-    public ResponseEntity deleteCountry(@PathVariable long id) {
-        countryService.delete(id);
-        return ResponseEntity.ok().build();
+    @PostMapping("/add")
+    public String addCountry(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam HashMap<String, String> params) {
+        countryService.addCountry(new Country(0, title, description));
+        return "redirect:/countries/add";
     }
+
 }

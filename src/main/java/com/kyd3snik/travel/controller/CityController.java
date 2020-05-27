@@ -1,52 +1,85 @@
 package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.City;
-import com.kyd3snik.travel.services.CityService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.http.ResponseEntity;
+import com.kyd3snik.travel.model.Country;
+import com.kyd3snik.travel.model.Entertainment;
+import com.kyd3snik.travel.repository.HotelRepository;
+import com.kyd3snik.travel.services.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Api(description = "Работа с городами")
-@RestController
+@Controller
+@RequestMapping("/cities")
 public class CityController {
 
-    private CityService cityService;
+    private final CityService cityService;
+    private final HotelRepository hotelService;
+    private final ResortService resortService;
+    private final CountryService countryService;
+    private final EntertainmentService entertainmentService;
 
-    public CityController(CityService cityService) {
+    public CityController(
+            CityService cityService,
+            HotelRepository hotelService,
+            ResortService resortService,
+            CountryService countryService,
+            EntertainmentService entertainmentService
+    ) {
         this.cityService = cityService;
+        this.hotelService = hotelService;
+        this.resortService = resortService;
+        this.countryService = countryService;
+        this.entertainmentService = entertainmentService;
     }
 
-    @ApiOperation("Добавление нового города")
-    @PostMapping("/cities")
-    public ResponseEntity<Object> addCity(@RequestBody City city) {
-        cityService.addCity(city);
-        return ResponseEntity.ok(city);
+
+    @GetMapping
+    public ModelAndView getCities() {
+        ModelAndView modelAndView = new ModelAndView("cities");
+        modelAndView.addObject("cities", cityService.getAll());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
     }
 
-    @ApiOperation("Получение списка городов")
-    @GetMapping("/cities")
-    public ResponseEntity<List<City>> getListCities() {
-        return ResponseEntity.ok(cityService.getAll());
+    @GetMapping("/{id}")
+    public ModelAndView getCity(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("city");
+        City city = cityService.getById(id);
+        modelAndView.addObject("city", city);
+        modelAndView.addObject("hotels", hotelService.findByCity(city));
+        modelAndView.addObject("resorts", resortService.findByArrivalCity(city));
+
+        return modelAndView;
     }
 
-    @ApiOperation("Редактирование города")
-    @PutMapping("/cities")
-    public ResponseEntity updateCity(@RequestBody City city) {
-        try {
-            cityService.update(city);
-            return ResponseEntity.ok().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    @GetMapping("/add")
+    public ModelAndView addCity() {
+        ModelAndView modelAndView = new ModelAndView("addCity");
+        modelAndView.addObject("countries", countryService.getAll());
+        modelAndView.addObject("entertainments", entertainmentService.getAll());
+        return modelAndView;
     }
 
-    @ApiOperation("Удаление города")
-    @DeleteMapping("/cities/{id}")
-    public ResponseEntity deleteCity(@PathVariable long id) {
-        cityService.delete(id);
-        return ResponseEntity.ok().build();
+    @PostMapping("/add")
+    public String addCity(
+            @RequestParam("title") String title,
+            @RequestParam("country") long idCountry,
+            @RequestParam HashMap<String, String> params) {
+        Country country = countryService.getById(idCountry);
+        List<Entertainment> entertainments = params.keySet().stream()
+                .filter(key -> key.startsWith("entertainment"))
+                .map(countryKey -> countryKey.substring(13))
+                .map(Integer::valueOf)
+                .map(entertainmentService::getById)
+                .collect(Collectors.toList());
+        cityService.addCity(new City(0, title, country, entertainments));
+        return "redirect:/cities/add";
     }
+
 }
