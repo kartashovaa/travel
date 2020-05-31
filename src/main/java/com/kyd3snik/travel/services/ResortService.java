@@ -38,8 +38,24 @@ public class ResortService {
         return filterPurchasedResorts(resortRepository.findAll());
     }
 
-    public List<Resort> findByArrivalCity(City city) {
+    public List<Resort> findAvailableByArrivalCity(City city) {
         return filterPurchasedResorts(resortRepository.findByArrivalCity(city));
+    }
+
+    public List<Resort> findByArrivalCity(City city) {
+        return resortRepository.findByArrivalCity(city);
+    }
+
+    public List<Resort> findByDepartureCity(City city) {
+        return resortRepository.findByDepartureCity(city);
+    }
+
+    public List<Resort> findByHotel(Hotel hotel) {
+        return resortRepository.findByHotel(hotel);
+    }
+
+    public List<Resort> findAvailableByHotel(Hotel hotel) {
+        return filterPurchasedResorts(this.findByHotel(hotel));
     }
 
     public void update(Resort resort) {
@@ -52,7 +68,15 @@ public class ResortService {
     }
 
     public void delete(long id) {
-        resortRepository.deleteById(id);
+        if (!this.getById(id).isPurchased()) {
+            resortRepository.deleteById(id);
+        } else {
+            throw new IllegalStateException("Невозможно удалить курорт, т.к. он уже куплен!");
+        }
+    }
+
+    public void delete(List<Resort> resorts) {
+        resorts.forEach(resort -> this.delete(resort.getId()));
     }
 
     public List<Resort> getResortsInCountry(Country country) {

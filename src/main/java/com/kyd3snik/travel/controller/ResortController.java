@@ -150,4 +150,25 @@ public class ResortController {
         modelAndView.addObject("isSuccessful", true);
         return modelAndView;
     }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView deleteResort(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteResort");
+        modelAndView.addObject("resort", resortService.getById(id));
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/delete")
+    public ModelAndView deleteResortPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteResort");
+        modelAndView.addObject("resort", resortService.getById(id));
+
+        try {
+            resortService.delete(id);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
+        return modelAndView;
+    }
 }

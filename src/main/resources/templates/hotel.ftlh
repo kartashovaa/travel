@@ -6,6 +6,7 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<h3><a href="/hotels">Вернуться к списку отелей</a></h3>
 <h2>${hotel.title}</h2>
 
 <p><a href="/cities/${hotel.city.id}">Город: ${hotel.city.title}</a></p>
@@ -32,6 +33,11 @@
     </div>
 </#list>
 
+<form method="get" action="/hotels/${hotel.id}/delete">
+    <p>
+        <button type="submit">Удалить отель</button>
+    </p>
+</form>
 
 </BODY>
 

@@ -3,10 +3,7 @@ package com.kyd3snik.travel.controller;
 import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
 import com.kyd3snik.travel.model.HotelRoom;
-import com.kyd3snik.travel.services.AuthService;
-import com.kyd3snik.travel.services.CityService;
-import com.kyd3snik.travel.services.HotelRoomService;
-import com.kyd3snik.travel.services.HotelService;
+import com.kyd3snik.travel.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,11 +18,13 @@ public class HotelController {
     private final HotelService hotelService;
     private final CityService cityService;
     private final HotelRoomService hotelRoomService;
+    private final ResortService resortService;
 
-    public HotelController(HotelService hotelService, CityService cityService, HotelRoomService hotelRoomService) {
+    public HotelController(HotelService hotelService, CityService cityService, HotelRoomService hotelRoomService, ResortService resortService) {
         this.hotelService = hotelService;
         this.cityService = cityService;
         this.hotelRoomService = hotelRoomService;
+        this.resortService = resortService;
     }
 
     @GetMapping
@@ -101,5 +100,28 @@ public class HotelController {
         City city = cityService.getById(idCity);
         hotelService.addHotel(new Hotel(0, title, city, address, stars, new ArrayList<HotelRoom>()));
         return "redirect:/hotels/add";
+    }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView deleteHotel(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteHotel");
+        modelAndView.addObject("hotel", hotelService.getById(id));
+        modelAndView.addObject("resorts", resortService.findByHotel(hotelService.getById(id)));
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/delete")
+    public ModelAndView deleteHotelPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteHotel");
+        modelAndView.addObject("hotel", hotelService.getById(id));
+        modelAndView.addObject("resorts", resortService.findByHotel(hotelService.getById(id)));
+
+        try {
+            hotelService.delete(id);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
+        return modelAndView;
     }
 }

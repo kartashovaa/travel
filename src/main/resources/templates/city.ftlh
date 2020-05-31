@@ -6,6 +6,7 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<h3><a href="/cities">Вернуться к списку городов</a></h3>
 <h2>${city.title}</h2>
 
 <p>Список развлечений:</p>
@@ -42,6 +43,12 @@
         </li>
     </#list>
 </ul>
+
+<form method="get" action="/cities/${city.id}/delete">
+    <p>
+        <button type="submit">Удалить город</button>
+    </p>
+</form>
 
 </BODY>
 

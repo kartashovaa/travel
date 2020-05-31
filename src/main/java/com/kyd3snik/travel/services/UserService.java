@@ -95,7 +95,7 @@ public class UserService {
 
     public void refill() {
         User user = AuthService.getUser();
-        user.setBalance(10000);
+        user.setBalance(50000);
         userRepository.save(user);
     }
 }

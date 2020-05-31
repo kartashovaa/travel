@@ -62,7 +62,7 @@ public class CityController {
         City city = cityService.getById(id);
         modelAndView.addObject("city", city);
         modelAndView.addObject("hotels", hotelService.findByCity(city));
-        modelAndView.addObject("resorts", resortService.findByArrivalCity(city));
+        modelAndView.addObject("resorts", resortService.findAvailableByArrivalCity(city));
 
         return modelAndView;
     }
@@ -89,6 +89,33 @@ public class CityController {
                 .collect(Collectors.toList());
         cityService.addCity(new City(0, title, country, entertainments));
         return "redirect:/cities/add";
+    }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView deleteHotel(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCity");
+        City city = cityService.getById(id);
+        modelAndView.addObject("city", city);
+        modelAndView.addObject("hotels", hotelService.findByCity(city));
+        modelAndView.addObject("resorts", resortService.findAvailableByArrivalCity(city));
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/delete")
+    public ModelAndView deleteHotelPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCity");
+        City city = cityService.getById(id);
+        modelAndView.addObject("city", city);
+        modelAndView.addObject("hotels", hotelService.findByCity(city));
+        modelAndView.addObject("resorts", resortService.findAvailableByArrivalCity(city));
+
+        try {
+            cityService.delete(id);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
+        return modelAndView;
     }
 
 }

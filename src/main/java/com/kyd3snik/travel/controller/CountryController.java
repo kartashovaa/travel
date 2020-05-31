@@ -68,4 +68,31 @@ public class CountryController {
         return "redirect:/countries/add";
     }
 
+    @GetMapping("/{id}/delete")
+    public ModelAndView deleteCountry(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCountry");
+        Country country = countryService.getById(id);
+        modelAndView.addObject("country", country);
+        modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
+        modelAndView.addObject("cities", cityService.getAllCitiesInCountry(country));
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/delete")
+    public ModelAndView deleteCountryPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCountry");
+        Country country = countryService.getById(id);
+        modelAndView.addObject("country", country);
+        modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
+        modelAndView.addObject("cities", cityService.getAllCitiesInCountry(country));
+
+        try {
+            countryService.delete(id);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
+        return modelAndView;
+    }
+
 }
