@@ -55,7 +55,7 @@ public class HotelService {
 
     public void delete(long id) {
         User user = AuthService.getUser();
-        Hotel hotel = this.getById(id);
+        Hotel hotel = getById(id);
         List<Resort> resorts = resortService.findByHotel(hotel);
         throwIfCantDelete(user, resorts);
 
@@ -64,7 +64,7 @@ public class HotelService {
     }
 
     public void delete(List<Hotel> hotels) {
-        hotels.forEach(hotel -> this.delete(hotel.getId()));
+        hotels.forEach(hotel -> delete(hotel.getId()));
     }
 
     private void throwIfCantDelete(User user, List<Resort> resorts) {

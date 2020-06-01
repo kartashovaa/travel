@@ -26,11 +26,11 @@
 
 <a href="/resorts/${resort.id}/buy">Купить билеты</a>
 
-<form method="get" action="/resorts/${resort.id}/delete">
-    <p>
+
+<p><a href="/resorts/${resort.id}/delete">
         <button type="submit">Удалить курорт</button>
-    </p>
-</form>
+    </a></p>
+
 </BODY>
 
 </HTML>

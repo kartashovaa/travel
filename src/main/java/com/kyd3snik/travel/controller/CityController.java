@@ -91,8 +91,9 @@ public class CityController {
         return "redirect:/cities/add";
     }
 
+    //TODO: Для всех страниц удаления: сделать доступ только для администраторов
     @GetMapping("/{id}/delete")
-    public ModelAndView deleteHotel(@PathVariable("id") long id) {
+    public ModelAndView deleteCity(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("deleteCity");
         City city = cityService.getById(id);
         modelAndView.addObject("city", city);
@@ -102,7 +103,7 @@ public class CityController {
     }
 
     @PostMapping("/{id}/delete")
-    public ModelAndView deleteHotelPost(@PathVariable("id") long id) {
+    public ModelAndView deleteCityPost(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("deleteCity");
         City city = cityService.getById(id);
         modelAndView.addObject("city", city);

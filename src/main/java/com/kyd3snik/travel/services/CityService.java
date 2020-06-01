@@ -53,7 +53,7 @@ public class CityService {
 
     public void delete(long id) {
         User user = AuthService.getUser();
-        City city = this.getById(id);
+        City city = getById(id);
         List<Resort> resortsArrival = resortService.findByArrivalCity(city);
         List<Resort> resortsDeparture = resortService.findByDepartureCity(city);
         List<Hotel> hotels = hotelService.findByCity(city);
@@ -65,7 +65,7 @@ public class CityService {
     }
 
     public void delete(List<City> cities) {
-        cities.forEach(city -> this.delete(city.getId()));
+        cities.forEach(city -> delete(city.getId()));
     }
 
     private void throwIfCantDelete(User tempUser, City city, List<Resort> resortsArrival, List<Resort> resortsDeparture,

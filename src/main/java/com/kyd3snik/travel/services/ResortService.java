@@ -68,7 +68,7 @@ public class ResortService {
     }
 
     public void delete(long id) {
-        if (!this.getById(id).isPurchased()) {
+        if (!getById(id).isPurchased()) {
             resortRepository.deleteById(id);
         } else {
             throw new IllegalStateException("Невозможно удалить курорт, т.к. он уже куплен!");

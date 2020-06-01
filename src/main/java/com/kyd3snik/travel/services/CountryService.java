@@ -53,7 +53,7 @@ public class CountryService {
 
     public void delete(long id) {
         User user = AuthService.getUser();
-        Country country = this.getById(id);
+        Country country = getById(id);
         List<City> cities = cityService.getAllCitiesInCountry(country);
         List<Resort> resortsArrival = new ArrayList<>();
         for (City city : cities

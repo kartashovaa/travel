@@ -33,11 +33,10 @@
     </div>
 </#list>
 
-<form method="get" action="/hotels/${hotel.id}/delete">
-    <p>
+
+<p><a href="/hotels/${hotel.id}/delete">
         <button type="submit">Удалить отель</button>
-    </p>
-</form>
+    </a></p>
 
 </BODY>
 

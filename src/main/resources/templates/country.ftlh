@@ -40,11 +40,9 @@
     </#list>
 </ul>
 
-<form method="get" action="/countries/${country.id}/delete">
-    <p>
+<p><a href="/countries/${country.id}/delete">
         <button type="submit">Удалить страны</button>
-    </p>
-</form>
+    </a></p>
 
 </BODY>
 

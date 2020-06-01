@@ -105,16 +105,18 @@ public class HotelController {
     @GetMapping("/{id}/delete")
     public ModelAndView deleteHotel(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("deleteHotel");
-        modelAndView.addObject("hotel", hotelService.getById(id));
-        modelAndView.addObject("resorts", resortService.findByHotel(hotelService.getById(id)));
+        Hotel hotel = hotelService.getById(id);
+        modelAndView.addObject("hotel", hotel);
+        modelAndView.addObject("resorts", resortService.findByHotel(hotel));
         return modelAndView;
     }
 
     @PostMapping("/{id}/delete")
     public ModelAndView deleteHotelPost(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("deleteHotel");
-        modelAndView.addObject("hotel", hotelService.getById(id));
-        modelAndView.addObject("resorts", resortService.findByHotel(hotelService.getById(id)));
+        Hotel hotel = hotelService.getById(id);
+        modelAndView.addObject("hotel", hotel);
+        modelAndView.addObject("resorts", resortService.findByHotel(hotel));
 
         try {
             hotelService.delete(id);
