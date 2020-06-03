@@ -59,6 +59,7 @@ public class CityService {
         List<Hotel> hotels = hotelService.findByCity(city);
         throwIfCantDelete(user, city, resortsArrival, resortsDeparture, userService.getAll());
 
+        resortService.delete(resortsArrival);
         hotelService.delete(hotels);
         resortService.delete(resortsDeparture);
         cityRepository.deleteById(id);
