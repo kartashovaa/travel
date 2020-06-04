@@ -6,6 +6,7 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<h3><a href="/hotels">Вернуться к списку отелей</a></h3>
 <h2>${hotel.title}</h2>
 
 <p><a href="/cities/${hotel.city.id}">Город: ${hotel.city.title}</a></p>
@@ -28,10 +29,14 @@
                 <li>Стоимость: ${room.cost}</li>
             </ul>
         </a>
-        <a href="/buyingHotelRoom/${room.id}">Забронировать номер</a>
+        <!--<a href="/buyingHotelRoom/{room.id}">Забронировать номер</a>-->
     </div>
 </#list>
 
+
+<p><a href="/hotels/${hotel.id}/delete">
+        <button type="submit">Удалить отель</button>
+    </a></p>
 
 </BODY>
 

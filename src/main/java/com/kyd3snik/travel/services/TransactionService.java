@@ -15,8 +15,16 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    public ResortTransaction getById(long id) {
+        return transactionRepository.findById(id).get();
+    }
+
     public void save(ResortTransaction transaction) {
         transactionRepository.save(transaction);
+    }
+
+    public void delete(ResortTransaction transaction) {
+        transactionRepository.delete(transaction);
     }
 
     public List<ResortTransaction> getTransactions(User user) {

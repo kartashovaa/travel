@@ -32,4 +32,5 @@ public class Resort {
     private Date endDate;
     private float cost;
     private byte personCount;
+    private boolean isPurchased;
 }

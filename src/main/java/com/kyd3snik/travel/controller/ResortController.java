@@ -1,9 +1,6 @@
 package com.kyd3snik.travel.controller;
 
-import com.kyd3snik.travel.model.City;
-import com.kyd3snik.travel.model.Hotel;
-import com.kyd3snik.travel.model.Resort;
-import com.kyd3snik.travel.model.Tag;
+import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.services.*;
 import com.kyd3snik.travel.util.DateUtil;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,20 +22,31 @@ public class ResortController {
     private final TagService tagService;
     private final HotelRoomService hotelRoomService;
     private final UserService userService;
+    private final TransactionService transactionService;
 
-    public ResortController(ResortService resortService, HotelService hotelService, CityService cityService, TagService tagService, HotelRoomService hotelRoomService, UserService userService) {
+    public ResortController(ResortService resortService, HotelService hotelService, CityService cityService, TagService tagService, HotelRoomService hotelRoomService, UserService userService, TransactionService transactionService) {
         this.resortService = resortService;
         this.hotelService = hotelService;
         this.cityService = cityService;
         this.tagService = tagService;
         this.hotelRoomService = hotelRoomService;
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping
     public ModelAndView getResorts() {
         ModelAndView modelAndView = new ModelAndView("resorts");
-        modelAndView.addObject("resorts", resortService.getAll());
+        modelAndView.addObject("resorts", resortService.getAllAvailable());
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
+    }
+
+    @GetMapping("/search")
+    public ModelAndView searchByTitle(@RequestParam("search") String title) {
+        ModelAndView modelAndView = new ModelAndView("resorts");
+        modelAndView.addObject("resorts", resortService.searchByTitle(title));
         modelAndView.addObject("isModerator",
                 AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
@@ -68,6 +76,32 @@ public class ResortController {
         Resort resort = resortService.getById(id);
         try {
             userService.buyResort(resort);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
+        return modelAndView;
+    }
+
+    @GetMapping("/{id}/cancellation")
+    public ModelAndView purchaseCancellation(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("purchaseCancellation");
+        modelAndView.addObject("transaction", transactionService.getById(id));
+        modelAndView.addObject("resort", transactionService.getById(id).getResort());
+        //TODO: Нужно сделать доступ только для того пользователя, который купил этот курорт
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/cancellation")
+    public ModelAndView purchaseCancellationPost(@PathVariable("id") long id) {
+        ResortTransaction transaction = transactionService.getById(id);
+        Resort resort = transaction.getResort();
+        ModelAndView modelAndView = new ModelAndView("purchaseCancellation");
+        modelAndView.addObject("resort", resort);
+        modelAndView.addObject("isUserAuthenticated", AuthService.isAuthenticated());
+
+        try {
+            userService.cancelPurchase(transaction);
             modelAndView.addObject("isSuccessful", true);
         } catch (Exception e) {
             modelAndView.addObject("errorMessage", e.getMessage());
@@ -112,8 +146,29 @@ public class ResortController {
                 .collect(Collectors.toList());
 
         resortService.addResort(new Resort(0, title, description, departureCity, arrivalCity, tags, hotel,
-                DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount));
+                DateUtil.getPeriod(startDate, endDate), startDate, endDate, cost, personCount, false));
         modelAndView.addObject("isSuccessful", true);
+        return modelAndView;
+    }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView deleteResort(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteResort");
+        modelAndView.addObject("resort", resortService.getById(id));
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/delete")
+    public ModelAndView deleteResortPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteResort");
+        modelAndView.addObject("resort", resortService.getById(id));
+
+        try {
+            resortService.delete(id);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
         return modelAndView;
     }
 }

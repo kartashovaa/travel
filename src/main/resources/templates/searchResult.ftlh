@@ -21,7 +21,7 @@
     <form method="post" action="/search">
         <ul class="searchPanelList">
             <li>
-                <p><span>Количество человек</span>
+                <p><span>Минимальное количество человек</span>
                     <input type="number" size="2" name="personCount" min="1" max="20"
                            value="#{personCount!1}"></p>
             </li>
@@ -71,6 +71,7 @@
                 <p><span>Необходимые теги</span>
                     <#list tags as tag>
                         <input type="checkbox" name="tag${tag.data.id}"
+
                                <#if tag.isSelected()>checked</#if>>${tag.data.title}</input>
                     </#list>
                 </p>
@@ -140,7 +141,7 @@
             <p>Стоимость: ${resort.cost}</p>
             <a>Теги:</a>
             <ul>
-                <#list resort.tags as tag><a>${tag.title}</a></#list>
+                <#list resort.tags as tag><a>${tag.title} </a></#list>
             </ul>
 
             <p>Дата отправления: ${resort.startDate?string('dd.MM.yyyy')}</p>

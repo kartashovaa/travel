@@ -34,6 +34,15 @@ public class CountryController {
         return modelAndView;
     }
 
+    @GetMapping("/search")
+    public ModelAndView searchByTitle(@RequestParam("search") String title) {
+        ModelAndView modelAndView = new ModelAndView("countries");
+        modelAndView.addObject("countries", countryService.searchByTitle(title));
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
+    }
+
     @GetMapping("/{id}")
     public ModelAndView getCountry(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("country");
@@ -57,6 +66,33 @@ public class CountryController {
             @RequestParam HashMap<String, String> params) {
         countryService.addCountry(new Country(0, title, description));
         return "redirect:/countries/add";
+    }
+
+    @GetMapping("/{id}/delete")
+    public ModelAndView deleteCountry(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCountry");
+        Country country = countryService.getById(id);
+        modelAndView.addObject("country", country);
+        modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
+        modelAndView.addObject("cities", cityService.getAllCitiesInCountry(country));
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/delete")
+    public ModelAndView deleteCountryPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCountry");
+        Country country = countryService.getById(id);
+        modelAndView.addObject("country", country);
+        modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
+        modelAndView.addObject("cities", cityService.getAllCitiesInCountry(country));
+
+        try {
+            countryService.delete(id);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
+        return modelAndView;
     }
 
 }

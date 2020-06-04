@@ -47,13 +47,22 @@ public class CityController {
         return modelAndView;
     }
 
+    @GetMapping("/search")
+    public ModelAndView searchByTitle(@RequestParam("search") String title) {
+        ModelAndView modelAndView = new ModelAndView("cities");
+        modelAndView.addObject("cities", cityService.searchByTitle(title));
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
+        return modelAndView;
+    }
+
     @GetMapping("/{id}")
     public ModelAndView getCity(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("city");
         City city = cityService.getById(id);
         modelAndView.addObject("city", city);
         modelAndView.addObject("hotels", hotelService.findByCity(city));
-        modelAndView.addObject("resorts", resortService.findByArrivalCity(city));
+        modelAndView.addObject("resorts", resortService.findAvailableByArrivalCity(city));
 
         return modelAndView;
     }
@@ -80,6 +89,34 @@ public class CityController {
                 .collect(Collectors.toList());
         cityService.addCity(new City(0, title, country, entertainments));
         return "redirect:/cities/add";
+    }
+
+    //TODO: Для всех страниц удаления: сделать доступ только для администраторов
+    @GetMapping("/{id}/delete")
+    public ModelAndView deleteCity(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCity");
+        City city = cityService.getById(id);
+        modelAndView.addObject("city", city);
+        modelAndView.addObject("hotels", hotelService.findByCity(city));
+        modelAndView.addObject("resorts", resortService.findAvailableByArrivalCity(city));
+        return modelAndView;
+    }
+
+    @PostMapping("/{id}/delete")
+    public ModelAndView deleteCityPost(@PathVariable("id") long id) {
+        ModelAndView modelAndView = new ModelAndView("deleteCity");
+        City city = cityService.getById(id);
+        modelAndView.addObject("city", city);
+        modelAndView.addObject("hotels", hotelService.findByCity(city));
+        modelAndView.addObject("resorts", resortService.findAvailableByArrivalCity(city));
+
+        try {
+            cityService.delete(id);
+            modelAndView.addObject("isSuccessful", true);
+        } catch (Exception e) {
+            modelAndView.addObject("errorMessage", e.getMessage());
+        }
+        return modelAndView;
     }
 
 }

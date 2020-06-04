@@ -38,7 +38,7 @@ public class MainController {
         modelAndView.addObject("isUserAuthenticated", auth != null);
         modelAndView.addObject("today", DateUtil.getToday());
         City city = cityService.getById(26);
-        List<Resort> hotels = resortService.findByArrivalCity(city);
+        List<Resort> hotels = resortService.findAvailableByArrivalCity(city);
         return getResortsSearchParameters(modelAndView);
     }
 

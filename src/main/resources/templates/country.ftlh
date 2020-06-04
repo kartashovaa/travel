@@ -6,6 +6,7 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<h3><a href="/countries">Вернуться к списку стран</a></h3>
 <h2>${country.title}</h2>
 
 <p>${country.description}</p>
@@ -38,6 +39,10 @@
         </li>
     </#list>
 </ul>
+
+<p><a href="/countries/${country.id}/delete">
+        <button type="submit">Удалить страны</button>
+    </a></p>
 
 </BODY>
 

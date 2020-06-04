@@ -9,6 +9,12 @@
 <#if isModerator>
     <p><a href="/resorts/add">Добавить курорт</a></p>
 </#if>
+
+<form method="get" action="/resorts/search">
+    <input type="text" name="search">
+    <button type="submit">Поиск по названию</button>
+</form>
+
 <h1>Курорты</h1>
 <ul>
     <#list resorts as resort>

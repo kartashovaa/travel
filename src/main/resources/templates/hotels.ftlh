@@ -11,7 +11,12 @@
     <p><a href="/hotelRooms/add">Добавить номер</a></p>
 </#if>
 
-<p>Гостиницы</p>
+<form method="get" action="/hotels/search">
+    <input type="text" name="search">
+    <button type="submit">Поиск по названию</button>
+</form>
+
+<h1>Гостиницы</h1>
 <ul>
     <#list hotels as hotel>
         <div>
