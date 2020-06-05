@@ -1,23 +1,26 @@
 package com.kyd3snik.travel.services;
 
-import com.kyd3snik.travel.model.*;
+import com.kyd3snik.travel.model.City;
+import com.kyd3snik.travel.model.Country;
+import com.kyd3snik.travel.model.Resort;
+import com.kyd3snik.travel.model.User;
 import com.kyd3snik.travel.repository.CityRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CityService {
 
     private final CityRepository cityRepository;
-    private final HotelService hotelService;
     private final ResortService resortService;
     private final UserService userService;
 
-    public CityService(CityRepository cityRepository, HotelService hotelService, ResortService resortService, UserService userService) {
+    public CityService(CityRepository cityRepository, ResortService resortService, UserService userService) {
         this.cityRepository = cityRepository;
-        this.hotelService = hotelService;
         this.resortService = resortService;
         this.userService = userService;
     }
@@ -31,7 +34,11 @@ public class CityService {
     }
 
     public City getById(long id) {
-        return cityRepository.findById(id).get();
+        Optional<City> city = cityRepository.findById(id);
+        if (city.isPresent())
+            return city.get();
+        else
+            throw new NoSuchElementException();
     }
 
     public List<City> getAll() {
@@ -39,8 +46,7 @@ public class CityService {
     }
 
     public void update(City city) {
-        boolean exists = cityRepository.existsById(city.getId());
-        if (exists) {
+        if (cityRepository.findById(city.getId()).isPresent()) {
             cityRepository.save(city);
         } else {
             throw new EntityNotFoundException("City not found!");
@@ -54,14 +60,9 @@ public class CityService {
     public void delete(long id) {
         User user = AuthService.getUser();
         City city = getById(id);
-        List<Resort> resortsArrival = resortService.findByArrivalCity(city);
-        List<Resort> resortsDeparture = resortService.findByDepartureCity(city);
-        List<Hotel> hotels = hotelService.findByCity(city);
-        throwIfCantDelete(user, city, resortsArrival, resortsDeparture, userService.getAll());
+        throwIfCantDelete(user, getById(id), resortService.findByArrivalCity(city),
+                resortService.findByDepartureCity(city), userService.getAll());
 
-        resortService.delete(resortsArrival);
-        hotelService.delete(hotels);
-        resortService.delete(resortsDeparture);
         cityRepository.deleteById(id);
     }
 

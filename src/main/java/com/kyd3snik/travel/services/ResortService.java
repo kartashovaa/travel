@@ -2,17 +2,20 @@ package com.kyd3snik.travel.services;
 
 import com.kyd3snik.travel.model.*;
 import com.kyd3snik.travel.repository.ResortRepository;
+import com.kyd3snik.travel.util.DateUtil;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ResortService {
 
-    private ResortRepository resortRepository;
+    private final ResortRepository resortRepository;
 
     public ResortService(ResortRepository resortRepository) {
         this.resortRepository = resortRepository;
@@ -23,7 +26,11 @@ public class ResortService {
     }
 
     public Resort getById(long id) {
-        return resortRepository.findById(id).get();
+        Optional<Resort> resort = resortRepository.findById(id);
+        if (resort.isPresent())
+            return resort.get();
+        else
+            throw new NoSuchElementException();
     }
 
     public List<Resort> getAll() {
@@ -35,11 +42,11 @@ public class ResortService {
     }
 
     public List<Resort> getAllAvailable() {
-        return filterPurchasedResorts(resortRepository.findAll());
+        return filterPurchasedAndPastResorts(resortRepository.findAll());
     }
 
     public List<Resort> findAvailableByArrivalCity(City city) {
-        return filterPurchasedResorts(resortRepository.findByArrivalCity(city));
+        return filterPurchasedAndPastResorts(resortRepository.findByArrivalCity(city));
     }
 
     public List<Resort> findByArrivalCity(City city) {
@@ -55,12 +62,11 @@ public class ResortService {
     }
 
     public List<Resort> findAvailableByHotel(Hotel hotel) {
-        return filterPurchasedResorts(this.findByHotel(hotel));
+        return filterPurchasedAndPastResorts(this.findByHotel(hotel));
     }
 
     public void update(Resort resort) {
-        boolean exists = resortRepository.existsById(resort.getId());
-        if (exists) {
+        if (resortRepository.findById(resort.getId()).isPresent()) {
             resortRepository.save(resort);
         } else {
             throw new EntityNotFoundException("Resort not found!");
@@ -80,7 +86,7 @@ public class ResortService {
     }
 
     public List<Resort> getResortsInCountry(Country country) {
-        return filterPurchasedResorts(resortRepository.findByArrivalCity_Country(country));
+        return filterPurchasedAndPastResorts(resortRepository.findByArrivalCity_Country(country));
     }
 
     public List<Resort> search(SearchModel model) {
@@ -103,8 +109,9 @@ public class ResortService {
         return hotel.getRooms().stream().flatMap(room -> room.getFacilities().stream()).collect(Collectors.toList());
     }
 
-    private List<Resort> filterPurchasedResorts(List<Resort> resorts) {
+    private List<Resort> filterPurchasedAndPastResorts(List<Resort> resorts) {
         return resorts.stream()
+                .filter(resort -> !resort.getStartDate().before(DateUtil.getToday()))
                 .filter(resort -> !resort.isPurchased())
                 .collect(Collectors.toList());
     }

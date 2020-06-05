@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CountryService {
@@ -39,12 +41,15 @@ public class CountryService {
     }
 
     public Country getById(Long id) {
-        return countryRepository.findById(id).get();
+        Optional<Country> country = countryRepository.findById(id);
+        if (country.isPresent())
+            return country.get();
+        else
+            throw new NoSuchElementException();
     }
 
     public void update(Country country) {
-        boolean exists = countryRepository.existsById(country.getId());
-        if (exists) {
+        if (countryRepository.findById(country.getId()).isPresent()) {
             countryRepository.save(country);
         } else {
             throw new EntityNotFoundException("Country not found!");
@@ -56,19 +61,15 @@ public class CountryService {
         Country country = getById(id);
         List<City> cities = cityService.getAllCitiesInCountry(country);
         List<Resort> resortsArrival = new ArrayList<>();
-        for (City city : cities
-        ) {
-            resortsArrival.addAll(resortService.findByArrivalCity(city));
-        }
         List<Resort> resortsDeparture = new ArrayList<>();
         for (City city : cities
         ) {
+            resortsArrival.addAll(resortService.findByArrivalCity(city));
             resortsDeparture.addAll(resortService.findByDepartureCity(city));
         }
-        List<User> users = userService.getAll();
-        throwIfCantDelete(user, users, cities, resortsArrival, resortsDeparture);
 
-        cityService.delete(cities);
+        throwIfCantDelete(user, userService.getAll(), cities, resortsArrival, resortsDeparture);
+
         countryRepository.deleteById(id);
     }
 

@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class HotelRoomService {
-    private HotelRoomRepository hotelRoomRepository;
+    private final HotelRoomRepository hotelRoomRepository;
 
     public HotelRoomService(HotelRoomRepository hotelRoomRepository) {
         this.hotelRoomRepository = hotelRoomRepository;
@@ -20,7 +22,11 @@ public class HotelRoomService {
     }
 
     public HotelRoom getById(long id) {
-        return hotelRoomRepository.findById(id).get();
+        Optional<HotelRoom> hotelRoom = hotelRoomRepository.findById(id);
+        if (hotelRoom.isPresent())
+            return hotelRoom.get();
+        else
+            throw new NoSuchElementException();
     }
 
     public List<HotelRoom> getAll() {
@@ -28,8 +34,7 @@ public class HotelRoomService {
     }
 
     public void update(HotelRoom hotelRoom) {
-        boolean exists = hotelRoomRepository.existsById(hotelRoom.getId());
-        if (exists) {
+        if (hotelRoomRepository.findById(hotelRoom.getId()).isPresent()) {
             hotelRoomRepository.save(hotelRoom);
         } else {
             throw new EntityNotFoundException("Hotel room not found!");

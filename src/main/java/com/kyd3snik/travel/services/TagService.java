@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class TagService {
 
-    private TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
     public TagService(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
@@ -21,7 +23,11 @@ public class TagService {
     }
 
     public Tag getById(long id) {
-        return tagRepository.findById(id).get();
+        Optional<Tag> tag = tagRepository.findById(id);
+        if (tag.isPresent())
+            return tag.get();
+        else
+            throw new NoSuchElementException();
     }
 
     public List<Tag> getAll() {
@@ -29,8 +35,7 @@ public class TagService {
     }
 
     public void update(Tag tag) {
-        boolean exists = tagRepository.existsById(tag.getId());
-        if (exists) {
+        if (tagRepository.findById(tag.getId()).isPresent()) {
             tagRepository.save(tag);
         } else {
             throw new EntityNotFoundException("Tag not found!");

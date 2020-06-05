@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class EntertainmentService {
 
-    private EntertainmentRepository entertainmentRepository;
+    private final EntertainmentRepository entertainmentRepository;
 
     public EntertainmentService(EntertainmentRepository entertainmentRepository) {
         this.entertainmentRepository = entertainmentRepository;
@@ -21,7 +23,11 @@ public class EntertainmentService {
     }
 
     public Entertainment getById(long id) {
-        return entertainmentRepository.findById(id).get();
+        Optional<Entertainment> entertainment = entertainmentRepository.findById(id);
+        if (entertainment.isPresent())
+            return entertainment.get();
+        else
+            throw new NoSuchElementException();
     }
 
     public List<Entertainment> getAll() {
@@ -29,8 +35,7 @@ public class EntertainmentService {
     }
 
     public void update(Entertainment entertainment) {
-        boolean exists = entertainmentRepository.existsById(entertainment.getId());
-        if (exists) {
+        if (entertainmentRepository.findById(entertainment.getId()).isPresent()) {
             entertainmentRepository.save(entertainment);
         } else {
             throw new EntityNotFoundException("Entertainment not found!");

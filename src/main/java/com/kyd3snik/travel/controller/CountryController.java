@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 @Controller
@@ -64,7 +65,7 @@ public class CountryController {
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam HashMap<String, String> params) {
-        countryService.addCountry(new Country(0, title, description));
+        countryService.addCountry(new Country(0, title, description, Collections.emptyList()));
         return "redirect:/countries/add";
     }
 

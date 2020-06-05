@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class FacilityService {
 
-    private FacilityRepository facilityRepository;
+    private final FacilityRepository facilityRepository;
 
     public FacilityService(FacilityRepository facilityRepository) {
         this.facilityRepository = facilityRepository;
@@ -21,7 +23,11 @@ public class FacilityService {
     }
 
     public Facility getById(long id) {
-        return facilityRepository.findById(id).get();
+        Optional<Facility> facility = facilityRepository.findById(id);
+        if (facility.isPresent())
+            return facility.get();
+        else
+            throw new NoSuchElementException();
     }
 
     public List<Facility> getAll() {
@@ -29,8 +35,7 @@ public class FacilityService {
     }
 
     public void update(Facility facility) {
-        boolean exists = facilityRepository.existsById(facility.getId());
-        if (exists) {
+        if (facilityRepository.findById(facility.getId()).isPresent()) {
             facilityRepository.save(facility);
         } else {
             throw new EntityNotFoundException("Facility not found!");

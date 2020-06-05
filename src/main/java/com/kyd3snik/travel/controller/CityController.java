@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,7 +88,7 @@ public class CityController {
                 .map(Integer::valueOf)
                 .map(entertainmentService::getById)
                 .collect(Collectors.toList());
-        cityService.addCity(new City(0, title, country, entertainments));
+        cityService.addCity(new City(0, title, country, entertainments, Collections.emptyList()));
         return "redirect:/cities/add";
     }
 
