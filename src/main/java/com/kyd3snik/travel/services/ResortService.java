@@ -30,8 +30,32 @@ public class ResortService {
         return resortRepository.findAll();
     }
 
+    public List<Resort> searchByTitle(String string) {
+        return resortRepository.findByTitleContainingIgnoreCase(string);
+    }
+
+    public List<Resort> getAllAvailable() {
+        return filterPurchasedResorts(resortRepository.findAll());
+    }
+
+    public List<Resort> findAvailableByArrivalCity(City city) {
+        return filterPurchasedResorts(resortRepository.findByArrivalCity(city));
+    }
+
     public List<Resort> findByArrivalCity(City city) {
         return resortRepository.findByArrivalCity(city);
+    }
+
+    public List<Resort> findByDepartureCity(City city) {
+        return resortRepository.findByDepartureCity(city);
+    }
+
+    public List<Resort> findByHotel(Hotel hotel) {
+        return resortRepository.findByHotel(hotel);
+    }
+
+    public List<Resort> findAvailableByHotel(Hotel hotel) {
+        return filterPurchasedResorts(this.findByHotel(hotel));
     }
 
     public void update(Resort resort) {
@@ -44,15 +68,23 @@ public class ResortService {
     }
 
     public void delete(long id) {
-        resortRepository.deleteById(id);
+        if (!getById(id).isPurchased()) {
+            resortRepository.deleteById(id);
+        } else {
+            throw new IllegalStateException("Невозможно удалить курорт, т.к. он уже куплен!");
+        }
+    }
+
+    public void delete(List<Resort> resorts) {
+        resorts.forEach(resort -> this.delete(resort.getId()));
     }
 
     public List<Resort> getResortsInCountry(Country country) {
-        return resortRepository.findByArrivalCity_Country(country);
+        return filterPurchasedResorts(resortRepository.findByArrivalCity_Country(country));
     }
 
     public List<Resort> search(SearchModel model) {
-        return resortRepository.findAll().stream()
+        return this.getAllAvailable().stream()
                 .filter((resort) -> resort.getCost() >= model.getMinCost() && resort.getCost() <= model.getMaxCost())
                 .filter((resort) -> resort.getDurationInDays() >= model.getMinDuration() && resort.getDurationInDays() <= model.getMaxDuration())
                 .filter((resort) -> resort.getStartDate().after(model.getStartDate()))
@@ -69,6 +101,12 @@ public class ResortService {
 
     private List<Facility> getAllFacilitiesInHotel(Hotel hotel) {
         return hotel.getRooms().stream().flatMap(room -> room.getFacilities().stream()).collect(Collectors.toList());
+    }
+
+    private List<Resort> filterPurchasedResorts(List<Resort> resorts) {
+        return resorts.stream()
+                .filter(resort -> !resort.isPurchased())
+                .collect(Collectors.toList());
     }
 
     private Comparator<Resort> getComparator(SortType sort) {

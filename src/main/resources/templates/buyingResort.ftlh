@@ -6,6 +6,7 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<h3><a href="/resorts">Вернуться к списку курортов</a></h3>
 <#if isSuccessful??>
     <h3 style="color: #00ff00">Путевка успешно офомлена</h3>
 </#if>

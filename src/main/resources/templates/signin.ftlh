@@ -18,7 +18,9 @@
     <input type="text" name="username" required>
     <p>Пароль</p>
     <input type="password" name="password" required>
-    <button type="submit">Войти</button>
+    <p>
+        <button type="submit">Войти</button>
+    </p>
 </form>
 <a href="/signup">У меня нет аккаунта</a>
 </BODY>

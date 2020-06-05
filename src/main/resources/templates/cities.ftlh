@@ -11,6 +11,11 @@
     <p><a href="/cities/add">Добавить город</a></p>
 </#if>
 
+<form method="get" action="/cities/search">
+    <input type="text" name="search">
+    <button type="submit">Поиск по названию</button>
+</form>
+
 <h1>Города:</h1>
 
 <ul>

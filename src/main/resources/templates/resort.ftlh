@@ -6,6 +6,7 @@
 </HEAD>
 <BODY>
 <h3><a href="/">Вернуться на главную</a></h3>
+<h3><a href="/resorts">Вернуться к списку курортов</a></h3>
 <h2>${resort.title}</h2>
 <p><a href="/countries/${resort.hotel.city.country.id}">Страна: ${resort.hotel.city.country.title}</a></p>
 <p><a href="/cities/${resort.arrivalCity.id}">Город: ${resort.arrivalCity.title}</a></p>
@@ -24,6 +25,12 @@
 <p>Дата прибытия: ${resort.endDate?string('dd.MM.yyyy')}</p>
 
 <a href="/resorts/${resort.id}/buy">Купить билеты</a>
+
+
+<p><a href="/resorts/${resort.id}/delete">
+        <button type="submit">Удалить курорт</button>
+    </a></p>
+
 </BODY>
 
 </HTML>
