@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class CountryService {
@@ -41,11 +39,7 @@ public class CountryService {
     }
 
     public Country getById(Long id) {
-        Optional<Country> country = countryRepository.findById(id);
-        if (country.isPresent())
-            return country.get();
-        else
-            throw new NoSuchElementException();
+        return countryRepository.findById(id).orElseThrow(() -> new IllegalStateException("Страна не найдена"));
     }
 
     public void update(Country country) {

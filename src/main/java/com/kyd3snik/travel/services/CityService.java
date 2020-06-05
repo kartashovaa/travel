@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class CityService {
@@ -34,11 +32,7 @@ public class CityService {
     }
 
     public City getById(long id) {
-        Optional<City> city = cityRepository.findById(id);
-        if (city.isPresent())
-            return city.get();
-        else
-            throw new NoSuchElementException();
+        return cityRepository.findById(id).orElseThrow(() -> new IllegalStateException("Город не найден"));
     }
 
     public List<City> getAll() {
@@ -60,8 +54,9 @@ public class CityService {
     public void delete(long id) {
         User user = AuthService.getUser();
         City city = getById(id);
-        throwIfCantDelete(user, getById(id), resortService.findByArrivalCity(city),
-                resortService.findByDepartureCity(city), userService.getAll());
+        List<Resort> resortsArrival = resortService.findByArrivalCity(city);
+        List<Resort> resortsDeparture = resortService.findByDepartureCity(city);
+        throwIfCantDelete(user, city, resortsArrival, resortsDeparture, userService.getAll());
 
         cityRepository.deleteById(id);
     }

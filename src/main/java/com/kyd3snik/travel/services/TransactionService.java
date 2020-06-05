@@ -6,8 +6,6 @@ import com.kyd3snik.travel.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -18,11 +16,7 @@ public class TransactionService {
     }
 
     public ResortTransaction getById(long id) {
-        Optional<ResortTransaction> transaction = transactionRepository.findById(id);
-        if (transaction.isPresent())
-            return transaction.get();
-        else
-            throw new NoSuchElementException();
+        return transactionRepository.findById(id).orElseThrow(() -> new IllegalStateException("Транзакция не найдена"));
     }
 
     public void save(ResortTransaction transaction) {

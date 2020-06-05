@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class HotelRoomService {
@@ -22,11 +20,7 @@ public class HotelRoomService {
     }
 
     public HotelRoom getById(long id) {
-        Optional<HotelRoom> hotelRoom = hotelRoomRepository.findById(id);
-        if (hotelRoom.isPresent())
-            return hotelRoom.get();
-        else
-            throw new NoSuchElementException();
+        return hotelRoomRepository.findById(id).orElseThrow(() -> new IllegalStateException("Номер не найден"));
     }
 
     public List<HotelRoom> getAll() {

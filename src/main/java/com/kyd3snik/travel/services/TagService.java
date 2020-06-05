@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class TagService {
@@ -23,11 +21,7 @@ public class TagService {
     }
 
     public Tag getById(long id) {
-        Optional<Tag> tag = tagRepository.findById(id);
-        if (tag.isPresent())
-            return tag.get();
-        else
-            throw new NoSuchElementException();
+        return tagRepository.findById(id).orElseThrow(() -> new IllegalStateException("Тег не найден"));
     }
 
     public List<Tag> getAll() {

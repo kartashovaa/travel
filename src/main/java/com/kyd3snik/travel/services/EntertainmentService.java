@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+
 
 @Service
 public class EntertainmentService {
@@ -23,11 +22,7 @@ public class EntertainmentService {
     }
 
     public Entertainment getById(long id) {
-        Optional<Entertainment> entertainment = entertainmentRepository.findById(id);
-        if (entertainment.isPresent())
-            return entertainment.get();
-        else
-            throw new NoSuchElementException();
+        return entertainmentRepository.findById(id).orElseThrow(() -> new IllegalStateException("Развлечение не найдено"));
     }
 
     public List<Entertainment> getAll() {

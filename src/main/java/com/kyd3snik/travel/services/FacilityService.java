@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class FacilityService {
@@ -23,11 +21,7 @@ public class FacilityService {
     }
 
     public Facility getById(long id) {
-        Optional<Facility> facility = facilityRepository.findById(id);
-        if (facility.isPresent())
-            return facility.get();
-        else
-            throw new NoSuchElementException();
+        return facilityRepository.findById(id).orElseThrow(() -> new IllegalStateException("Удобство не найдено"));
     }
 
     public List<Facility> getAll() {
