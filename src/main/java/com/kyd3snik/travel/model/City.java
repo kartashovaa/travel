@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class City {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
     @ManyToOne

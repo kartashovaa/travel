@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Resort {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String title;
     private String description;

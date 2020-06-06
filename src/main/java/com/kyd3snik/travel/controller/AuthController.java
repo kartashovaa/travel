@@ -42,7 +42,6 @@ public class AuthController {
         if (AuthService.isAuthenticated()) {
             modelAndView.setView(new RedirectView("/"));
             return modelAndView;
-
         }
         modelAndView.addObject("cities", cityService.getAll());
         return modelAndView;
@@ -51,20 +50,6 @@ public class AuthController {
     @PostMapping("/signup")
     ModelAndView signup(@Valid SignUpRequest request, Errors errors) {
         ModelAndView modelAndView = new ModelAndView("signup");
-
-        User user = User.builder()
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .middleName(request.getMiddleName())
-                .birthDay(request.getBirthday())
-                .isMale(request.getGender().equals("man"))
-                .hasInternationalPassport(request.getHasInternationalPassport().equals("yes"))
-                .email(request.getEmail())
-                .role(User.ROLE_USER)
-                .city(cityService.getById(request.getCityId()))
-                .hasDiscount(false)
-                .build();
-
         if (errors.hasErrors()) {
             String msg = errors.getAllErrors().get(0).getDefaultMessage();
             modelAndView.addObject("errorMessage", msg);
@@ -74,7 +59,7 @@ public class AuthController {
         }
 
         try {
-            authService.signUpUser(user);
+            authService.signUpUser(request);
             modelAndView.setView(new RedirectView("/successfulRegistration"));
         } catch (Exception ex) {
             modelAndView.addObject("errorMessage", ex.getMessage());
