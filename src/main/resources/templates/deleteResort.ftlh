@@ -14,7 +14,7 @@
 <#if errorMessage??>
     <h3 style="color: #ff0000">${errorMessage}</h3>
 </#if>
-<#if !isSuccessful??>
+<#if !isSuccessful?? && !errorMessage??>
     <h1>Удаление курорта</h1>
     <h2>${resort.title}</h2>
     <p><a href="/countries/${resort.hotel.city.country.id}">Страна: ${resort.hotel.city.country.title}</a></p>

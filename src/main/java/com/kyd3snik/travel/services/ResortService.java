@@ -31,39 +31,27 @@ public class ResortService {
         return resortRepository.findAll();
     }
 
-    public List<Resort> searchByTitle(String string) {
-        return resortRepository.findByTitleContainingIgnoreCase(string);
+    public List<Resort> searchByTitle(String title) {
+        return resortRepository.findByTitleContainingIgnoreCaseAndPurchasedIsFalseAndStartDateAfter(title, DateUtil.getToday());
     }
 
     public List<Resort> getAllAvailable() {
-        return filterPurchasedAndPastResorts(resortRepository.findAll());
+        return resortRepository.findAllByPurchasedFalse();
     }
 
     public List<Resort> findAvailableByArrivalCity(City city) {
-        return filterPurchasedAndPastResorts(resortRepository.findByArrivalCity(city));
-    }
-
-    public List<Resort> findByArrivalCity(City city) {
-        return resortRepository.findByArrivalCity(city);
-    }
-
-    public List<Resort> findByDepartureCity(City city) {
-        return resortRepository.findByDepartureCity(city);
+        return resortRepository.findByArrivalCityAndPurchasedIsFalseAndStartDateAfter(city, DateUtil.getToday());
     }
 
     public List<Resort> findByHotel(Hotel hotel) {
         return resortRepository.findByHotel(hotel);
     }
 
-    public List<Resort> findAvailableByHotel(Hotel hotel) {
-        return filterPurchasedAndPastResorts(this.findByHotel(hotel));
-    }
-
     public void update(Resort resort) {
         if (resortRepository.findById(resort.getId()).isPresent()) {
             resortRepository.save(resort);
         } else {
-            throw new EntityNotFoundException("Resort not found!");
+            throw new EntityNotFoundException("Отель не найден");
         }
     }
 
@@ -80,7 +68,7 @@ public class ResortService {
     }
 
     public List<Resort> getResortsInCountry(Country country) {
-        return filterPurchasedAndPastResorts(resortRepository.findByArrivalCity_Country(country));
+        return resortRepository.findByArrivalCity_CountryAndPurchasedFalse(country);
     }
 
     public List<Resort> search(SearchModel model) {
@@ -101,13 +89,6 @@ public class ResortService {
 
     private List<Facility> getAllFacilitiesInHotel(Hotel hotel) {
         return hotel.getRooms().stream().flatMap(room -> room.getFacilities().stream()).collect(Collectors.toList());
-    }
-
-    private List<Resort> filterPurchasedAndPastResorts(List<Resort> resorts) {
-        return resorts.stream()
-                .filter(resort -> !resort.getStartDate().before(DateUtil.getToday()))
-                .filter(resort -> !resort.isPurchased())
-                .collect(Collectors.toList());
     }
 
     private Comparator<Resort> getComparator(SortType sort) {

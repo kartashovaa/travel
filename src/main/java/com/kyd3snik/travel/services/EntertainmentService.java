@@ -33,7 +33,7 @@ public class EntertainmentService {
         if (entertainmentRepository.findById(entertainment.getId()).isPresent()) {
             entertainmentRepository.save(entertainment);
         } else {
-            throw new EntityNotFoundException("Entertainment not found!");
+            throw new EntityNotFoundException("Развлечение не найдено");
         }
     }
 

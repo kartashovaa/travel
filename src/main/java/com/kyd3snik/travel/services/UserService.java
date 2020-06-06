@@ -40,7 +40,7 @@ public class UserService {
         if (exists) {
             userRepository.save(user);
         } else {
-            throw new EntityNotFoundException("User not found!");
+            throw new EntityNotFoundException("Пользователь не найден");
         }
     }
 

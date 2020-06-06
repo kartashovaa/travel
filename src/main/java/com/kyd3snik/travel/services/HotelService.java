@@ -1,6 +1,8 @@
 package com.kyd3snik.travel.services;
 
-import com.kyd3snik.travel.model.*;
+import com.kyd3snik.travel.model.City;
+import com.kyd3snik.travel.model.Hotel;
+import com.kyd3snik.travel.model.HotelRoom;
 import com.kyd3snik.travel.repository.HotelRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +41,7 @@ public class HotelService {
         if (exists) {
             hotelRepository.save(hotel);
         } else {
-            throw new EntityNotFoundException("Hotel not found!");
+            throw new EntityNotFoundException("Отель не найден");
         }
     }
 
@@ -52,24 +54,16 @@ public class HotelService {
     }
 
     public void delete(long id) {
-        User user = AuthService.getUser();
-        Hotel hotel = getById(id);
-        List<Resort> resorts = resortService.findByHotel(hotel);
-        throwIfCantDelete(user, resorts);
-
-        hotelRepository.deleteById(id);
+        try {
+            hotelRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new IllegalStateException("Невозможно удалить отель, так как в него были куплены курорты");
+        }
     }
 
     public void delete(List<Hotel> hotels) {
         hotels.forEach(hotel -> delete(hotel.getId()));
     }
 
-    private void throwIfCantDelete(User user, List<Resort> resorts) {
-        if (user == null)
-            throw new IllegalStateException("Пользователь не авторизован!");
-        for (Resort resort : resorts) {
-            if (resort.isPurchased())
-                throw new IllegalStateException("Невозможно удалить отель, т.к. в него были куплены курорты!");
-        }
-    }
+
 }

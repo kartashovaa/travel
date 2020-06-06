@@ -32,7 +32,7 @@ public class FacilityService {
         if (facilityRepository.findById(facility.getId()).isPresent()) {
             facilityRepository.save(facility);
         } else {
-            throw new EntityNotFoundException("Facility not found!");
+            throw new EntityNotFoundException("Удобство не найдено");
         }
     }
 

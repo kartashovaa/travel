@@ -8,7 +8,6 @@
 <h3><a href="/">Вернуться на главную</a></h3>
 <#if isModerator>
     <p><a href="/hotels/add">Добавить отель</a></p>
-    <p><a href="/hotelRooms/add">Добавить номер</a></p>
 </#if>
 
 <form method="get" action="/hotels/search">

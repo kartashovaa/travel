@@ -31,7 +31,7 @@ public class HotelRoomService {
         if (hotelRoomRepository.findById(hotelRoom.getId()).isPresent()) {
             hotelRoomRepository.save(hotelRoom);
         } else {
-            throw new EntityNotFoundException("Hotel room not found!");
+            throw new EntityNotFoundException("Номер не найден");
         }
     }
 

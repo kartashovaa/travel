@@ -32,7 +32,7 @@ public class TagService {
         if (tagRepository.findById(tag.getId()).isPresent()) {
             tagRepository.save(tag);
         } else {
-            throw new EntityNotFoundException("Tag not found!");
+            throw new EntityNotFoundException("Тег не найден");
         }
     }
 

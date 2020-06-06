@@ -88,7 +88,7 @@ public class CityController {
                 .map(Integer::valueOf)
                 .map(entertainmentService::getById)
                 .collect(Collectors.toList());
-        cityService.addCity(new City(0, title, country, entertainments, Collections.emptyList()));
+        cityService.addCity(new City(0, title, country, entertainments, Collections.emptyList(), Collections.emptyList()));
         return "redirect:/cities/add";
     }
 
