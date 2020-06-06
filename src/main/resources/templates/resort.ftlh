@@ -26,11 +26,12 @@
 
 <a href="/resorts/${resort.id}/buy">Купить билеты</a>
 
-
+<#if isModerator>
 <p><a href="/resorts/${resort.id}/delete">
         <button type="submit">Удалить курорт</button>
     </a></p>
 
 </BODY>
+</#if>
 
 </HTML>

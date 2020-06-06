@@ -16,10 +16,6 @@ public class FacilityService {
         this.facilityRepository = facilityRepository;
     }
 
-    public void addFacility(Facility facility) {
-        facilityRepository.save(facility);
-    }
-
     public Facility getById(long id) {
         return facilityRepository.findById(id).orElseThrow(() -> new IllegalStateException("Удобство не найдено"));
     }

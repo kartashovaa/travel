@@ -56,6 +56,8 @@ public class ResortController {
     public ModelAndView getResort(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("resort");
         modelAndView.addObject("resort", resortService.getById(id));
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
     }
 
@@ -77,7 +79,7 @@ public class ResortController {
         try {
             userService.buyResort(resort);
             modelAndView.addObject("isSuccessful", true);
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             modelAndView.addObject("errorMessage", e.getMessage());
         }
         return modelAndView;
@@ -86,9 +88,14 @@ public class ResortController {
     @GetMapping("/{id}/cancellation")
     public ModelAndView purchaseCancellation(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("purchaseCancellation");
-        modelAndView.addObject("transaction", transactionService.getById(id));
-        modelAndView.addObject("resort", transactionService.getById(id).getResort());
-        //TODO: Нужно сделать доступ только для того пользователя, который купил этот курорт
+        ResortTransaction transaction = transactionService.getById(id);
+        if (transaction.getUser().getId() != AuthService.getUser().getId()) {
+            modelAndView.setViewName("redirect:/");
+        } else {
+            modelAndView.addObject("transaction", transaction);
+            modelAndView.addObject("resort", transaction.getResort());
+        }
+
         return modelAndView;
     }
 

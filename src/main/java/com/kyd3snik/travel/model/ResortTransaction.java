@@ -18,4 +18,6 @@ public class ResortTransaction {
     private User user;
     @ManyToOne
     private Resort resort;
+
+
 }

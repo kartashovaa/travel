@@ -33,11 +33,11 @@
     </div>
 </#list>
 
-
-<p><a href="/hotels/${hotel.id}/delete">
-        <button type="submit">Удалить отель</button>
-    </a></p>
-
+<#if isModerator>
+    <p><a href="/hotels/${hotel.id}/delete">
+            <button type="submit">Удалить отель</button>
+        </a></p>
+</#if>
 </BODY>
 
 </HTML>

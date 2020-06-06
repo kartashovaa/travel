@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("/hotels")
@@ -48,6 +47,8 @@ public class HotelController {
     public ModelAndView getHotelDetails(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("hotel");
         modelAndView.addObject("hotel", hotelService.getById(id));
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
 
     }
@@ -82,20 +83,12 @@ public class HotelController {
         return modelAndView;
     }
 
-    @GetMapping("/hotels/{id}")
-    public ModelAndView getHotel(@PathVariable("id") long id) {
-        ModelAndView modelAndView = new ModelAndView("hotel");
-        modelAndView.addObject("hotel", hotelService.getById(id));
-        return modelAndView;
-    }
-
     @PostMapping("/add")
     public String addHotel(
             @RequestParam("title") String title,
             @RequestParam("city") long idCity,
             @RequestParam("address") String address,
-            @RequestParam("stars") byte stars,
-            @RequestParam HashMap<String, String> params) {
+            @RequestParam("stars") byte stars) {
         City city = cityService.getById(idCity);
         hotelService.addHotel(new Hotel(0, title, city, address, stars, Collections.emptyList(), Collections.emptyList()));
         return "redirect:/hotels/add";
@@ -120,7 +113,7 @@ public class HotelController {
         try {
             hotelService.delete(id);
             modelAndView.addObject("isSuccessful", true);
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             modelAndView.addObject("errorMessage", e.getMessage());
         }
         return modelAndView;

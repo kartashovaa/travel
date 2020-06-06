@@ -17,10 +17,6 @@ public class EntertainmentService {
         this.entertainmentRepository = entertainmentRepository;
     }
 
-    public void addEntertainment(Entertainment entertainment) {
-        entertainmentRepository.save(entertainment);
-    }
-
     public Entertainment getById(long id) {
         return entertainmentRepository.findById(id).orElseThrow(() -> new IllegalStateException("Развлечение не найдено"));
     }

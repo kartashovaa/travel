@@ -16,10 +16,6 @@ public class TagService {
         this.tagRepository = tagRepository;
     }
 
-    public void addTag(Tag tag) {
-        tagRepository.save(tag);
-    }
-
     public Tag getById(long id) {
         return tagRepository.findById(id).orElseThrow(() -> new IllegalStateException("Тег не найден"));
     }

@@ -1,6 +1,5 @@
 package com.kyd3snik.travel.services;
 
-import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
 import com.kyd3snik.travel.model.HotelRoom;
 import com.kyd3snik.travel.repository.HotelRepository;
@@ -13,11 +12,9 @@ import java.util.List;
 public class HotelService {
 
     private final HotelRepository hotelRepository;
-    private final ResortService resortService;
 
-    public HotelService(HotelRepository hotelRepository, ResortService resortService) {
+    public HotelService(HotelRepository hotelRepository) {
         this.hotelRepository = hotelRepository;
-        this.resortService = resortService;
     }
 
     public void addHotel(Hotel hotel) {
@@ -47,10 +44,6 @@ public class HotelService {
 
     public void addHotelRoomToHotel(Hotel hotel, HotelRoom hotelRoom) {
         hotel.addHotelRoom(hotelRoom);
-    }
-
-    public List<Hotel> findByCity(City city) {
-        return hotelRepository.findByCity(city);
     }
 
     public void delete(long id) {

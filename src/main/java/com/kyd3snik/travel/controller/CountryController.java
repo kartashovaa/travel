@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("/countries")
@@ -51,7 +50,8 @@ public class CountryController {
         modelAndView.addObject("country", country);
         modelAndView.addObject("resorts", resortService.getResortsInCountry(country));
         modelAndView.addObject("cities", cityService.getAllCitiesInCountry(country));
-
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
     }
 
@@ -63,8 +63,7 @@ public class CountryController {
     @PostMapping("/add")
     public String addCountry(
             @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam HashMap<String, String> params) {
+            @RequestParam("description") String description) {
         countryService.addCountry(new Country(0, title, description, Collections.emptyList()));
         return "redirect:/countries/add";
     }
@@ -90,7 +89,7 @@ public class CountryController {
         try {
             countryService.delete(id);
             modelAndView.addObject("isSuccessful", true);
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             modelAndView.addObject("errorMessage", e.getMessage());
         }
         return modelAndView;

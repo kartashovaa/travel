@@ -44,9 +44,13 @@
     </#list>
 </ul>
 
-<p><a href="/cities/${city.id}/delete">
-        <button type="submit">Удалить город</button>
-    </a></p>
+<#if isModerator>
+    <p>
+        <a href="/cities/${city.id}/delete">
+            <button type="submit">Удалить город</button>
+        </a>
+    </p>
+</#if>
 
 
 </BODY>

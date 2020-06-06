@@ -23,10 +23,6 @@ public class UserService {
         this.resortService = resortService;
     }
 
-    public void addUser(User user) {
-        userRepository.save(user);
-    }
-
     public User getById(long id) {
         return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("Пользователь не найден"));
     }
@@ -62,7 +58,7 @@ public class UserService {
     private void throwIfCantBuy(User user, Resort resort) {
         if (user == null)
             throw new IllegalStateException("Пользователь не авторизован!");
-        if (resort.getArrivalCity().getCountry() != user.getCity().getCountry() && !user.isHasInternationalPassport())
+        if (resort.getArrivalCity().getCountry().getId() != user.getCity().getCountry().getId() && !user.isHasInternationalPassport())
             throw new IllegalStateException("Нет загранпасспорта!");
         if (user.getBalance() < resort.getCost())
             throw new IllegalStateException("Не достаточно средств на счету!");
@@ -73,6 +69,7 @@ public class UserService {
     public void cancelPurchase(ResortTransaction transaction) {
         User user = AuthService.getUser();
         Resort resort = transaction.getResort();
+
         throwIfCantCancel(user, resort);
 
         user.setBalance(user.getBalance() + resort.getCost());

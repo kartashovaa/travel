@@ -61,7 +61,7 @@ public class AuthController {
         try {
             authService.signUpUser(request);
             modelAndView.setView(new RedirectView("/successfulRegistration"));
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             modelAndView.addObject("errorMessage", ex.getMessage());
             modelAndView.addObject("cities", cityService.getAll());
         }

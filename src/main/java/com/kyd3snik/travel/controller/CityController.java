@@ -64,7 +64,8 @@ public class CityController {
         modelAndView.addObject("city", city);
         modelAndView.addObject("hotels", hotelService.findByCity(city));
         modelAndView.addObject("resorts", resortService.findAvailableByArrivalCity(city));
-
+        modelAndView.addObject("isModerator",
+                AuthService.isAuthenticated() && AuthService.getUser().isModerator());
         return modelAndView;
     }
 
@@ -92,7 +93,6 @@ public class CityController {
         return "redirect:/cities/add";
     }
 
-    //TODO: Для всех страниц удаления: сделать доступ только для администраторов
     @GetMapping("/{id}/delete")
     public ModelAndView deleteCity(@PathVariable("id") long id) {
         ModelAndView modelAndView = new ModelAndView("deleteCity");
@@ -114,7 +114,7 @@ public class CityController {
         try {
             cityService.delete(id);
             modelAndView.addObject("isSuccessful", true);
-        } catch (Exception e) {
+        } catch (IllegalStateException e) {
             modelAndView.addObject("errorMessage", e.getMessage());
         }
         return modelAndView;

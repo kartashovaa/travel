@@ -2,7 +2,6 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.services.*;
 import com.kyd3snik.travel.util.DateUtil;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,9 +28,9 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public ModelAndView main(Authentication auth) {
+    public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView("mainPage");
-        modelAndView.addObject("isUserAuthenticated", auth != null);
+        modelAndView.addObject("isUserAuthenticated", AuthService.isAuthenticated());
         modelAndView.addObject("today", DateUtil.getToday());
         return getResortsSearchParameters(modelAndView);
     }

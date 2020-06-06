@@ -40,10 +40,13 @@
     </#list>
 </ul>
 
-<p><a href="/countries/${country.id}/delete">
-        <button type="submit">Удалить страну</button>
-    </a></p>
-
+<#if isModerator>
+    <p>
+        <a href="/countries/${country.id}/delete">
+            <button type="submit">Удалить страну</button>
+        </a>
+    </p>
+</#if>
 </BODY>
 
 </HTML>

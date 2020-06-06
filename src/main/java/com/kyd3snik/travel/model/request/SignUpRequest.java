@@ -15,6 +15,7 @@ import java.util.Date;
 @FieldsMatch(fields = {"password", "confirmPassword"}, message = "Пароли не совпадают!")
 public class SignUpRequest {
     @NotBlank(message = "Почта не может быть пустой!")
+    @Email(message = "Не валидная почта!")
     private String email;
 
     @Size(min = 2, max = 32, message = "Имя не может быть пустым!")
