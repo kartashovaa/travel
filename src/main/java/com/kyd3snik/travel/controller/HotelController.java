@@ -2,13 +2,12 @@ package com.kyd3snik.travel.controller;
 
 import com.kyd3snik.travel.model.City;
 import com.kyd3snik.travel.model.Hotel;
-import com.kyd3snik.travel.model.HotelRoom;
 import com.kyd3snik.travel.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 @Controller
@@ -98,7 +97,7 @@ public class HotelController {
             @RequestParam("stars") byte stars,
             @RequestParam HashMap<String, String> params) {
         City city = cityService.getById(idCity);
-        hotelService.addHotel(new Hotel(0, title, city, address, stars, new ArrayList<HotelRoom>()));
+        hotelService.addHotel(new Hotel(0, title, city, address, stars, Collections.emptyList(), Collections.emptyList()));
         return "redirect:/hotels/add";
     }
 

@@ -16,7 +16,7 @@ public class TransactionService {
     }
 
     public ResortTransaction getById(long id) {
-        return transactionRepository.findById(id).get();
+        return transactionRepository.findById(id).orElseThrow(() -> new IllegalStateException("Транзакция не найдена"));
     }
 
     public void save(ResortTransaction transaction) {

@@ -20,8 +20,10 @@ public class Hotel {
     private City city;
     private String address;
     private byte stars;
-    @ManyToMany
+    @OneToMany
     private List<HotelRoom> rooms;
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL)
+    private List<Resort> resorts;
 
     public double getAvgRoomPrice() {
         return rooms.stream().mapToDouble(HotelRoom::getCost).sum() / getRoomsCount();

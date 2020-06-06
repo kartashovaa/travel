@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class TagService {
 
-    private TagRepository tagRepository;
+    private final TagRepository tagRepository;
 
     public TagService(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
@@ -21,7 +21,7 @@ public class TagService {
     }
 
     public Tag getById(long id) {
-        return tagRepository.findById(id).get();
+        return tagRepository.findById(id).orElseThrow(() -> new IllegalStateException("Тег не найден"));
     }
 
     public List<Tag> getAll() {
@@ -29,11 +29,10 @@ public class TagService {
     }
 
     public void update(Tag tag) {
-        boolean exists = tagRepository.existsById(tag.getId());
-        if (exists) {
+        if (tagRepository.findById(tag.getId()).isPresent()) {
             tagRepository.save(tag);
         } else {
-            throw new EntityNotFoundException("Tag not found!");
+            throw new EntityNotFoundException("Тег не найден");
         }
     }
 

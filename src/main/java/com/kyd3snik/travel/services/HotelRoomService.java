@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class HotelRoomService {
-    private HotelRoomRepository hotelRoomRepository;
+    private final HotelRoomRepository hotelRoomRepository;
 
     public HotelRoomService(HotelRoomRepository hotelRoomRepository) {
         this.hotelRoomRepository = hotelRoomRepository;
@@ -20,7 +20,7 @@ public class HotelRoomService {
     }
 
     public HotelRoom getById(long id) {
-        return hotelRoomRepository.findById(id).get();
+        return hotelRoomRepository.findById(id).orElseThrow(() -> new IllegalStateException("Номер не найден"));
     }
 
     public List<HotelRoom> getAll() {
@@ -28,11 +28,10 @@ public class HotelRoomService {
     }
 
     public void update(HotelRoom hotelRoom) {
-        boolean exists = hotelRoomRepository.existsById(hotelRoom.getId());
-        if (exists) {
+        if (hotelRoomRepository.findById(hotelRoom.getId()).isPresent()) {
             hotelRoomRepository.save(hotelRoom);
         } else {
-            throw new EntityNotFoundException("Hotel room not found!");
+            throw new EntityNotFoundException("Номер не найден");
         }
     }
 

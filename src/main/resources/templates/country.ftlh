@@ -41,7 +41,7 @@
 </ul>
 
 <p><a href="/countries/${country.id}/delete">
-        <button type="submit">Удалить страны</button>
+        <button type="submit">Удалить страну</button>
     </a></p>
 
 </BODY>

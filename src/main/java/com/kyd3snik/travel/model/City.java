@@ -20,4 +20,8 @@ public class City {
     private Country country;
     @ManyToMany
     private List<Entertainment> entertainments;
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    List<Hotel> hotels;
+    @OneToMany(mappedBy = "departureCity", cascade = CascadeType.ALL)
+    List<Resort> resorts;
 }

@@ -28,7 +28,7 @@ public class UserService {
     }
 
     public User getById(long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(() -> new IllegalStateException("Пользователь не найден"));
     }
 
     public List<User> getAll() {
@@ -40,7 +40,7 @@ public class UserService {
         if (exists) {
             userRepository.save(user);
         } else {
-            throw new EntityNotFoundException("User not found!");
+            throw new EntityNotFoundException("Пользователь не найден");
         }
     }
 

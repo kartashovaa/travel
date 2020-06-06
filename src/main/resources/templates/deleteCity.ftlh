@@ -14,7 +14,7 @@
 <#if errorMessage??>
     <h3 style="color: #ff0000">${errorMessage}</h3>
 </#if>
-<#if !isSuccessful??>
+<#if !isSuccessful?? && !errorMessage??>
     <h1>Удаление города</h1>
     <h2 style="color: red ; margin-bottom: 20px">Внимание! При удалении города удалятся также все гостиницы в этом
         городе и курорты в этот город и из

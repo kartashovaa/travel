@@ -12,6 +12,7 @@
 <#if RequestParameters.logout??>
     <h3 style="color: #00ff00">Вы успешно вышли!</h3>
 </#if>
+<h3><a href="/">Вернуться на главную</a></h3>
 <h2>Вход в аккаунт</h2>
 <form action="/signin" method="POST">
     <p>Email</p>

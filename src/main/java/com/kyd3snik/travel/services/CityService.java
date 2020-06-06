@@ -1,6 +1,7 @@
 package com.kyd3snik.travel.services;
 
-import com.kyd3snik.travel.model.*;
+import com.kyd3snik.travel.model.City;
+import com.kyd3snik.travel.model.Country;
 import com.kyd3snik.travel.repository.CityRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +12,9 @@ import java.util.List;
 public class CityService {
 
     private final CityRepository cityRepository;
-    private final HotelService hotelService;
-    private final ResortService resortService;
-    private final UserService userService;
 
-    public CityService(CityRepository cityRepository, HotelService hotelService, ResortService resortService, UserService userService) {
+    public CityService(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
-        this.hotelService = hotelService;
-        this.resortService = resortService;
-        this.userService = userService;
     }
 
     public void addCity(City city) {
@@ -31,7 +26,7 @@ public class CityService {
     }
 
     public City getById(long id) {
-        return cityRepository.findById(id).get();
+        return cityRepository.findById(id).orElseThrow(() -> new IllegalStateException("Город не найден"));
     }
 
     public List<City> getAll() {
@@ -39,11 +34,10 @@ public class CityService {
     }
 
     public void update(City city) {
-        boolean exists = cityRepository.existsById(city.getId());
-        if (exists) {
+        if (cityRepository.findById(city.getId()).isPresent()) {
             cityRepository.save(city);
         } else {
-            throw new EntityNotFoundException("City not found!");
+            throw new EntityNotFoundException("Город не найден");
         }
     }
 
@@ -52,40 +46,14 @@ public class CityService {
     }
 
     public void delete(long id) {
-        User user = AuthService.getUser();
-        City city = getById(id);
-        List<Resort> resortsArrival = resortService.findByArrivalCity(city);
-        List<Resort> resortsDeparture = resortService.findByDepartureCity(city);
-        List<Hotel> hotels = hotelService.findByCity(city);
-        throwIfCantDelete(user, city, resortsArrival, resortsDeparture, userService.getAll());
-
-        resortService.delete(resortsArrival);
-        hotelService.delete(hotels);
-        resortService.delete(resortsDeparture);
-        cityRepository.deleteById(id);
+        try {
+            cityRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new IllegalStateException("Невозможно удалить город, т.к. в нем зарегистрированы пользователи либо в этот город куплен курорт");
+        }
     }
 
     public void delete(List<City> cities) {
         cities.forEach(city -> delete(city.getId()));
-    }
-
-    private void throwIfCantDelete(User tempUser, City city, List<Resort> resortsArrival, List<Resort> resortsDeparture,
-                                   List<User> users) {
-        if (tempUser == null)
-            throw new IllegalStateException("Пользователь не авторизован!");
-        for (User user : users
-        ) {
-            if (user.getCity() == city) {
-                throw new IllegalStateException("Невозможно удалить город, т.к. зарегистрированы пользователи с таким городом");
-            }
-        }
-        for (Resort resort : resortsArrival) {
-            if (resort.isPurchased())
-                throw new IllegalStateException("Невозможно удалить город, т.к. в нем были куплены курорты!");
-        }
-        for (Resort resort : resortsDeparture) {
-            if (resort.isPurchased())
-                throw new IllegalStateException("Невозможно удалить город, т.к. из него были куплены курорты!");
-        }
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class FacilityService {
 
-    private FacilityRepository facilityRepository;
+    private final FacilityRepository facilityRepository;
 
     public FacilityService(FacilityRepository facilityRepository) {
         this.facilityRepository = facilityRepository;
@@ -21,7 +21,7 @@ public class FacilityService {
     }
 
     public Facility getById(long id) {
-        return facilityRepository.findById(id).get();
+        return facilityRepository.findById(id).orElseThrow(() -> new IllegalStateException("Удобство не найдено"));
     }
 
     public List<Facility> getAll() {
@@ -29,11 +29,10 @@ public class FacilityService {
     }
 
     public void update(Facility facility) {
-        boolean exists = facilityRepository.existsById(facility.getId());
-        if (exists) {
+        if (facilityRepository.findById(facility.getId()).isPresent()) {
             facilityRepository.save(facility);
         } else {
-            throw new EntityNotFoundException("Facility not found!");
+            throw new EntityNotFoundException("Удобство не найдено");
         }
     }
 

@@ -6,7 +6,7 @@
     <title>Регистрация</title>
 </HEAD>
 <BODY>
-
+<h3><a href="/">Вернуться на главную</a></h3>
 <h2>Регистрация</h2>
 <form action="/signup" method="POST">
     <#if errorMessage??>

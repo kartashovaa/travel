@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+
 @Service
 public class EntertainmentService {
 
-    private EntertainmentRepository entertainmentRepository;
+    private final EntertainmentRepository entertainmentRepository;
 
     public EntertainmentService(EntertainmentRepository entertainmentRepository) {
         this.entertainmentRepository = entertainmentRepository;
@@ -21,7 +22,7 @@ public class EntertainmentService {
     }
 
     public Entertainment getById(long id) {
-        return entertainmentRepository.findById(id).get();
+        return entertainmentRepository.findById(id).orElseThrow(() -> new IllegalStateException("Развлечение не найдено"));
     }
 
     public List<Entertainment> getAll() {
@@ -29,11 +30,10 @@ public class EntertainmentService {
     }
 
     public void update(Entertainment entertainment) {
-        boolean exists = entertainmentRepository.existsById(entertainment.getId());
-        if (exists) {
+        if (entertainmentRepository.findById(entertainment.getId()).isPresent()) {
             entertainmentRepository.save(entertainment);
         } else {
-            throw new EntityNotFoundException("Entertainment not found!");
+            throw new EntityNotFoundException("Развлечение не найдено");
         }
     }
 
