@@ -10,9 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface ResortRepository extends JpaRepository<Resort, Long> {
-    List<Resort> findByArrivalCity(City city);
-
-    List<Resort> findByDepartureCity(City city);
 
     List<Resort> findByHotel(Hotel hotel);
 
@@ -20,7 +17,7 @@ public interface ResortRepository extends JpaRepository<Resort, Long> {
 
     List<Resort> findByArrivalCityAndPurchasedIsFalseAndStartDateAfter(City city, Date minStartDate);
 
-    List<Resort> findAllByPurchasedFalse();
+    List<Resort> findAllByPurchasedFalseAndStartDateAfter(Date minStartDate);
 
-    List<Resort> findByArrivalCity_CountryAndPurchasedFalse(Country country);
+    List<Resort> findByArrivalCity_CountryAndPurchasedFalseAndStartDateAfter(Country country, Date minDate);
 }

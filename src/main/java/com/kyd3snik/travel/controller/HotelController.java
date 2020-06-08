@@ -84,14 +84,16 @@ public class HotelController {
     }
 
     @PostMapping("/add")
-    public String addHotel(
+    public ModelAndView addHotel(
             @RequestParam("title") String title,
             @RequestParam("city") long idCity,
             @RequestParam("address") String address,
             @RequestParam("stars") byte stars) {
+        ModelAndView modelAndView = new ModelAndView("addHotel");
         City city = cityService.getById(idCity);
         hotelService.addHotel(new Hotel(0, title, city, address, stars, Collections.emptyList(), Collections.emptyList()));
-        return "redirect:/hotels/add";
+        modelAndView.addObject("isSuccessful", true);
+        return modelAndView;
     }
 
     @GetMapping("/{id}/delete")

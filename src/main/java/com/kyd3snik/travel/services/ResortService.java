@@ -36,7 +36,7 @@ public class ResortService {
     }
 
     public List<Resort> getAllAvailable() {
-        return resortRepository.findAllByPurchasedFalse();
+        return resortRepository.findAllByPurchasedFalseAndStartDateAfter(DateUtil.getToday());
     }
 
     public List<Resort> findAvailableByArrivalCity(City city) {
@@ -68,7 +68,7 @@ public class ResortService {
     }
 
     public List<Resort> getResortsInCountry(Country country) {
-        return resortRepository.findByArrivalCity_CountryAndPurchasedFalse(country);
+        return resortRepository.findByArrivalCity_CountryAndPurchasedFalseAndStartDateAfter(country, DateUtil.getToday());
     }
 
     public List<Resort> search(SearchModel model) {
