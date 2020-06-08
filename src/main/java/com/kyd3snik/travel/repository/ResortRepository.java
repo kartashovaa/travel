@@ -20,7 +20,7 @@ public interface ResortRepository extends JpaRepository<Resort, Long> {
 
     List<Resort> findByArrivalCityAndPurchasedIsFalseAndStartDateAfter(City city, Date minStartDate);
 
-    List<Resort> findAllByPurchasedFalse();
+    List<Resort> findAllByPurchasedFalseAndStartDateAfter(Date minStartDate);
 
     List<Resort> findByArrivalCity_CountryAndPurchasedFalse(Country country);
 }

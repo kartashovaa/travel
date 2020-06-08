@@ -36,7 +36,7 @@ public class ResortService {
     }
 
     public List<Resort> getAllAvailable() {
-        return resortRepository.findAllByPurchasedFalse();
+        return resortRepository.findAllByPurchasedFalseAndStartDateAfter(DateUtil.getToday());
     }
 
     public List<Resort> findAvailableByArrivalCity(City city) {
