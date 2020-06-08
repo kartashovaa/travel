@@ -78,10 +78,11 @@ public class CityController {
     }
 
     @PostMapping("/add")
-    public String addCity(
+    public ModelAndView addCity(
             @RequestParam("title") String title,
             @RequestParam("country") long idCountry,
             @RequestParam HashMap<String, String> params) {
+        ModelAndView modelAndView = new ModelAndView("addCity");
         Country country = countryService.getById(idCountry);
         List<Entertainment> entertainments = params.keySet().stream()
                 .filter(key -> key.startsWith("entertainment"))
@@ -90,7 +91,8 @@ public class CityController {
                 .map(entertainmentService::getById)
                 .collect(Collectors.toList());
         cityService.addCity(new City(0, title, country, entertainments, Collections.emptyList(), Collections.emptyList()));
-        return "redirect:/cities/add";
+        modelAndView.addObject("isSuccessful", true);
+        return modelAndView;
     }
 
     @GetMapping("/{id}/delete")

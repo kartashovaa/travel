@@ -61,11 +61,13 @@ public class CountryController {
     }
 
     @PostMapping("/add")
-    public String addCountry(
+    public ModelAndView addCountry(
             @RequestParam("title") String title,
             @RequestParam("description") String description) {
+        ModelAndView modelAndView = new ModelAndView("addCountry");
         countryService.addCountry(new Country(0, title, description, Collections.emptyList()));
-        return "redirect:/countries/add";
+        modelAndView.addObject("isSuccessful", true);
+        return modelAndView;
     }
 
     @GetMapping("/{id}/delete")

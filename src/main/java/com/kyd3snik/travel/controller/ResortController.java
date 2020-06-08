@@ -123,6 +123,7 @@ public class ResortController {
         modelAndView.addObject("cities", cityService.getAll());
         modelAndView.addObject("tags", tagService.getAll());
         modelAndView.addObject("hotelRooms", hotelRoomService.getAll());
+        modelAndView.addObject("today", DateUtil.getToday());
         return modelAndView;
     }
 

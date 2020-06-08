@@ -68,7 +68,7 @@ public class ResortService {
     }
 
     public List<Resort> getResortsInCountry(Country country) {
-        return resortRepository.findByArrivalCity_CountryAndPurchasedFalse(country);
+        return resortRepository.findByArrivalCity_CountryAndPurchasedFalseAndStartDateAfter(country, DateUtil.getToday());
     }
 
     public List<Resort> search(SearchModel model) {

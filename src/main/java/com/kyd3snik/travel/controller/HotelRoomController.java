@@ -40,11 +40,12 @@ public class HotelRoomController {
     }
 
     @PostMapping("/add")
-    public String addHotelRoom(
+    public ModelAndView addHotelRoom(
             @RequestParam("numberOfSleepingPlaces") byte numberOfSleepingPlaces,
             @RequestParam("hotel") long idHotel,
             @RequestParam("cost") float cost,
             @RequestParam HashMap<String, String> params) {
+        ModelAndView modelAndView = new ModelAndView("addHotelRoom");
         Hotel hotel = hotelService.getById(idHotel);
         List<Facility> facilities = params.keySet().stream()
                 .filter(key -> key.startsWith("facility"))
@@ -55,6 +56,7 @@ public class HotelRoomController {
         HotelRoom hotelRoom = new HotelRoom(0, numberOfSleepingPlaces, facilities, cost);
         hotelRoomService.addHotelRoom(hotelRoom);
         hotelService.addHotelRoomToHotel(hotel, hotelRoom);
-        return "redirect:/hotelRooms/add";
+        modelAndView.addObject("isSuccessful", true);
+        return modelAndView;
     }
 }
